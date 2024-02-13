@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Attendance.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Attendance.Pages"
+    xmlns:localVM="clr-namespace:Attendance.VM"   
+    xmlns:localization="clr-namespace:Attendance.Resources.Localization"
+    FlyoutHeaderBehavior="CollapseOnScroll">
+
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid BackgroundColor="AliceBlue"
+                  HeightRequest="150">
+                <Image Aspect="AspectFill"
+                       Source="perfil.png"
+                       Opacity="0.6" />
+
+                <Label Text="Perfil"
+                       TextColor="White"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="End" />
+            </Grid>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+
+    <FlyoutItem Title="{localization:Translate BusinessURL_Page}"
+                Icon="cat.png">
+        <Tab>
+            <ShellContent
+                 Title="{localization:Translate BusinessURL_Page}"
+                 ContentTemplate="{DataTemplate local:BusinessURL}"
+                 Route="URL" 
+                 IsVisible="{Binding IsConditionalVisible}"/>
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="{localization:Translate Login_Page}"
+                Icon="dog.png">
+        <Tab>
+            <ShellContent
+                 Title="{localization:Translate Login_Page}"
+                 ContentTemplate="{DataTemplate local:LoginA}"
+                 Route="LoginA" 
+                 />     
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate Home_Page}"
+            Icon="dog.png">
+        <Tab>
+            <ShellContent
+                 Title="{localization:Translate Home_Page}"
+                 ContentTemplate="{DataTemplate local:MainMenu}"
+                 Route="MainMenu" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate Register_Page}"
+        Icon="dog.png">
+        <Tab>
+            <ShellContent
+                 Title="{localization:Translate Register_Page}"
+                 ContentTemplate="{DataTemplate local:Register}"
+                 Route="Register" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate Attendance_Page}"
+     Icon="dog.png">
+        <Tab>
+            <ShellContent
+                  Title="{localization:Translate Attendance_Page}"
+                  ContentTemplate="{DataTemplate local:Attendance}"
+                  Route="Attendance" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate Attendance_Page}"
+        Icon="dog.png">
+        <Tab>
+            <ShellContent
+                Title="{localization:Translate SchoolGroup_Page}"
+                ContentTemplate="{DataTemplate local:SchoolGroup}"
+                Route="SchoolGroup" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate CourseRegisterTitle}"
+     Icon="dog.png">
+        <Tab>
+            <ShellContent
+               Title="{localization:Translate CourseRegisterTitle}"
+               ContentTemplate="{DataTemplate local:CourseRegister}"
+               Route="CourseRegister" />
+        </Tab>
+    </FlyoutItem>
+
+    <FlyoutItem Title="{localization:Translate CourseRegisterCourseList}"
+        Icon="dog.png">
+    <Tab>
+            <ShellContent
+               Title="{localization:Translate CourseRegisterCourseList}"
+               ContentTemplate="{DataTemplate local:CourseList}"
+               Route="CourseList" />
+        </Tab>
+    </FlyoutItem>
+
+    
+
+    <ShellContent Title="About"
+                  Icon="info.png"
+                  ContentTemplate="{DataTemplate local:CourseList}" />
+</Shell>

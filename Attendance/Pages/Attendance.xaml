@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Attendance.Pages.Attendance"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
+             xmlns:viewModels="clr-namespace:Attendance.VM"
+             Title="Attendance">
+    <ContentPage.BindingContext>
+        <viewModels:AttendanceVM/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Acción"
+                     Order="Primary"
+                     IconImageSource="save_icon.png"
+                     Priority="0"
+                     Command="{Binding Tapped_Save_Command}"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="*,*">
+       
+        <zxing:CameraBarcodeReaderView
+            
+			Grid.Row="0"
+           
+			x:Name="barcodeView"
+			BarcodesDetected="BarcodesDetected" 
+             IsDetecting="True"
+            IsTorchOn="False"/>
+        <HorizontalStackLayout
+            Grid.Row="0"
+            HorizontalOptions="End"
+            VerticalOptions="Start">
+        <Switch
+                x:Name="touchOnSwitch"
+                IsToggled="False"
+                Toggled="touchOnSwitch_Toggled" />
+        <Label
+                Margin="0,0,10,0"
+                Text="Light"
+                TextColor="White"
+                VerticalOptions="Center"
+                VerticalTextAlignment="Center" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout
+            Grid.Row="0"
+            HorizontalOptions="Start"
+            VerticalOptions="Start">
+            <Label
+                Margin="10,0,0,0"
+                Text="Rear"
+                TextColor="White"
+                VerticalOptions="Center"
+                VerticalTextAlignment="Center" />
+            <Switch
+                x:Name="cameraSwitch"
+                IsToggled="False"
+                Toggled="cameraSwitch_Toggled" />
+            <Label
+                Margin="0"
+                Text="Front"
+                TextColor="White"
+                VerticalOptions="Center"
+                VerticalTextAlignment="Center" />
+        </HorizontalStackLayout>
+        <Label Grid.Row="0"
+               Text="Scan Barcode..."
+                x:Name="lblTitle"
+               TextColor="White"
+               FontSize="Subtitle"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"/>
+        <Label Grid.Row="2"
+               Text=""
+               x:Name="lbl"
+               TextColor="White"
+               FontSize="Subtitle"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"/>
+        <zxing:BarcodeGeneratorView
+            x:Name="generateBarcode"
+            Grid.Row="1"
+            Margin="20"
+            ForegroundColor="Black"
+            Format="QrCode" />      
+    
+        <!--<zxing:BarcodeGeneratorView
+                  HeightRequest="100"
+                  WidthRequest="100"
+                  ForegroundColor="DarkBlue"
+                  Value="https://dotnet.microsoft.com"
+                  Format="QrCode"
+                  Margin="3" />-->     
+
+        <ActivityIndicator HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
+    </Grid>
+
+    
+</ContentPage>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Attendance.Pages.BusinessURL"
+             xmlns:handless="clr-namespace:Attendance.Handlers"
+             xmlns:viewModels="clr-namespace:Attendance.VM"
+             Title="Business URL">
+    
+    <ContentPage.BindingContext>
+        <viewModels:BusinessURLVM/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <Grid RowDefinitions="1*,8*,1*">
+            <Frame BackgroundColor="#cfd0d8" Grid.Row="0" HorizontalOptions="EndAndExpand"
+               Padding="0" 
+               Margin="0,-80,-80,0"
+               HeightRequest="250"
+               WidthRequest="250" CornerRadius="125">
+
+            </Frame>
+
+            <Frame BackgroundColor="{x:StaticResource Primary}" Grid.Row="0" HorizontalOptions="EndAndExpand"
+               Padding="0" 
+               Margin="0,-120,-120,0"
+               HeightRequest="250"
+               WidthRequest="250" CornerRadius="125">
+
+            </Frame>
+
+            <Frame ZIndex="1" CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
+               Grid.Row="1" VerticalOptions="CenterAndExpand"
+               Margin="20,10,20,100"
+               >
+                <ScrollView>
+                    <VerticalStackLayout Spacing="25">
+                        <Label Text="Business URL" FontSize="28" FontAttributes="Bold" />
+
+                        <Frame Padding="10" BorderColor="Transparent" CornerRadius="0">
+                            <Grid ColumnDefinitions="25,*" ColumnSpacing="10">
+                                <Image VerticalOptions="Center" Source="url.png" HeightRequest="25" WidthRequest="25" />
+                                <handless:BorderlessEntry VerticalOptions="Center" Placeholder="http://BusinessURL.com" Grid.Column="1" Text="{Binding _BusinessURL}" />
+                            </Grid>
+                        </Frame>
+                        
+                        <Button CornerRadius="0" HeightRequest="60" Text="Save" FontSize="20" FontAttributes="Bold" 
+                                Command="{Binding Tapped_For_Business_Command}"/>
+                        <ActivityIndicator HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
+                    </VerticalStackLayout>
+                </ScrollView>
+
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

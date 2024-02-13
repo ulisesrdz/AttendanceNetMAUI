@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Attendance.Pages.CourseRegister"
+             xmlns:viewModels="clr-namespace:Attendance.VM"
+             xmlns:handless="clr-namespace:Attendance.Handlers"
+             xmlns:localization="clr-namespace:Attendance.Resources.Localization"
+             
+             Title="{localization:Translate CourseRegisterTitle}">
+    <ContentPage.BindingContext>
+        <viewModels:CourseVM/>
+    </ContentPage.BindingContext>
+
+    <Shell.BackButtonBehavior>
+    <BackButtonBehavior Command="{Binding BackCommand}"
+                            IconOverride="back-button.png" />
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem Text="Acción"
+          Order="Primary"
+          IconImageSource="save_icon.png"
+          Priority="0"
+          Command="{Binding Tapped_For_Add_Command}"/>-->
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <Grid RowDefinitions="1*,8*,1*">
+            <Frame BackgroundColor="#cfd0d8" Grid.Row="0" HorizontalOptions="EndAndExpand"
+                Padding="0" 
+                Margin="0,-80,-80,0"
+                HeightRequest="250"
+                WidthRequest="250" CornerRadius="125">
+            </Frame>
+
+            <Frame BackgroundColor="{x:StaticResource Primary}" Grid.Row="0" HorizontalOptions="EndAndExpand"
+                Padding="0" 
+                Margin="0,-120,-120,0"
+                HeightRequest="250"
+                WidthRequest="250" CornerRadius="125">
+            </Frame>
+
+            <Frame CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
+                   Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                  Margin="10,80,10,50"
+                   >
+                <VerticalStackLayout Spacing="25">
+                    <Label Text="{localization:Translate CourseRegisterTitle}" FontSize="28" FontAttributes="Bold" />
+
+                    <Frame Padding="10" BorderColor="Transparent" CornerRadius="0">
+                        <Grid ColumnDefinitions="25,*" ColumnSpacing="10">
+                            <Image VerticalOptions="Center" Source="email.png" HeightRequest="25" WidthRequest="25" />
+                            <handless:BorderlessEntry VerticalOptions="Center" Placeholder="{localization:Translate CourseRegisterTitle}" Grid.Column="1" Text="{Binding CourseName}"/>
+                        </Grid>
+                    </Frame>
+                    <Label FontAttributes="Bold" Text="{localization:Translate CourseRegisterSeeSubjects}" TextColor="Gray" HorizontalTextAlignment="Center" >
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Tapped_For_Subject_Command}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <StackLayout Margin="0,170,0,20">
+                        <Button CornerRadius="20" HeightRequest="60" Text="{localization:Translate CommonSave}" 
+                                FontSize="20" FontAttributes="Bold" Command="{Binding Tapped_For_Add_Command}"/>
+
+                    </StackLayout>
+                    <!--Lest create borderless entry -->
+                    
+                    <!--<HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                        <Label  FontAttributes="Bold" TextColor="Gray" Text="{localization:Translate LoginCreateAccount}" VerticalTextAlignment="Center" />
+                        <Label  Text="{localization:Translate LoginSingup}" FontSize="18" 
+               FontAttributes="Bold"
+               TextColor="{x:StaticResource Primary}" />
+                        <HorizontalStackLayout.GestureRecognizers>
+                            --><!--<TapGestureRecognizer Tapped="Tapped_For_SignUP" />--><!--
+                        </HorizontalStackLayout.GestureRecognizers>
+                    </HorizontalStackLayout>-->
+                </VerticalStackLayout>
+               
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

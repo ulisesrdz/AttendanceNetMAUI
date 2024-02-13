@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Attendance.Pages.CourseList"
+             xmlns:viewModels="clr-namespace:Attendance.VM"
+             xmlns:handless="clr-namespace:Attendance.Handlers"
+            
+             xmlns:localization="clr-namespace:Attendance.Resources.Localization"
+             Title="CourseLists">
+    
+    <!--<Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="True" />
+        --><!--<BackButtonBehavior  IsEnabled="True" Command="{Binding BackCommand}"
+                    IconOverride="back-button.png" />--><!--
+    </Shell.BackButtonBehavior>-->
+
+    <!--<NavigationPage.HasBackButton>
+        <OnIdiom x:TypeArguments="x:Boolean" Phone="True" Tablet="False" />
+    </NavigationPage.HasBackButton>-->
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Back" 
+              Order="Primary"
+              IconImageSource="back_button.png"
+              Priority="2"
+              Command="{Binding BackCommand}"/>
+    </ContentPage.ToolbarItems>
+
+
+    <ContentPage.BindingContext>
+        <viewModels:CourseVM/>
+    </ContentPage.BindingContext>
+
+    
+    
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
