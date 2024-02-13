@@ -165,6 +165,9 @@
   <data name="Login_Page" xml:space="preserve">
     <value>Iniciar Sesion</value>
   </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Menu Principal</value>
+  </data>
   <data name="NA" xml:space="preserve">
     <value>No disponible</value>
   </data>

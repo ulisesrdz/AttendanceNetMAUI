@@ -165,6 +165,9 @@
   <data name="Login_Page" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Main Menu</value>
+  </data>
   <data name="NA" xml:space="preserve">
     <value>No Avialable</value>
   </data>

@@ -205,6 +205,15 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main Menu.
+        /// </summary>
+        internal static string MainMenu {
+            get {
+                return ResourceManager.GetString("MainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Avialable.
         /// </summary>
         internal static string NA {

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Attendance.VM"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
+             Title="{localization:Translate MainMenu}"
              x:Class="Attendance.MainPage">
 
     <ContentPage.BindingContext>
@@ -12,24 +13,38 @@
     <FlexLayout Direction="Row" Wrap="Wrap" AlignItems="Center" JustifyContent="Center" >
 
         <!-- Row 1 -->
-        <Button 
-            Text="{localization:Translate Attendance_title}" 
-            Command="{Binding Tapped_For_Attendance_Command}" 
-            FontSize="20" 
-            HeightRequest="150" 
-            WidthRequest="150" 
-                 
-            Margin="10">
-            <Button.ImageSource>
-                <UriImageSource Uri="user.png" />
-                </Button.ImageSource>
 
+        <Button 
+                 Text="{localization:Translate Attendance_title}" 
+                 Command="{Binding Tapped_For_Attendance_Command}" 
+                 FontSize="20" 
+                 HeightRequest="150" 
+                 WidthRequest="150" 
+                 Margin="10">
+           
+           
         </Button>
 
-        <ImageButton Source="user.png" 
+
+        <!--<StackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ImageButton Source="user.png" WidthRequest="150" HeightRequest="150" Command="{Binding Tapped_For_Attendance_Command}" BackgroundColor="{StaticResource Primary}"/>
+                <Label Text="Click Me" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontSize="Large"/>
+            </Grid>
+        </StackLayout>-->
+
+
+
+
+        <!--<ImageButton Source="user.png" 
              Aspect="Center"
              BackgroundColor="Transparent"
-             Clicked="OnButtonClicked"/>
+             Clicked="OnButtonClicked"/>-->
         <Button 
             Text="{localization:Translate SchoolGroup_Page}" 
             Command="{Binding Tapped_For_Attendance_Command}"  
