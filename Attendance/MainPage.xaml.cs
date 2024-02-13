@@ -1,13 +1,14 @@
 ﻿using Attendance.Helpers;
 using Attendance.Pages;
 
+
 namespace Attendance;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+	int count = 0;    
 
-	public MainPage()
+    public MainPage()
 	{
 		InitializeComponent();
         //addToolItem();

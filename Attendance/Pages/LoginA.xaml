@@ -29,9 +29,9 @@
 
             </Frame>
 
-            <Frame CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
+            <Frame CornerRadius="1" BackgroundColor="{x:StaticResource DashboardBackground}"
                Grid.Row="1" VerticalOptions="CenterAndExpand"
-               Margin="0,0,40,0"
+               Margin="30,30,30,20"
                >
                 <VerticalStackLayout Spacing="25">
                     <Label Text="SIGN IN" FontSize="28" FontAttributes="Bold" />
@@ -55,9 +55,13 @@
                     <Label FontAttributes="Bold" Text="{localization:Translate LoginForgotPass}" TextColor="Gray" HorizontalTextAlignment="Center" />
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
                         <Label  FontAttributes="Bold" TextColor="Gray" Text="{localization:Translate LoginCreateAccount}" VerticalTextAlignment="Center" />
-                        <Label  Text="{localization:Translate LoginSingup}" FontSize="18" 
+                        <Label  Text="{localization:Translate LoginSingup}" FontSize="18"
                            FontAttributes="Bold"
-                           TextColor="{x:StaticResource Primary}" />
+                           TextColor="{x:StaticResource Primary}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Tapped_For_SignUp_Command}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
                         <HorizontalStackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="Tapped_For_SignUP" />
                         </HorizontalStackLayout.GestureRecognizers>

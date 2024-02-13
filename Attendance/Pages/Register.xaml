@@ -2,9 +2,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Attendance.Pages.Register"
+             xmlns:viewModels="clr-namespace:Attendance.VM"
              xmlns:handless="clr-namespace:Attendance.Handlers"
-             Title="Register"
-             NavigationPage.HasBackButton="False">
+             xmlns:localization="clr-namespace:Attendance.Resources.Localization"
+             Title="Register">
+
+    <ContentPage.BindingContext>
+        <viewModels:LoginVM/>
+    </ContentPage.BindingContext>
+    
+    
     <ContentPage.Content>
         <Grid RowDefinitions="1*,8*,1*">
             <Frame BackgroundColor="#cfd0d8" Grid.Row="0" HorizontalOptions="EndAndExpand"
@@ -25,7 +32,7 @@
 
             <Frame ZIndex="1" CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
                Grid.Row="1" VerticalOptions="CenterAndExpand"
-               Margin="0,0,40,0"
+               Margin="30,70,30,10"
                >
                 <ScrollView>
                     <VerticalStackLayout Spacing="25">
@@ -67,7 +74,7 @@
                            FontAttributes="Bold"
                            TextColor="{x:StaticResource Primary}" />
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="Tapped_For_SignIn" />
+                                <TapGestureRecognizer Command="{Binding Tapped_For_SignUp_Command}"/>
                             </HorizontalStackLayout.GestureRecognizers>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>

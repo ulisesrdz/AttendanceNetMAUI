@@ -1,13 +1,14 @@
 ﻿using Attendance.Handlers;
 using Attendance.Pages;
-
+using _business = Attendance.Helpers;
 using Microsoft.Maui.Platform;
 
 namespace Attendance;
 
 public partial class App : Application
 {
-	public App()
+    public bool IsConditionalVisible { get; set; } = _business.BusinessURL.ReadText() == null ? true : false;
+    public App()
 	{
 		InitializeComponent();
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
@@ -22,7 +23,11 @@ public partial class App : Application
             }
         });
 
+
+
+        MainPage = IsConditionalVisible ? new NavigationPage(new BusinessURL()) : new NavigationPage(new LoginA());
         //MainPage = new AppShell();
-        MainPage = new NavigationPage(new MainPage());
+        
+    
     }
 }

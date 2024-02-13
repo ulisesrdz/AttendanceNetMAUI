@@ -42,7 +42,7 @@
 
             <Frame CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
                    Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                  Margin="10,80,10,50"
+                  Margin="30,80,30,50"
                    >
                 <VerticalStackLayout Spacing="25">
                     <Label Text="{localization:Translate CourseRegisterTitle}" FontSize="28" FontAttributes="Bold" />
@@ -77,6 +77,27 @@
                     </HorizontalStackLayout>-->
                 </VerticalStackLayout>
                
+            </Frame>
+
+            <Frame BackgroundColor="#cfd0d8" Grid.Row="2" 
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="StartAndExpand"
+                Padding="0" 
+                Margin="0,0,0,-180"
+                HeightRequest="250"
+                WidthRequest="250" CornerRadius="125">
+
+            </Frame>
+
+            <Frame BackgroundColor="{x:StaticResource Primary}" 
+                VerticalOptions="EndAndExpand"
+                Grid.Row="2" 
+                HorizontalOptions="StartAndExpand"
+                Padding="0" 
+                Margin="0,0,0,-200"
+                HeightRequest="250"
+                WidthRequest="250" CornerRadius="125">  
+
             </Frame>
         </Grid>
     </ContentPage.Content>

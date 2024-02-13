@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About_Page" xml:space="preserve">
+    <value>About</value>
+  </data>
   <data name="Attendance_Page" xml:space="preserve">
     <value>Attendance</value>
   </data>
@@ -125,6 +128,15 @@
   </data>
   <data name="BusinessURL_Page" xml:space="preserve">
     <value>Business URL</value>
+  </data>
+  <data name="CommonEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="CommonName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="CommonPN" xml:space="preserve">
+    <value>Phone Number</value>
   </data>
   <data name="CommonSave" xml:space="preserve">
     <value>Save</value>
@@ -185,5 +197,14 @@
   </data>
   <data name="SchoolGroup_Page" xml:space="preserve">
     <value>School Grade</value>
+  </data>
+  <data name="Settings_Page" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="StudentRegister" xml:space="preserve">
+    <value>Student Registration</value>
+  </data>
+  <data name="Student_Title" xml:space="preserve">
+    <value>Student</value>
   </data>
 </root>

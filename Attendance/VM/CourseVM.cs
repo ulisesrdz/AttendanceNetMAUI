@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Attendance.Pages;
 
 namespace Attendance.VM
 {
@@ -38,7 +39,7 @@ namespace Attendance.VM
         {
             Tapped_For_Add_Command = new Command(Tapped_For_Add);
             Tapped_For_Subject_Command = new Command(Tapped_For_Subject);
-            Tapped_For_Back_Command = new Command(Tapped_For_Back);
+            //Tapped_For_Back_Command = new Command(Tapped_For_Back);
             CleanData();
         }
 
@@ -54,12 +55,14 @@ namespace Attendance.VM
 
         private async void Tapped_For_Subject(object sender)
         {
-            await Shell.Current.GoToAsync("//CourseList");
+            await Application.Current.MainPage.Navigation.PushAsync(new CourseList());
+            //await Shell.Current.GoToAsync("//CourseList");
         }
 
         private async void Tapped_For_Back(object sender)
         {
-            await Shell.Current.GoToAsync("//MainMenu");
+            await App.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+            //await Shell.Current.GoToAsync("//MainMenu");
         }
         
     }

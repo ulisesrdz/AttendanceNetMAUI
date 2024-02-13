@@ -61,6 +61,15 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string About_Page {
+            get {
+                return ResourceManager.GetString("About_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attendance.
         /// </summary>
         internal static string Attendance_Page {
@@ -84,6 +93,33 @@ namespace Attendance.Resources.Localization {
         internal static string BusinessURL_Page {
             get {
                 return ResourceManager.GetString("BusinessURL_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        internal static string CommonEmail {
+            get {
+                return ResourceManager.GetString("CommonEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string CommonName {
+            get {
+                return ResourceManager.GetString("CommonName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Number.
+        /// </summary>
+        internal static string CommonPN {
+            get {
+                return ResourceManager.GetString("CommonPN", resourceCulture);
             }
         }
         
@@ -264,6 +300,33 @@ namespace Attendance.Resources.Localization {
         internal static string SchoolGroupTitle {
             get {
                 return ResourceManager.GetString("SchoolGroupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string Settings_Page {
+            get {
+                return ResourceManager.GetString("Settings_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student.
+        /// </summary>
+        internal static string Student_Title {
+            get {
+                return ResourceManager.GetString("Student_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student Registration.
+        /// </summary>
+        internal static string StudentRegister {
+            get {
+                return ResourceManager.GetString("StudentRegister", resourceCulture);
             }
         }
     }

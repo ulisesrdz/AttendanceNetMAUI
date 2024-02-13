@@ -52,10 +52,11 @@ namespace Attendance.VM
                     if (!string.IsNullOrWhiteSpace(_BusinessURL))
                     {
                         _business.BusinessURL.SaveText(_BusinessURL);
-                        MainThread.BeginInvokeOnMainThread(async () => 
+                        MainThread.BeginInvokeOnMainThread(async () =>
                         {
-                             await Application.Current.MainPage.DisplayAlert("Success", "Saved URL", "OK");
-                             await Shell.Current.GoToAsync("//LoginA");
+                            await Application.Current.MainPage.DisplayAlert("Success", "Saved URL", "OK");
+                            await App.Current.MainPage.Navigation.PushModalAsync(new Pages.LoginA());
+                            //await Shell.Current.GoToAsync("//LoginA");
                         });
                         
                     }

@@ -126,6 +126,18 @@
   <data name="BusinessURL_Page" xml:space="preserve">
     <value>Business URL</value>
   </data>
+  <data name="BusinessURL_Title" xml:space="preserve">
+    <value>Business URL</value>
+  </data>
+  <data name="CommonEmail" xml:space="preserve">
+    <value>Correo Electronico</value>
+  </data>
+  <data name="CommonName" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="CommonPN" xml:space="preserve">
+    <value>Numero de Telefono</value>
+  </data>
   <data name="CommonSave" xml:space="preserve">
     <value>Guardar</value>
   </data>
@@ -185,5 +197,14 @@
   </data>
   <data name="SchoolGroup_Page" xml:space="preserve">
     <value>Grado Escolar</value>
+  </data>
+  <data name="Settings_Page" xml:space="preserve">
+    <value>Configuracion</value>
+  </data>
+  <data name="StudentRegister" xml:space="preserve">
+    <value>Registro de Estudiantes</value>
+  </data>
+  <data name="Student_Title" xml:space="preserve">
+    <value>Estudiantes</value>
   </data>
 </root>

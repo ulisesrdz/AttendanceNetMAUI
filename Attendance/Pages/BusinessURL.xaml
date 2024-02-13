@@ -4,7 +4,8 @@
              x:Class="Attendance.Pages.BusinessURL"
              xmlns:handless="clr-namespace:Attendance.Handlers"
              xmlns:viewModels="clr-namespace:Attendance.VM"
-             Title="Business URL">
+             xmlns:localization="clr-namespace:Attendance.Resources.Localization"
+             Title="{localization:Translate BusinessURL_Title}">
     
     <ContentPage.BindingContext>
         <viewModels:BusinessURLVM/>
@@ -30,7 +31,7 @@
 
             <Frame ZIndex="1" CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
                Grid.Row="1" VerticalOptions="CenterAndExpand"
-               Margin="20,10,20,100"
+               Margin="30,80,30,60"
                >
                 <ScrollView>
                     <VerticalStackLayout Spacing="25">
@@ -42,12 +43,33 @@
                                 <handless:BorderlessEntry VerticalOptions="Center" Placeholder="http://BusinessURL.com" Grid.Column="1" Text="{Binding _BusinessURL}" />
                             </Grid>
                         </Frame>
-                        
-                        <Button CornerRadius="0" HeightRequest="60" Text="Save" FontSize="20" FontAttributes="Bold" 
+
+                        <Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate CommonSave}" FontSize="20" FontAttributes="Bold" 
                                 Command="{Binding Tapped_For_Business_Command}"/>
                         <ActivityIndicator HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"/>
                     </VerticalStackLayout>
                 </ScrollView>
+
+            </Frame>
+
+             <Frame BackgroundColor="#cfd0d8" Grid.Row="2" 
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="StartAndExpand"
+                Padding="0" 
+                Margin="0,0,0,-180"
+                HeightRequest="250"
+                WidthRequest="250" CornerRadius="125">  
+
+            </Frame>
+
+            <Frame BackgroundColor="{x:StaticResource Primary}" 
+                VerticalOptions="EndAndExpand"
+                Grid.Row="2" 
+                HorizontalOptions="StartAndExpand"
+                Padding="0" 
+                Margin="0,0,0,-200"
+                HeightRequest="250"
+                WidthRequest="250" CornerRadius="125">
 
             </Frame>
         </Grid>

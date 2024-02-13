@@ -40,6 +40,12 @@ namespace Attendance.VM
             get;
             set;
         }
+
+        public Command Tapped_For_SignUp_Command
+        {
+            get;
+            set;
+        }
         public LoginVM()
         {
             InitVM();
@@ -55,9 +61,13 @@ namespace Attendance.VM
         private void InitVM()
         {
             Tapped_For_Login_Command = new Command(Tapped_For_Login);
+            Tapped_For_SignUp_Command = new Command(Tapped_For_SignUp);
             CleanData();
         }
-
+        private async void Tapped_For_SignUp(object sender)
+        {
+            await App.Current.MainPage.Navigation.PushModalAsync(new Pages.Register());
+        }
         private async void Tapped_For_Login(object sender)
         {
             NetworkAccess accessType = Connectivity.Current.NetworkAccess;
@@ -90,9 +100,9 @@ namespace Attendance.VM
 
                                 CleanData();
                                 Session.status = 1;
-                                //await App.Current.MainPage.Navigation.PushModalAsync(new Pages.MainMenu());
+                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
                                 //Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
-                                await Shell.Current.GoToAsync("//MainMenu");
+                                //await Shell.Current.GoToAsync("//MainMenu");
                             }
                             else
                             {

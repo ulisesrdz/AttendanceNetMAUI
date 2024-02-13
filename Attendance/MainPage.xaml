@@ -10,6 +10,15 @@
         <viewModels:MainMenuVM/>
     </ContentPage.BindingContext>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{localization:Translate Settings_Page}" Priority="1" Order="Secondary"
+                      Command="{Binding Tapped_For_BusinessURL_Command}" 
+                 IconImageSource="menu_icon.png" />
+
+        <ToolbarItem Text="{localization:Translate About_Page}" Priority="2" Order="Secondary"
+                 IconImageSource="menu_icon.png" />
+    </ContentPage.ToolbarItems>
+
     <FlexLayout Direction="Row" Wrap="Wrap" AlignItems="Center" JustifyContent="Center" >
 
         <!-- Row 1 -->
@@ -47,14 +56,14 @@
              Clicked="OnButtonClicked"/>-->
         <Button 
             Text="{localization:Translate SchoolGroup_Page}" 
-            Command="{Binding Tapped_For_Attendance_Command}"  
+            Command="{Binding Tapped_For_SchoolGroup_Command}"  
             FontSize="20" 
             HeightRequest="150" 
             WidthRequest="150" 
             Margin="10"/>
         <Button 
             Text="{localization:Translate Register_Page}" 
-            Command="{Binding Tapped_For_Attendance_Command}"  
+            Command="{Binding Tapped_For_Register_Command}"  
             FontSize="20" 
             HeightRequest="150" 
             WidthRequest="150"
@@ -62,7 +71,7 @@
             Margin="10"/>
         <Button 
             Text="{localization:Translate CourseRegisterCourseList}" 
-            Command="{Binding Tapped_For_Attendance_Command}" 
+            Command="{Binding Tapped_For_CourseRegisterCourseList_Command}" 
             FontSize="20" 
             HeightRequest="150" 
             WidthRequest="150" 
@@ -74,7 +83,7 @@
             HeightRequest="150" 
             WidthRequest="150" 
             Margin="10"
-            IsEnabled="False"/>
+            IsEnabled="False" IsVisible="False"/>
         <Button 
             Text="{localization:Translate NA}" 
             Command="{Binding Tapped_For_Attendance_Command}" 
@@ -82,7 +91,8 @@
             HeightRequest="150" 
             WidthRequest="150" 
             Margin="10"
-            IsEnabled="False"/>
+            IsEnabled="False" 
+            IsVisible="False" />
        
 
     </FlexLayout>
