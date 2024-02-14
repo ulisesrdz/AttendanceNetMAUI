@@ -24,10 +24,10 @@ public partial class App : Application
         });
 
 
-
-        MainPage = IsConditionalVisible ? new NavigationPage(new BusinessURL()) : new NavigationPage(new LoginA());
+        MainPage = new NavigationPage(new MainPage());
+        //MainPage = IsConditionalVisible ? new NavigationPage(new BusinessURL()) : new NavigationPage(new LoginA());
         //MainPage = new AppShell();
-        
-    
+
+
     }
 }

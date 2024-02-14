@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              x:Class="Attendance.MainPage"
              xmlns:viewModels="clr-namespace:Attendance.VM"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
              Title="{localization:Translate MainMenu}"
-             x:Class="Attendance.MainPage">
+            >
 
     <ContentPage.BindingContext>
         <viewModels:MainMenuVM/>
@@ -12,88 +13,91 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{localization:Translate Settings_Page}" Priority="1" Order="Secondary"
-                      Command="{Binding Tapped_For_BusinessURL_Command}" 
-                 IconImageSource="menu_icon.png" />
+                  Command="{Binding Tapped_For_BusinessURL_Command}" 
+             />
 
         <ToolbarItem Text="{localization:Translate About_Page}" Priority="2" Order="Secondary"
-                 IconImageSource="menu_icon.png" />
+             />
     </ContentPage.ToolbarItems>
+   
+    <ContentPage.Content>
 
-    <FlexLayout Direction="Row" Wrap="Wrap" AlignItems="Center" JustifyContent="Center" >
-
-        <!-- Row 1 -->
-
-        <Button 
-                 Text="{localization:Translate Attendance_title}" 
-                 Command="{Binding Tapped_For_Attendance_Command}" 
-                 FontSize="20" 
-                 HeightRequest="150" 
-                 WidthRequest="150" 
-                 Margin="10">
-           
-           
-        </Button>
-
-
-        <!--<StackLayout>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <ImageButton Source="user.png" WidthRequest="150" HeightRequest="150" Command="{Binding Tapped_For_Attendance_Command}" BackgroundColor="{StaticResource Primary}"/>
-                <Label Text="Click Me" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center" TextColor="White" FontSize="Large"/>
-            </Grid>
-        </StackLayout>-->
-
-
-
-
-        <!--<ImageButton Source="user.png" 
-             Aspect="Center"
-             BackgroundColor="Transparent"
-             Clicked="OnButtonClicked"/>-->
-        <Button 
-            Text="{localization:Translate SchoolGroup_Page}" 
-            Command="{Binding Tapped_For_SchoolGroup_Command}"  
-            FontSize="20" 
-            HeightRequest="150" 
-            WidthRequest="150" 
-            Margin="10"/>
-        <Button 
-            Text="{localization:Translate Register_Page}" 
-            Command="{Binding Tapped_For_Register_Command}"  
-            FontSize="20" 
-            HeightRequest="150" 
-            WidthRequest="150"
-            
-            Margin="10"/>
-        <Button 
-            Text="{localization:Translate CourseRegisterCourseList}" 
-            Command="{Binding Tapped_For_CourseRegisterCourseList_Command}" 
-            FontSize="20" 
-            HeightRequest="150" 
-            WidthRequest="150" 
-            Margin="10"/>
-        <Button 
-            Text="{localization:Translate NA}" 
-            Command="{Binding Tapped_For_Attendance_Command}"  
-            FontSize="20" 
-            HeightRequest="150" 
-            WidthRequest="150" 
-            Margin="10"
-            IsEnabled="False" IsVisible="False"/>
-        <Button 
-            Text="{localization:Translate NA}" 
-            Command="{Binding Tapped_For_Attendance_Command}" 
-            FontSize="20" 
-            HeightRequest="150" 
-            WidthRequest="150" 
-            Margin="10"
-            IsEnabled="False" 
-            IsVisible="False" />
        
+        <!--<Grid RowDefinitions="1*,8*,1*">
+            <Frame BackgroundColor="#cfd0d8" Grid.Row="0" HorizontalOptions="EndAndExpand"
+               Padding="0" 
+               Margin="0,-80,-80,0"
+               HeightRequest="250"
+               WidthRequest="250" CornerRadius="125">
 
-    </FlexLayout>
+            </Frame>
+
+            <Frame BackgroundColor="{x:StaticResource Primary}" Grid.Row="0" HorizontalOptions="EndAndExpand"
+               Padding="0" 
+               Margin="0,-120,-120,0"
+               HeightRequest="250"
+               WidthRequest="250" CornerRadius="125">
+
+            </Frame>
+            
+        </Grid>-->
+        
+        <FlexLayout Direction="Row" Wrap="Wrap" AlignItems="Center" JustifyContent="Center"  >
+
+            <!-- Row 1 -->
+
+            <Button 
+         Text="{localization:Translate Attendance_title}" 
+         Command="{Binding Tapped_For_Attendance_Command}" 
+         FontSize="20" 
+         HeightRequest="150" 
+         WidthRequest="150" 
+         Margin="10">
+
+
+            </Button>
+
+            <Button 
+        Text="{localization:Translate SchoolGroup_Page}" 
+        Command="{Binding Tapped_For_SchoolGroup_Command}"  
+        FontSize="20" 
+        HeightRequest="150" 
+        WidthRequest="150" 
+        Margin="10"/>
+            <Button 
+        Text="{localization:Translate Register_Page}" 
+        Command="{Binding Tapped_For_Register_Command}"  
+        FontSize="20" 
+        HeightRequest="150" 
+        WidthRequest="150"
+        Margin="10"/>
+            <Button 
+        Text="{localization:Translate CourseRegisterCourseList}" 
+        Command="{Binding Tapped_For_CourseRegisterCourseList_Command}" 
+        FontSize="20" 
+        HeightRequest="150" 
+        WidthRequest="150" 
+        Margin="10"/>
+            <Button 
+        Text="{localization:Translate NA}" 
+        Command="{Binding Tapped_For_Attendance_Command}"  
+        FontSize="20" 
+        HeightRequest="150" 
+        WidthRequest="150" 
+        Margin="10"
+    />
+            <Button 
+        Text="{localization:Translate NA}" 
+        Command="{Binding Tapped_For_Attendance_Command}" 
+        FontSize="20" 
+        HeightRequest="150" 
+        WidthRequest="150" 
+        Margin="10"
+    />
+
+
+        </FlexLayout>
+        
+    </ContentPage.Content>
+    
 </ContentPage>
