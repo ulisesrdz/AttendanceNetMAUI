@@ -148,14 +148,14 @@ namespace Attendance.VM
         {            
             InitVM();
             _accountService = new AccountService();
-            Get_Information();
+            Get_InformationLocal();
         }
 
         public void getInfo()
         {
             InitVM();
             _accountService = new AccountService();
-            Get_Information();
+            Get_InformationLocal();
         }
 
         void CleanData()
