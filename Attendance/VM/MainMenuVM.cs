@@ -61,6 +61,7 @@ namespace Attendance.VM
 
         private async void Tapped_For_Attendance(object sender)
         {
+            Session.schoolGrade = false;
             await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
             //await Application.Current.MainPage.Navigation.PushAsync(new page.Attendance());
         }
