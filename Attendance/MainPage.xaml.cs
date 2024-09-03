@@ -24,5 +24,23 @@ public partial class MainPage : ContentPage
     {
         await Navigation.PushAsync(new CourseRegister());
     }
+
+    protected override bool OnBackButtonPressed()
+    {
+
+        onBack();
+        return base.OnBackButtonPressed();
+    }
+
+    private async void onBack()
+    {
+        var userChoise = await DisplayAlert("Warning", "Esta seguro de salir", "Si", "No");
+        
+        if (userChoise)
+        {
+            Application.Current?.CloseWindow(Application.Current.MainPage.Window);
+        }
+        
+    }
 }
 

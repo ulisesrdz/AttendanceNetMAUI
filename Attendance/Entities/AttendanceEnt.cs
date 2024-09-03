@@ -9,18 +9,19 @@ namespace Attendance.Entities
     public class AttendanceEnt
     {
 
-        public int id_student { get; set; }
-        public DateTime attendace_Date { get; set; }
-        public int id_subject { get; set; }
-        public int id_section { get; set; }
-        public int id_group { get; set; }
+       
+        public DateTime date_time { get; set; }
+        public string id_student { get; set; }
+        public string id_user { get; set; }
+        public string id_course { get; set; }   
+        
         public AttendanceEnt() 
         {
-            id_student = 0;
-            attendace_Date = DateTime.MinValue;
-            id_subject = 0;
-            id_section = 0;
-            id_group = 0;
+            id_student = "";
+            date_time = DateTime.MinValue;
+            id_user = "";
+            id_course = "";
+            
         }
 
 

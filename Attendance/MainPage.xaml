@@ -5,7 +5,7 @@
              xmlns:viewModels="clr-namespace:Attendance.VM"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
              Title="{localization:Translate MainMenu}"
-            >
+            NavigationPage.HasBackButton="False">
 
     <ContentPage.BindingContext>
         <viewModels:MainMenuVM/>
@@ -79,8 +79,8 @@
         WidthRequest="150" 
         Margin="10"/>
             <Button 
-        Text="{localization:Translate NA}" 
-        Command="{Binding Tapped_For_Attendance_Command}"  
+        Text="{localization:Translate QR_Code_Generated}" 
+        Command="{Binding Tapped_For_PrintQRCode_Command}"  
         FontSize="20" 
         HeightRequest="150" 
         WidthRequest="150" 

@@ -1,13 +1,17 @@
+using Attendance.Entities;
 using Attendance.VM;
 using ZXing.Net.Maui;
 //using ZXing.Net.Maui.Controls;
 using ZXing.QrCode.Internal;
+using Attendance.Helpers;
 
 namespace Attendance.Pages;
 
 public partial class Attendance : ContentPage
 {
-	public Attendance()
+    private bool isBusy {  get; set; }
+    public int Id_Course { get; set; }
+    public Attendance()
     {
 		InitializeComponent();
        
@@ -16,49 +20,77 @@ public partial class Attendance : ContentPage
     protected void BarcodesDetected(object sender, BarcodeDetectionEventArgs e)
     {
         //barcodeView.CameraLocation = barcodeView.CameraLocation == CameraLocation.Rear ? CameraLocation.Front : CameraLocation.Rear;
-        MainThread.BeginInvokeOnMainThread(() =>
+        MainThread.BeginInvokeOnMainThread(async () =>
         {
-            if (BindingContext is AttendanceVM viewModel)
+            if (!isBusy)
             {
-                lblTitle.Text = String.Empty;
-                Entities.AttendanceEnt attendance = new Entities.AttendanceEnt();
-                foreach (var barcode in e.Results)
+                isBusy = true;
+                if (BindingContext is AttendanceVM viewModel)
                 {
-                    attendance.id_student = Convert.ToInt32(barcode.Value);
-                    attendance.attendace_Date = DateTime.Now;
-                    lbl.Text = $"Barcodes: {barcode.Format} -> {barcode.Value}";
-                    
-                    this.generateBarcode.Value = e.Results[0].Value;
-                    
-                    viewModel._LtsAttendace.Add(attendance);
-                    //await Application.Current.MainPage.DisplayAlert("Success", barcode.Value + " Saved", "OK");
-                    
-                }
 
+                    lblTitle.Text = String.Empty;
+                    Entities.AttendanceEnt attendance = new Entities.AttendanceEnt();
+                    foreach (var barcode in e.Results)
+                    {
+                        attendance.id_student = barcode.Value;
+                        attendance.date_time = DateTime.Now;
+                        attendance.id_course =  Session.Id_Course.ToString();
+                        attendance.id_user=Session._IdUser.ToString();
+
+                        lbl.Text = $"Barcodes: {barcode.Format} -> {barcode.Value}";
+
+                        this.generateBarcode.Value = e.Results[0].Value;
+
+                        viewModel._LtsAttendace.Add(attendance);
+
+                        if (viewModel != null && viewModel.Tapped_Save_Command.CanExecute(null))
+                        {
+                            viewModel.Tapped_Save_Command.Execute(null);
+                        }
+
+                        //await Application.Current.MainPage.DisplayAlert("Success", barcode.Value + " Saved", "OK");
+                        //await DisplayAlert("Success", barcode.Value + " Saved", "OK");
+                        //var task = DisplayAlert("Success", barcode.Value + " Saved", "OK");
+
+                        await Task.Delay(3000);
+
+                        //if (task != null && !task.IsCompleted)
+                        //{
+                        //    await this.Navigation.PopAsync();
+                        //}
+                        isBusy = false;
+                    }
+
+                }
+                else
+                {
+                    isBusy = false;
+                }
             }
-        });       
+            
+        });
+
+        //foreach (var barcode in e.Results)
+        //{
+        //    lbl.Text = barcode.Value.ToString();
+        ////$"Barcodes: {barcode.Format} -> {barcode.Value}";
+        //}
 
     }
+    
+
     async void OnButtonClick(object sender, EventArgs args)
     {
         await App.Current.MainPage.Navigation.PushModalAsync(new Pages.MainMenu());
     }
     protected override void OnAppearing()
     {
-        base.OnAppearing();
-        //this.barcodeView.CameraLocation = ZXing.Net.Maui.CameraLocation.Rear;
-        //if (barcodeView == null)
-        //{
-        //    this.barcodeView.CameraLocation = ZXing.Net.Maui.CameraLocation.Rear;
-        //    //barcodeView = global::Microsoft.Maui.Controls.NameScopeExtensions.FindByName<global::ZXing.Net.Maui.Controls.CameraBarcodeReaderView>(this, "barcodeView");
-        //}
-        // Este código se ejecuta cada vez que la página está a punto de mostrarse.
-        // Puedes realizar acciones como cargar datos frescos aquí.
+        base.OnAppearing();        
     }
 
     protected override void OnDisappearing()
     {
-        //barcodeView = null;
+        
     }
     private void touchOnSwitch_Toggled(object sender, ToggledEventArgs e)
     {

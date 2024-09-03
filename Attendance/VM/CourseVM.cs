@@ -5,12 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Attendance.Pages;
+using Attendance.Helpers;
 
 namespace Attendance.VM
 {
     class CourseVM:ViewModelBase
     {
         AccountService _accountService;
+        int id_course;
+        public int IdCourse
+        {
+            get { return id_course; }
+            set
+            {
+                id_course = value;
+                OnPropertyChange();
+            }
+        }
+
         public Command Tapped_For_Add_Command
         {
             get;
@@ -28,7 +40,17 @@ namespace Attendance.VM
             get;
             set;
         }
-
+        public Command Tapped_For_DeleteCourse_Command
+        {
+            get;
+            set;
+        }
+        public Command Tapped_For_DeleteCourses_Command
+        {
+            get;
+            set;
+        }
+        
         public CourseVM()
         {
             InitVM();
@@ -40,6 +62,8 @@ namespace Attendance.VM
             Tapped_For_Add_Command = new Command(Tapped_For_Add);
             Tapped_For_Subject_Command = new Command(Tapped_For_Subject);
             //Tapped_For_Back_Command = new Command(Tapped_For_Back);
+            Tapped_For_DeleteCourse_Command = new Command(Tapped_For_DeleteCourse);
+            Tapped_For_DeleteCourses_Command = new Command(Tapped_For_DeleteCourses);
             CleanData();
         }
 
@@ -64,6 +88,120 @@ namespace Attendance.VM
             await App.Current.MainPage.Navigation.PushModalAsync(new MainPage());
             //await Shell.Current.GoToAsync("//MainMenu");
         }
-        
+
+        private async void Tapped_For_DeleteCourse(object sender)
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    if (accessType == NetworkAccess.Internet)
+                    {
+                        if (id_course != 0)
+                        {
+                            var result = await _accountService.DeleteStudent(id_course);
+
+                            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(result);
+
+                            if (jsonResult.status == "400")
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
+                                CleanData();
+                            }
+                            else if (jsonResult.status == "200")
+                            {
+
+                                //ltsStudents.Remove(SelectedPerson);
+
+                                CleanData();
+                                Session.status = 1;
+                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                                //Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
+                                //await Shell.Current.GoToAsync("//MainMenu");
+                            }
+                            else
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                            }
+                        }
+
+
+                        // Connection to internet is available
+                    }
+                }
+                else
+                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                CleanData();
+                IsBusy = false;
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                IsBusy = false;
+            }
+
+
+        }
+
+        private async void Tapped_For_DeleteCourses(object sender)
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    if (accessType == NetworkAccess.Internet)
+                    {
+                        if (Session._IdUser > 0)
+                        {
+                            var result = await _accountService.DeleteStudents(Session._IdUser);
+
+                            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(result);
+
+                            if (jsonResult.status == "400")
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
+                                CleanData();
+                            }
+                            else if (jsonResult.status == "200")
+                            {
+
+                                //ltsStudents.Remove(SelectedPerson);
+
+                                CleanData();
+                                Session.status = 1;
+                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                                //Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
+                                //await Shell.Current.GoToAsync("//MainMenu");
+                            }
+                            else
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                            }
+                        }
+
+
+                        // Connection to internet is available
+                    }
+                }
+                else
+                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                CleanData();
+                IsBusy = false;
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                IsBusy = false;
+            }
+
+
+        }
+
     }
 }

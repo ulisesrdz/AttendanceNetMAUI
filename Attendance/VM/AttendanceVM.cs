@@ -1,10 +1,13 @@
 ﻿using Attendance.API;
 using Attendance.Entities;
+using Attendance.Helpers;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using page = Attendance.Pages;
 
 namespace Attendance.VM
 {
@@ -21,7 +24,37 @@ namespace Attendance.VM
                 OnPropertyChange();
             }
         }
+        private int _id_course;
+        public int Id_Course
+        {
+            get { return _id_course; }
+            set
+            {
+                _id_course = value;
+                OnPropertyChange();
+            }
+        }
+
+        private List<SchoolGrade> _ltsGrade { get; set; }
+        public List<SchoolGrade> ltsGrade
+        {
+            get { return _ltsGrade; }
+            set
+            {
+                if (_ltsGrade != value)
+                {
+                    _ltsGrade = value;
+                    OnPropertyChange();
+                }
+
+            }
+        }
         public Command Tapped_Save_Command
+        {
+            get;
+            set;
+        }
+        public Command Tapped_For_Enter_Command
         {
             get;
             set;
@@ -31,11 +64,13 @@ namespace Attendance.VM
         {
             InitVM();
             _accountService = new AccountService();
+            Get_Information();
         }
 
         private void InitVM()
         {
             Tapped_Save_Command = new Command(Tapped_For_Business);
+            Tapped_For_Enter_Command = new Command(Tapped_For_Enter);
             CleanData();
         }
 
@@ -43,6 +78,61 @@ namespace Attendance.VM
         {
            
             _lts = new List<AttendanceEnt>();
+        }
+
+        #region API
+        private async void Tapped_For_Enter(object sender)
+        {
+            
+            try
+            {
+                if (!IsBusy)
+                {
+                    await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+                   
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private async void Get_Information()
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            try
+            {
+                if (!IsBusy)
+                {
+                    if (accessType == NetworkAccess.Internet)
+                    {
+                        var schoolGradeInfo = await _accountService.GetSchoolGradeInfo(Session._IdUser);
+                        var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(schoolGradeInfo);
+                        if (jsonResult.status == "400")
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                        }
+                        else if (jsonResult.status == "500")
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                        }
+                        else if (jsonResult.status == "200")
+                        {
+                            //var _obj = Newtonsoft.Json.JsonConvert.SerializeObject(jsonResult.Result);
+                            ltsGrade = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SchoolGrade>>(jsonResult.Result.ToString());
+
+                            //_ltsGrade
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                throw;
+            }
         }
 
         private async void Tapped_For_Business(object sender)
@@ -57,12 +147,27 @@ namespace Attendance.VM
                     {
                         if (_lts.Count > 0)
                         {
-                            var attendanceStatus = await _accountService.SaveAttendanceData(_lts);
-                            MainThread.BeginInvokeOnMainThread(async () =>
+                            foreach (var item in _lts)
                             {
-                                await Application.Current.MainPage.DisplayAlert("Success", "Saved URL", "OK");
-                                await Shell.Current.GoToAsync("//LoginA");
-                            });
+                                var attendanceStatus = await _accountService.SaveAttendanceData(item);
+                                var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(attendanceStatus);
+                                MainThread.BeginInvokeOnMainThread(async () =>
+                                {
+                                    if (jsonResult.status == "400")
+                                    {
+                                        await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                    }
+                                    else if (jsonResult.status == "500")
+                                    {
+                                        await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                    }
+                                    else if (jsonResult.status == "200")
+                                    {
+                                        await Application.Current.MainPage.DisplayAlert("Success", jsonResult.Result.ToString(), "Aceptar");
+                                    }
+                                });
+                            }
+                            
 
                         }
                         else
@@ -80,5 +185,99 @@ namespace Attendance.VM
                 IsBusy = false;
             }
         }
+
+        #endregion
+
+        #region Local
+        private async void Get_InformationLocal()
+        {
+            
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    var schoolGradeInfo = await App.DataBase.getSchoolGradebyIdUserAsync(Session._IdUser);
+
+                    if (schoolGradeInfo.Count > 0)
+                    {
+                        var _grade = new List<SchoolGrade>();
+                        foreach (var item in _grade)
+                        {
+                            var grade = new SchoolGrade();
+                            grade.id = item.id;
+                            grade.id_user = item.id_user;
+                            grade.course_name = item.course_name;
+                            grade.groups = item.groups;
+                            grade.grade = item.grade;
+
+
+                            _grade.Add(grade);
+                        }
+
+                        if (_grade.Count > 0)
+                        {
+                            ltsGrade = _grade;
+                        }
+                    }
+                    IsBusy = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                IsBusy = false;
+                throw;
+            }
+        }
+
+        private async void Tapped_For_BusinessLocal(object sender)
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    if (_lts.Count > 0)
+                    {
+                        foreach (var item in _lts)
+                        {
+                            var attendanceStatus = await _accountService.SaveAttendanceData(item);
+                            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(attendanceStatus);
+                            MainThread.BeginInvokeOnMainThread(async () =>
+                            {
+                                if (jsonResult.status == "400")
+                                {
+                                    await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                }
+                                else if (jsonResult.status == "500")
+                                {
+                                    await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                }
+                                else if (jsonResult.status == "200")
+                                {
+                                    await Application.Current.MainPage.DisplayAlert("Success", jsonResult.Result.ToString(), "Aceptar");
+                                }
+                            });
+                        }
+
+
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", "Missing URL", "OK");
+                    }
+
+                    IsBusy = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                IsBusy = false;
+            }
+        }
+        #endregion
     }
 }

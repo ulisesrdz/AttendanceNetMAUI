@@ -1,61 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Attendance.Pages.CourseList"
+             x:Class="Attendance.Pages.StudentsList"
              xmlns:viewModels="clr-namespace:Attendance.VM"
              xmlns:handless="clr-namespace:Attendance.Handlers"
-            
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
-             Title="CourseLists">
-
+             Title="StudentsList">
 
     <ContentPage.BindingContext>
-        <viewModels:SchoolGradeVM/>
+        <viewModels:UsersVM/>
     </ContentPage.BindingContext>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{localization:Translate SingleDelete}" Priority="1" Order="Secondary"
-                 Command="{Binding Tapped_For_DeleteCourse_Command}" 
+                 Command="{Binding Tapped_For_DeleteStudent_Command}" 
             />
 
         <ToolbarItem Text="{localization:Translate DeleteAll}" Priority="2" Order="Secondary"
-                      Command="{Binding Tapped_For_DeleteCourses_Command}"    
+                      Command="{Binding Tapped_For_DeleteStudents_Command}"    
             />
     </ContentPage.ToolbarItems>
 
-    <ContentPage.Content>      
-
+    <ContentPage.Content>
         <Grid RowDefinitions="1*,8*,1*">
             <Frame BackgroundColor="#cfd0d8" Grid.Row="0" HorizontalOptions="EndAndExpand"
-            Padding="0" 
-            Margin="0,-80,-80,0"
-            HeightRequest="250"
-            WidthRequest="250" CornerRadius="125">
+         Padding="0" 
+         Margin="0,-80,-80,0"
+         HeightRequest="250"
+         WidthRequest="250" CornerRadius="125">
             </Frame>
 
             <Frame BackgroundColor="{x:StaticResource Primary}" Grid.Row="0" HorizontalOptions="EndAndExpand"
-            Padding="0" 
-            Margin="0,-120,-120,0"
-            HeightRequest="250"
-            WidthRequest="250" CornerRadius="125">
+         Padding="0" 
+         Margin="0,-120,-120,0"
+         HeightRequest="250"
+         WidthRequest="250" CornerRadius="125">
             </Frame>
 
 
             <Frame CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
-               Grid.Row="1" VerticalOptions="FillAndExpand"
-               Margin="10,50,10,0"
-               >
+            Grid.Row="1" VerticalOptions="FillAndExpand"
+            Margin="10,50,10,0"
+            >
 
                 <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="EndAndExpand" Padding="10" BackgroundColor="White" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                         <!--<StackLayout Padding="1" Orientation="Vertical" VerticalOptions="FillAndExpand"> SelectedItem="{Binding onItemSelected, Mode=TwoWay}"-->
-                        <ListView x:Name="ltsGrade" ItemsSource="{Binding ltsGrade}" ItemSelected="OnItemSelected">
+                        <ListView x:Name="ltsStudents" ItemsSource="{Binding ltsStudents}" ItemSelected="OnItemSelected">
                             <ListView.Header>
                                 <Grid BackgroundColor="{x:StaticResource Primary}" HeightRequest="35">
-                                    <Grid.ColumnDefinitions>                                       
+                                    <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    
+
                                     <Label Grid.Column="4" Text="{localization:Translate SchoolGroup_name}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
                                 </Grid>
                             </ListView.Header>
@@ -64,12 +61,12 @@
                                     <ViewCell>
                                         <ViewCell.View>
                                             <Grid BackgroundColor="Transparent" HeightRequest="35">
-                                                <Grid.ColumnDefinitions>                                                   
+                                                <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                
-                                                <Label Grid.Column="4" Text="{Binding course_name}"  HorizontalTextAlignment="Center"  HorizontalOptions="FillAndExpand" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
+
+                                                <Label Grid.Column="4" Text="{Binding name}"  HorizontalTextAlignment="Center"  HorizontalOptions="FillAndExpand" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
 
                                             </Grid>
                                         </ViewCell.View>
@@ -78,28 +75,33 @@
                             </ListView.ItemTemplate>
                         </ListView >
                     </StackLayout>
-                    <!--<Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate CommonEnter}" FontSize="20" FontAttributes="Bold" Command="{Binding Tapped_For_DeleteCourses_Command}"/>-->
+                    <StackLayout>
+                        <Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate CommonEnter}" VerticalOptions="EndAndExpand" FontSize="20" FontAttributes="Bold"  Command="{Binding Tapped_For_Enter_Command}"/>
+                    </StackLayout>
                 </StackLayout>
+               
+                
             </Frame>
 
             <Frame BackgroundColor="#cfd0d8" Grid.Row="2" 
-           VerticalOptions="EndAndExpand"
-           HorizontalOptions="StartAndExpand"
-           Padding="0" 
-           Margin="0,0,0,-180"
-           HeightRequest="250"
-           WidthRequest="250" CornerRadius="125">
+                VerticalOptions="EndAndExpand"
+                HorizontalOptions="StartAndExpand"
+                Padding="0" 
+                Margin="0,0,0,-180"
+                HeightRequest="250"
+                WidthRequest="250" CornerRadius="125">
             </Frame>
 
             <Frame BackgroundColor="{x:StaticResource Primary}" 
-           VerticalOptions="EndAndExpand"
-           Grid.Row="2" 
-           HorizontalOptions="StartAndExpand"
-           Padding="0" 
-           Margin="0,0,0,-200"
-           HeightRequest="250"
-           WidthRequest="250" CornerRadius="125">
+                VerticalOptions="EndAndExpand"
+                Grid.Row="2" 
+                HorizontalOptions="StartAndExpand"
+                Padding="0" 
+                Margin="0,0,0,-200"
+                HeightRequest="250"
+                WidthRequest="250" CornerRadius="125">               
             </Frame>
+           
         </Grid>
     </ContentPage.Content>
 </ContentPage>

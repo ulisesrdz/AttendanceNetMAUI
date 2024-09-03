@@ -23,5 +23,19 @@ namespace Attendance.Helpers
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
 
         }
+
+        protected virtual void SetProperty<T>(ref T backingField, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (!EqualityComparer<T>.Default.Equals(backingField, value))
+            {
+                backingField = value;
+                OnPropertyChanged(propertyName);
+            }
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

@@ -8,13 +8,8 @@
              
              Title="{localization:Translate CourseRegisterTitle}">
     <ContentPage.BindingContext>
-        <viewModels:CourseVM/>
-    </ContentPage.BindingContext>
-
-    <Shell.BackButtonBehavior>
-    <BackButtonBehavior Command="{Binding BackCommand}"
-                            IconOverride="back-button.png" />
-    </Shell.BackButtonBehavior>
+        <viewModels:SchoolGradeVM/>
+    </ContentPage.BindingContext>    
 
     <ContentPage.ToolbarItems>
         <!--<ToolbarItem Text="Acción"
@@ -42,7 +37,7 @@
 
             <Frame CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
                    Grid.Row="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-                  Margin="30,80,30,50"
+                  Margin="30,80,30,40"
                    >
                 <VerticalStackLayout Spacing="25">
                     <Label Text="{localization:Translate CourseRegisterTitle}" FontSize="28" FontAttributes="Bold" />
@@ -53,13 +48,25 @@
                             <handless:BorderlessEntry VerticalOptions="Center" Placeholder="{localization:Translate CourseRegisterTitle}" Grid.Column="1" Text="{Binding CourseName}"/>
                         </Grid>
                     </Frame>
+                    <Frame Padding="10" BorderColor="Transparent" CornerRadius="0">
+                        <Grid ColumnDefinitions="25,*" ColumnSpacing="10">
+                            <Image VerticalOptions="Center" Source="email.png" HeightRequest="25" WidthRequest="25" />
+                            <handless:BorderlessEntry VerticalOptions="Center" Placeholder="{localization:Translate CourseGrade}" Grid.Column="1" Text="{Binding Grade}"/>
+                        </Grid>
+                    </Frame>
+                    <Frame Padding="10" BorderColor="Transparent" CornerRadius="0">
+                        <Grid ColumnDefinitions="25,*" ColumnSpacing="10">
+                            <Image VerticalOptions="Center" Source="email.png" HeightRequest="25" WidthRequest="25" />
+                            <handless:BorderlessEntry VerticalOptions="Center" Placeholder="{localization:Translate CourseGroup}" Grid.Column="1" Text="{Binding Group}"/>
+                        </Grid>
+                    </Frame>
                     <Label FontAttributes="Bold" Text="{localization:Translate CourseRegisterSeeSubjects}" TextColor="Gray" HorizontalTextAlignment="Center" >
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer
                                 Command="{Binding Tapped_For_Subject_Command}"/>
                         </Label.GestureRecognizers>
-                    </Label>
-                    <StackLayout Margin="0,170,0,20">
+                    </Label>                   
+                    <StackLayout Margin="0,-10,0,20">
                         <Button CornerRadius="20" HeightRequest="60" Text="{localization:Translate CommonSave}" 
                                 FontSize="20" FontAttributes="Bold" Command="{Binding Tapped_For_Add_Command}"/>
 

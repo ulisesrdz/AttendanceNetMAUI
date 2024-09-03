@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Attendance.Helpers;
 
 namespace Attendance.VM
 {
@@ -37,6 +38,12 @@ namespace Attendance.VM
             set;
         }
 
+        public Command Tapped_For_PrintQRCode_Command
+        {
+            get;
+            set;
+        }
+
         public MainMenuVM() 
         {
             InitVM();
@@ -49,11 +56,13 @@ namespace Attendance.VM
             Tapped_For_SchoolGroup_Command = new Command(Tapped_For_SchoolGroup);
             Tapped_For_Register_Command = new Command(Tapped_For_Register);
             Tapped_For_CourseRegisterCourseList_Command = new Command(Tapped_For_CourseRegisterCourseList);
+            Tapped_For_PrintQRCode_Command = new Command(Tapped_For_PrintQRCode);
         }
 
         private async void Tapped_For_Attendance(object sender)
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+            await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
+            //await Application.Current.MainPage.Navigation.PushAsync(new page.Attendance());
         }
 
         private async void Tapped_For_BusinessURL(object sender)
@@ -62,6 +71,7 @@ namespace Attendance.VM
         }
         private async void Tapped_For_SchoolGroup(object sender)
         {
+            Session.schoolGrade = true;
             await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
         }
 
@@ -73,5 +83,10 @@ namespace Attendance.VM
         {
             await Application.Current.MainPage.Navigation.PushAsync(new page.CourseRegister());
         }
+        private async void Tapped_For_PrintQRCode(object sender)
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new page.PrintQRCodePage());
+        }
+        
     }
 }

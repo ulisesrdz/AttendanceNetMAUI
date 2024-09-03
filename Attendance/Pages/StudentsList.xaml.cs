@@ -1,26 +1,26 @@
 using Attendance.Entities;
+using Attendance.Helpers;
 using Attendance.VM;
 
 namespace Attendance.Pages;
 
-public partial class CourseList : ContentPage
+public partial class StudentsList : ContentPage
 {
-	public CourseList()
+	public StudentsList()
 	{
 		InitializeComponent();
-        BindingContext = new VM.SchoolGradeVM();
-        //Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);
-        //BindingContext = new VM.CourseVM();
+		
+        BindingContext = new VM.UsersVM(Session._IdUser);
     }
 
     private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         if (e.SelectedItem != null)
         {
-            var viewModel = BindingContext as SchoolGradeVM;
-            var selectedCourse = e.SelectedItem as SchoolGrade;
+            var viewModel = BindingContext as UsersVM;
+            var selectedPerson = e.SelectedItem as Students;
 
-            viewModel.ItemSelected = selectedCourse;
+            viewModel.SelectedPerson = selectedPerson;
 
             // Reiniciar la selección para permitir seleccionar el mismo elemento nuevamente
             //((ListView)sender).SelectedItem = null;

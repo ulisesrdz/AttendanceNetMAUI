@@ -123,23 +123,44 @@
   <data name="Attendance_title" xml:space="preserve">
     <value>Asistencia</value>
   </data>
+  <data name="btn_share_tittle" xml:space="preserve">
+    <value>Compartir</value>
+  </data>
   <data name="BusinessURL_Page" xml:space="preserve">
     <value>Business URL</value>
   </data>
   <data name="BusinessURL_Title" xml:space="preserve">
     <value>Business URL</value>
   </data>
+  <data name="CommonClean" xml:space="preserve">
+    <value>Limpiar</value>
+  </data>
   <data name="CommonEmail" xml:space="preserve">
     <value>Correo Electronico</value>
   </data>
+  <data name="CommonEnter" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
   <data name="CommonName" xml:space="preserve">
     <value>Nombre</value>
+  </data>
+  <data name="CommonNo" xml:space="preserve">
+    <value>No</value>
   </data>
   <data name="CommonPN" xml:space="preserve">
     <value>Numero de Telefono</value>
   </data>
   <data name="CommonSave" xml:space="preserve">
     <value>Guardar</value>
+  </data>
+  <data name="CommonYes" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="CourseGrade" xml:space="preserve">
+    <value>Grados</value>
+  </data>
+  <data name="CourseGroup" xml:space="preserve">
+    <value>Grupos</value>
   </data>
   <data name="CourseRegisterCourseList" xml:space="preserve">
     <value>Lista de Materias</value>
@@ -149,6 +170,9 @@
   </data>
   <data name="CourseRegisterTitle" xml:space="preserve">
     <value>Materias</value>
+  </data>
+  <data name="DeleteAll" xml:space="preserve">
+    <value>Eliminacion Completa</value>
   </data>
   <data name="Home_Page" xml:space="preserve">
     <value>Pagina Principal</value>
@@ -183,6 +207,9 @@
   <data name="NA" xml:space="preserve">
     <value>No disponible</value>
   </data>
+  <data name="QR_Code_Generated" xml:space="preserve">
+    <value>Imprimir Codigo QR</value>
+  </data>
   <data name="Register_Page" xml:space="preserve">
     <value>Registro de Usuario</value>
   </data>
@@ -195,14 +222,23 @@
   <data name="SchoolGroup_group" xml:space="preserve">
     <value>Seccion</value>
   </data>
+  <data name="SchoolGroup_name" xml:space="preserve">
+    <value>Materia</value>
+  </data>
   <data name="SchoolGroup_Page" xml:space="preserve">
     <value>Grado Escolar</value>
   </data>
   <data name="Settings_Page" xml:space="preserve">
     <value>Configuracion</value>
   </data>
+  <data name="SingleDelete" xml:space="preserve">
+    <value>Eliminacion Individual</value>
+  </data>
   <data name="StudentRegister" xml:space="preserve">
     <value>Registro de Estudiantes</value>
+  </data>
+  <data name="StudentsSeeStudent" xml:space="preserve">
+    <value>Ver Estudiantes</value>
   </data>
   <data name="Student_Title" xml:space="preserve">
     <value>Estudiantes</value>

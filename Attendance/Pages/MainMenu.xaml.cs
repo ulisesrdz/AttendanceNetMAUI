@@ -16,6 +16,8 @@ public partial class MainMenu : ContentPage
         };
 
         ToolbarItems.Add(menuButton);
+
+        NavigationPage.SetHasBackButton(this, false);
     }
 
     private async void ShowMenu()

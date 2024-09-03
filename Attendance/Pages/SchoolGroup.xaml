@@ -8,15 +8,15 @@
              Title="{localization:Translate SchoolGroup_Page}">
     
     <ContentPage.BindingContext>
-        <viewModels:SchoolGradeVM/>
+        <viewModels:AttendanceVM/>
     </ContentPage.BindingContext>
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Acción"
-      Order="Primary"
-      IconImageSource="save_icon.png"
-      Priority="0"
-      Command="{Binding Tapped_For_Add_Command}"/>
+              Order="Primary"
+              IconImageSource="plus.png"
+              Priority="0"
+              Command="{Binding Tapped_For_Add_Command}"/>
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
@@ -35,62 +35,82 @@
                 WidthRequest="250" CornerRadius="125">
             </Frame>
 
-            
+
             <Frame CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
                    Grid.Row="1" VerticalOptions="FillAndExpand"
                    Margin="10,50,10,0"
                    >
-                <!--<VerticalStackLayout Spacing="55">-->
-                    <ScrollView VerticalOptions="FillAndExpand">
-                        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="EndAndExpand" Padding="10" BackgroundColor="White" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
-                            <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                            <!--<StackLayout Padding="1" Orientation="Vertical" VerticalOptions="FillAndExpand">-->
-                            <ListView x:Name="ltsGrade" ItemsSource="{Binding ltsGrade}">
-                                <ListView.Header>
-                                    <Grid BackgroundColor="{x:StaticResource Primary}" HeightRequest="35">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*"/>
-                                            <ColumnDefinition Width="1"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Text="{localization:Translate SchoolGroup_grade}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
-                                        <Label Grid.Column="1" BackgroundColor="{x:StaticResource Primary}"/>
-                                        <Label Grid.Column="2" Text="{localization:Translate SchoolGroup_group}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
-                                    </Grid>
-                                </ListView.Header>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <ViewCell>
-                                            <ViewCell.View>
-                                                <Grid BackgroundColor="{x:StaticResource Gray100}" HeightRequest="35">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="1*"/>
-                                                        <ColumnDefinition Width="1"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <StackLayout Grid.Column="0" Padding="10,0,0,0" VerticalOptions="Center">
-                                                        <Label Text="{Binding grade}" HorizontalOptions="Start" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
-                                                    </StackLayout>
-                                                    <Label Grid.Column="1" BackgroundColor="Black" HorizontalTextAlignment="End"/>
-                                                    <StackLayout Grid.Column="2" Padding="0,0,10,0" VerticalOptions="Center">
-                                                        <Label Text="{Binding groups}" HorizontalOptions="End" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
-                                                    </StackLayout>
-                                                </Grid>
-                                            </ViewCell.View>
-                                        </ViewCell>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            <!--</StackLayout>-->
 
-                            </StackLayout>
-                        </StackLayout>
-                    </ScrollView>
-                <!--</VerticalStackLayout>-->
+                <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="EndAndExpand" Padding="10" BackgroundColor="White" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+                    <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                        <!--<StackLayout Padding="1" Orientation="Vertical" VerticalOptions="FillAndExpand"> SelectedItem="{Binding onItemSelected, Mode=TwoWay}"-->
+                        <ListView x:Name="ltsGrade" ItemsSource="{Binding ltsGrade}" ItemSelected="OnItemSelected">
+                            <ListView.Header>
+                                <Grid BackgroundColor="{x:StaticResource Primary}" HeightRequest="35">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="1"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="1"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Text="{localization:Translate SchoolGroup_grade}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
+                                    <Label Grid.Column="1" BackgroundColor="{x:StaticResource Primary}"/>
+                                    <Label Grid.Column="2" Text="{localization:Translate SchoolGroup_group}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
+                                    <Label Grid.Column="3" BackgroundColor="{x:StaticResource Primary}"/>
+                                    <Label Grid.Column="4" Text="{localization:Translate SchoolGroup_name}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
+                                </Grid>
+                            </ListView.Header>
+                            <ListView.ItemTemplate >
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <ViewCell.View>
+                                            <Grid BackgroundColor="Transparent" HeightRequest="35">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="1"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="1"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Column="0" Text="{Binding grade}" HorizontalOptions="Center" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
+                                                <Label Grid.Column="1" BackgroundColor="Black" HorizontalTextAlignment="Center"/>
+                                                <Label Grid.Column="2" Text="{Binding groups}" HorizontalOptions="Center" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
+                                                <Label Grid.Column="3" BackgroundColor="Black" HorizontalTextAlignment="Center"/>
+                                                <Label Grid.Column="4" Text="{Binding course_name}"  HorizontalTextAlignment="Center"  HorizontalOptions="FillAndExpand" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
+
+                                            </Grid>
+                                        </ViewCell.View>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView >
+                    </StackLayout>
+                    <StackLayout>
+                        <Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate CommonEnter}" VerticalOptions="EndAndExpand" FontSize="20" FontAttributes="Bold"  Command="{Binding Tapped_For_Enter_Command}"/>
+                    </StackLayout>
+                </StackLayout>
             </Frame>
-            <!--</AbsoluteLayout>-->
-            <!--<Button CornerRadius="0" HeightRequest="60" Text="hOLA" FontSize="20" FontAttributes="Bold" Clicked="OnButtonClicked"/>-->
 
+            <Frame BackgroundColor="#cfd0d8" Grid.Row="2" 
+               VerticalOptions="EndAndExpand"
+               HorizontalOptions="StartAndExpand"
+               Padding="0" 
+               Margin="0,0,0,-180"
+               HeightRequest="250"
+               WidthRequest="250" CornerRadius="125">
+            </Frame>
+
+            <Frame BackgroundColor="{x:StaticResource Primary}" 
+               VerticalOptions="EndAndExpand"
+               Grid.Row="2" 
+               HorizontalOptions="StartAndExpand"
+               Padding="0" 
+               Margin="0,0,0,-200"
+               HeightRequest="250"
+               WidthRequest="250" CornerRadius="125">
+            </Frame>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

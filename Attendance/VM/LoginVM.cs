@@ -11,9 +11,17 @@ namespace Attendance.VM
 {
     class LoginVM : ViewModelBase
     {
+        #region Properties
         AccountService _accountService;
         string password;
         string username;
+
+        public int id;
+        public string identifier;
+        public string name_user;
+        public string email_user;
+        public string pass;
+        public string phone_number;
 
         public string Password
         {
@@ -24,7 +32,6 @@ namespace Attendance.VM
                 OnPropertyChange();
             }
         }
-
         public string Username
         {
             get { return username; }
@@ -35,6 +42,64 @@ namespace Attendance.VM
             }
         }
 
+        public int ID
+        {
+            get { return id; }
+            set
+            {
+                id = value;
+                OnPropertyChange();
+            }
+        }
+        public string Identifier
+        {
+            get { return identifier; }
+            set
+            {
+                identifier = value;
+                OnPropertyChange();
+            }
+        }
+        public string Name_user
+        {
+            get { return name_user; }
+            set
+            {
+                name_user = value;
+                OnPropertyChange();
+            }
+        }
+        public string Email_user
+        {
+            get { return email_user; }
+            set
+            {
+                email_user = value;
+                OnPropertyChange();
+            }
+        }
+        public string Phone_number
+        {
+            get { return phone_number; }
+            set
+            {
+                phone_number = value;
+                OnPropertyChange();
+            }
+        }
+
+        public string Pass
+        {
+            get { return pass; }
+            set
+            {
+                pass = value;
+                OnPropertyChange();
+            }
+        }
+        #endregion
+
+        #region Command
         public Command Tapped_For_Login_Command
         {
             get;
@@ -46,6 +111,14 @@ namespace Attendance.VM
             get;
             set;
         }
+
+        public Command Tapped_For_Register_Command
+        {
+            get;
+            set;
+        }
+        #endregion
+
         public LoginVM()
         {
             InitVM();
@@ -56,19 +129,133 @@ namespace Attendance.VM
         {
             Username = String.Empty;
             Password = String.Empty;
+
+            Identifier = String.Empty;
+            Name_user = String.Empty;
+            Email_user = String.Empty;
+            Phone_number = String.Empty;
+            Pass = String.Empty;
         }
 
         private void InitVM()
         {
-            Tapped_For_Login_Command = new Command(Tapped_For_Login);
+            Tapped_For_Login_Command = new Command(Tapped_For_LoginLocal);
             Tapped_For_SignUp_Command = new Command(Tapped_For_SignUp);
+            Tapped_For_Register_Command = new Command(Tapped_For_RegisterLocal);
             CleanData();
         }
-        private async void Tapped_For_SignUp(object sender)
+        
+        #region Local
+        private async void Tapped_For_RegisterLocal(object sender)
         {
-            await App.Current.MainPage.Navigation.PushModalAsync(new Pages.Register());
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    if (!string.IsNullOrWhiteSpace(name_user) && !string.IsNullOrWhiteSpace(email_user))
+                    {
+                        var _user = new UserSQLite
+                        {
+                            name_user = name_user,
+                            email_user = email_user,
+                            identifier = name_user + "," + email_user,
+                            password = pass,
+                            phone_number = phone_number
+                        };
+
+                        await App.DataBase.CreateUserAsync(_user);
+                        await Application.Current.MainPage.DisplayAlert("Guardado", "Usuario guardado en la base de datos", "OK");
+                        //OnCargarUsuariosClicked(null, null);
+                        CleanData();
+
+                        await App.Current.MainPage.Navigation.PushModalAsync(new Pages.LoginA());
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Failed", "Please add the required information", "OK");
+                    }
+                }
+                else
+                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+
+                CleanData();
+                IsBusy = false;
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                IsBusy = false;
+            }
         }
-        private async void Tapped_For_Login(object sender)
+
+        private async void OnCargarUsuariosClicked(object sender, EventArgs e)
+        {
+            var _users = await App.DataBase.getUsersAsync();
+            foreach (var user in _users)
+            {
+                Console.WriteLine($"Usuario: {user.name_user}, Email: {user.email_user}");
+            }
+        }
+
+        private async void Tapped_For_LoginLocal(object sender)
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    if (accessType == NetworkAccess.Internet)
+                    {
+                        if (!string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password))
+                        {
+
+                            var _users = await App.DataBase.loginAsync(Username, Password);
+                            if (_users != null)
+                            {
+                                Session._IdUser = _users.id;
+                                Session._name = _users.name_user;
+                                Session._email = _users.email_user;
+                                Session._identifier = _users.identifier;
+                                Session.phone_number = _users.phone_number;
+                                Session.status = 1;
+
+                                CleanData();
+                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                            }
+                            else
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Error", "Username or password invalid", "Ok");
+                                CleanData();
+                            }
+
+                        }
+
+
+                        // Connection to internet is available
+                    }
+                }
+                else
+                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                CleanData();
+                IsBusy = false;
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                IsBusy = false;
+            }
+
+
+        }
+
+        #endregion
+
+        #region API
+
+        private async void Tapped_For_LoginAPI(object sender)
         {
             NetworkAccess accessType = Connectivity.Current.NetworkAccess;
             try
@@ -109,8 +296,8 @@ namespace Attendance.VM
                                 await Application.Current.MainPage.DisplayAlert("Error", jsonLogin.Result.ToString(), "Aceptar");
                             }
                         }
-                       
-                       
+
+
                         // Connection to internet is available
                     }
                 }
@@ -120,13 +307,22 @@ namespace Attendance.VM
                 IsBusy = false;
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
                 IsBusy = false;
             }
-            
-            
+
+
         }
+        private async void Tapped_For_SignUp(object sender)
+        {
+            await App.Current.MainPage.Navigation.PushModalAsync(new Pages.Register());
+        }
+        #endregion
+
+
+
+
     }
 }
