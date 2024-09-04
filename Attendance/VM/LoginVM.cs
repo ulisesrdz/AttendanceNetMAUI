@@ -155,21 +155,38 @@ namespace Attendance.VM
                     IsBusy = true;
                     if (!string.IsNullOrWhiteSpace(name_user) && !string.IsNullOrWhiteSpace(email_user))
                     {
-                        var _user = new UserSQLite
+                        var exist = await App.DataBase.getUserbyUserAsync(email_user);
+                        if (exist != null)
                         {
-                            name_user = name_user,
-                            email_user = email_user,
-                            identifier = name_user + "," + email_user,
-                            password = pass,
-                            phone_number = phone_number
-                        };
+                            await Application.Current.MainPage.DisplayAlert("Error", "The email is already created", "Ok");
+                        }
+                        else
+                        {
+                            var _user = new UserSQLite
+                            {
+                                name_user = name_user,
+                                email_user = email_user,
+                                identifier = name_user + "," + email_user,
+                                password = pass,
+                                phone_number = phone_number
+                            };
 
-                        await App.DataBase.CreateUserAsync(_user);
-                        await Application.Current.MainPage.DisplayAlert("Guardado", "Usuario guardado en la base de datos", "OK");
-                        //OnCargarUsuariosClicked(null, null);
-                        CleanData();
+                            var result = await App.DataBase.CreateUserAsync(_user);
+                            if (result > 0)
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Guardado", "Usuario guardado en la base de datos", "OK");
+                                //OnCargarUsuariosClicked(null, null);
+                                CleanData();
 
-                        await App.Current.MainPage.Navigation.PushModalAsync(new Pages.LoginA());
+                                await App.Current.MainPage.Navigation.PushModalAsync(new Pages.LoginA());
+                            }
+                            else
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Error", "Ocurrio un error", "Aceptar");
+                            }
+                        }
+                        
+                       
                     }
                     else
                     {
@@ -209,8 +226,8 @@ namespace Attendance.VM
                     if (accessType == NetworkAccess.Internet)
                     {
                         if (!string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password))
-                        {
-
+                        {                           
+                            
                             var _users = await App.DataBase.loginAsync(Username, Password);
                             if (_users != null)
                             {
@@ -222,6 +239,7 @@ namespace Attendance.VM
                                 Session.status = 1;
 
                                 CleanData();
+                                Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
                                 await App.Current.MainPage.Navigation.PushAsync(new MainPage());
                             }
                             else
@@ -229,6 +247,7 @@ namespace Attendance.VM
                                 await Application.Current.MainPage.DisplayAlert("Error", "Username or password invalid", "Ok");
                                 CleanData();
                             }
+                                                      
 
                         }
 

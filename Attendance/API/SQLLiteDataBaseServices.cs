@@ -48,7 +48,11 @@ namespace Attendance.API
         {
             return _database.Table<UserSQLite>().Where(u => u.id == id).FirstOrDefaultAsync();
         }
-        
+
+        public Task<UserSQLite> getUserbyUserAsync(string email)
+        {
+            return _database.Table<UserSQLite>().Where(u => u.email_user == email).FirstOrDefaultAsync();
+        }
 
         public Task<UserSQLite> loginAsync(string email, string password)
         {
@@ -104,6 +108,10 @@ namespace Attendance.API
         {
             return _database.Table<SchoolGradeSQLite>().Where(u => u.id_user == idUser).ToListAsync();
         }
+        public Task<List<SchoolGradeSQLite>> existSchoolGradeAsync(int idUser, string name)
+        {
+            return _database.Table<SchoolGradeSQLite>().Where(u => u.id_user == idUser && u.course_name==name).ToListAsync();
+        }
 
         public Task<int> CreateGradeAsync(SchoolGradeSQLite _grade)
         {
@@ -117,7 +125,7 @@ namespace Attendance.API
             }
         }
 
-        public Task<int> DeleteStudentAsync(SchoolGradeSQLite _grade)
+        public Task<int> DeleteSchoolGradeAsync(SchoolGradeSQLite _grade)
         {
             return _database.DeleteAsync(_grade);
         }

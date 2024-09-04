@@ -20,11 +20,12 @@ namespace Attendance.VM
 
     class SchoolGradeVM : ViewModelBase
     {
+        #region Properties
         AccountService _accountService;
         //SchoolGrade ltsGrade;
 
         private string _name;
-        private string Name 
+        private string Name
         {
             get { return _name; }
             set
@@ -87,34 +88,16 @@ namespace Attendance.VM
         public SchoolGrade ItemSelected
         {
             get { return _onItemSelected; }
-            set 
+            set
             {
                 if (_onItemSelected != value)
                 {
                     _onItemSelected = value;
                     OnPropertyChange("ItemSelected");
-                }                
+                }
             }
-        }        
-
-        public Command Tapped_For_Add_Command
-        {
-            get;
-            set;
         }
-        public Command Tapped_For_Enter_Command
-        {
-            get;
-            set;
-        }
-        
-        public Command Tapped_For_Subject_Command
-        {
-            get;
-            set;
-        }
-
-        private List<SchoolGrade> _ltsGrade {  get; set; }
+        private List<SchoolGrade> _ltsGrade { get; set; }
         public List<SchoolGrade> ltsGrade
         {
             get { return _ltsGrade; }
@@ -125,7 +108,7 @@ namespace Attendance.VM
                     _ltsGrade = value;
                     OnPropertyChange();
                 }
-                
+
             }
         }
 
@@ -143,7 +126,40 @@ namespace Attendance.VM
 
             }
         }
+        #endregion
 
+        #region Command
+
+        public Command Tapped_For_Add_Command
+        {
+            get;
+            set;
+        }
+        public Command Tapped_For_Enter_Command
+        {
+            get;
+            set;
+        }
+
+        public Command Tapped_For_Subject_Command
+        {
+            get;
+            set;
+        }
+        public Command Tapped_For_DeleteCourse_Command
+        {
+            get;
+            set;
+        }
+        public Command Tapped_For_DeleteCourses_Command
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
+        
         public SchoolGradeVM()
         {            
             InitVM();
@@ -160,26 +176,16 @@ namespace Attendance.VM
 
         void CleanData()
         {
+            ltsGrade = new List<SchoolGrade>();
             _ltsGrade = new List<SchoolGrade>();
-        }
-
-        public Command Tapped_For_DeleteCourse_Command
-        {
-            get;
-            set;
-        }
-        public Command Tapped_For_DeleteCourses_Command
-        {
-            get;
-            set;
-        }
+        }        
 
         private void InitVM()
         {
             Tapped_For_Enter_Command = new Command(Tapped_For_Enter);
-            Tapped_For_Add_Command = new Command(Tapped_For_Add);
-            Tapped_For_DeleteCourse_Command = new Command(Tapped_For_DeleteCourse);
-            Tapped_For_DeleteCourses_Command = new Command(Tapped_For_DeleteCourses);
+            Tapped_For_Add_Command = new Command(Tapped_For_AddLocal);
+            Tapped_For_DeleteCourse_Command = new Command(Tapped_For_DeleteCourseLocal);
+            Tapped_For_DeleteCourses_Command = new Command(Tapped_For_DeleteCoursesLocal);
             Tapped_For_Subject_Command = new Command(Tapped_For_Subject);
             CleanData();
         }
@@ -290,13 +296,38 @@ namespace Attendance.VM
             {
                 if (!IsBusy)
                 {
+                    IsBusy = true;
                     if (accessType == NetworkAccess.Internet)
                     {
-                        await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                        if (ItemSelected != null)
+                        {
+                            Session.Id_Course = ItemSelected.id;
+                            Session._IdUser = ItemSelected.id_user;
+                            await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                        }
+                        else
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error", "No se ha seleccionado ningun curso", "Aceptar");
+                        }
+                        
                         //await Application.Current.MainPage.Navigation.PushAsync(new Attendance());
                         //var aaa = ItemSelected;
                         //var dataInfoStatus = await _accountService.GetSchoolGradeInfo(Session._IdUser);
                     }
+                    else
+                    {
+                        if (ItemSelected != null)
+                        {
+                            Session.Id_Course = ItemSelected.id;
+                            Session._IdUser = ItemSelected.id_user;
+                            await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                        }
+                        else
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error", "No se ha seleccionado ningun curso", "Aceptar");
+                        }
+                    }
+                    IsBusy = false;
                 }
             }
             catch (Exception)
@@ -425,6 +456,7 @@ namespace Attendance.VM
             await Application.Current.MainPage.Navigation.PushAsync(new CourseList());            
         }
         #endregion
+
         #region Local
         private async void Get_InformationLocal()
         {
@@ -432,13 +464,13 @@ namespace Attendance.VM
             {
                 if (!IsBusy)
                 {
-
+                    
                     var schoolGradeInfo = await App.DataBase.getSchoolGradebyIdUserAsync(Session._IdUser);
 
                     if (schoolGradeInfo.Count > 0)
                     {
                         var _grade = new List<SchoolGrade>();
-                        foreach (var item in _grade)
+                        foreach (var item in schoolGradeInfo)
                         {
                             var grade = new SchoolGrade();
                             grade.id = item.id;
@@ -455,6 +487,11 @@ namespace Attendance.VM
                         {
                             ltsGrade = _grade;
                         }
+                    }
+                    else
+                    {
+                        ltsGrade = new List<SchoolGrade>();
+                        await Application.Current.MainPage.DisplayAlert("Error", "No se ha entrado informacion", "Aceptar");
                     }
                 }
             }
@@ -484,32 +521,10 @@ namespace Attendance.VM
                         };
 
                         var schoolGradeInfo = await App.DataBase.CreateGradeAsync(course);
-
-
-                        //var result = await _accountService.AddCourse(course);
-
-                        //var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(result);
-
-                        //if (jsonResult.status == "400")
-                        //{
-                        //    await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
-                        //    CleanData();
-                        //}
-                        //else if (jsonResult.status == "200")
-                        //{
-
-                        //    string jsonObj = jsonResult.Result.ToString();
-
-                        //    CleanData();
-                        //    Session.status = 1;
-                        //    await App.Current.MainPage.Navigation.PushAsync(new MainPage());
-                        //    //Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
-                        //    //await Shell.Current.GoToAsync("//MainMenu");
-                        //}
-                        //else
-                        //{
-                        //    await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
-                        //}
+                        if (schoolGradeInfo>0)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Success", "Save Successful", "Ok");
+                        }
                     }
                 }
                 else
@@ -523,6 +538,108 @@ namespace Attendance.VM
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
                 IsBusy = false;
             }
+        }
+
+        private async void Tapped_For_DeleteCourseLocal(object sender)
+        {            
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    if (ItemSelected != null)
+                    {
+                        var item = new SchoolGradeSQLite
+                        {
+                            id = ItemSelected.id,
+                            id_user = ItemSelected.id_user,
+                            course_name = ItemSelected.course_name,
+                            grade = ItemSelected.grade,
+                            groups = ItemSelected.groups
+                        };
+                        var result = await App.DataBase.DeleteSchoolGradeAsync(item);
+
+                        if (result == 0)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error", "Save Failed", "Ok");
+                            CleanData();
+                        }
+                        else if (result > 0)
+                        {
+                            ltsGrade.Remove(ItemSelected);
+                            CleanData();
+                            Session.status = 1;
+                            await Application.Current.MainPage.DisplayAlert("Success", "Save Successful", "Ok");
+                            await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        }                       
+                    }
+                }
+                else
+                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                CleanData();
+                IsBusy = false;
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                IsBusy = false;
+            }
+
+
+        }
+
+        private async void Tapped_For_DeleteCoursesLocal(object sender)
+        {
+            
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    int result = 0;
+                    if (Session._IdUser > 0)
+                    {
+                        foreach (var item in _ltsGrade)
+                        {
+                            var course = new SchoolGradeSQLite
+                            {
+                                course_name = item.course_name,
+                                id_user = Session._IdUser,
+                                grade = item.grade,
+                                groups = item.groups
+                            };
+                            result = await App.DataBase.DeleteSchoolGradeAsync(course);                           
+                        }
+
+                        if (result == 0)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error", "Save Failed", "Ok");
+                            CleanData();
+                        }
+                        else if (result > 0)
+                        {
+                            ltsGrade.Clear();
+                            CleanData();
+                            Session.status = 1;
+                            await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        }
+
+                    }                   
+                }
+                else
+                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                CleanData();
+                IsBusy = false;
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                IsBusy = false;
+            }
+
+
         }
         #endregion
 

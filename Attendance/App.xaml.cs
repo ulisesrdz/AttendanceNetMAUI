@@ -44,7 +44,8 @@ public partial class App : Application
 
         //ApplyTheme(AppTheme.Dark);
         //MainPage = new NavigationPage(new MainPage());
-        MainPage = IsConditionalVisible ? new NavigationPage(new BusinessURL()) : new NavigationPage(new LoginA());
+        //MainPage = IsConditionalVisible ? new NavigationPage(new BusinessURL()) : new NavigationPage(new LoginA());
+        MainPage = new NavigationPage(new LoginA());
         //MainPage = new AppShell();
         //ApplyTheme(Application.Current.RequestedTheme);
         //Application.Current.RequestedThemeChanged += (s, a) =>
