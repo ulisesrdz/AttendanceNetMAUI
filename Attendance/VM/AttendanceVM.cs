@@ -49,6 +49,21 @@ namespace Attendance.VM
 
             }
         }
+
+        private SchoolGrade _onItemSelected;
+
+        public SchoolGrade ItemSelected
+        {
+            get { return _onItemSelected; }
+            set
+            {
+                if (_onItemSelected != value)
+                {
+                    _onItemSelected = value;
+                    OnPropertyChange("ItemSelected");
+                }
+            }
+        }
         public Command Tapped_Save_Command
         {
             get;
@@ -64,7 +79,8 @@ namespace Attendance.VM
         {
             InitVM();
             _accountService = new AccountService();
-            Get_Information();
+            //Get_Information();
+            Get_InformationLocal();
         }
 
         private void InitVM()
@@ -202,7 +218,7 @@ namespace Attendance.VM
                     if (schoolGradeInfo.Count > 0)
                     {
                         var _grade = new List<SchoolGrade>();
-                        foreach (var item in _grade)
+                        foreach (var item in schoolGradeInfo)
                         {
                             var grade = new SchoolGrade();
                             grade.id = item.id;

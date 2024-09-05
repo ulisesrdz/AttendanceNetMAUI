@@ -171,7 +171,7 @@ namespace Attendance.VM
         {
             InitVM();
             _accountService = new AccountService();
-            Get_InformationLocal();
+            //Get_InformationLocal();
         }
 
         void CleanData()
@@ -464,7 +464,7 @@ namespace Attendance.VM
             {
                 if (!IsBusy)
                 {
-                    
+                    IsBusy = true;
                     var schoolGradeInfo = await App.DataBase.getSchoolGradebyIdUserAsync(Session._IdUser);
 
                     if (schoolGradeInfo.Count > 0)
@@ -493,6 +493,8 @@ namespace Attendance.VM
                         ltsGrade = new List<SchoolGrade>();
                         await Application.Current.MainPage.DisplayAlert("Error", "No se ha entrado informacion", "Aceptar");
                     }
+                    IsBusy = false;
+                    //CleanData();
                 }
             }
             catch (Exception ex)
@@ -509,7 +511,16 @@ namespace Attendance.VM
                 if (!IsBusy)
                 {
                     IsBusy = true;
-                    
+                    var exist = await App.DataBase.existSchoolGradeAsync(Session._IdUser, _courseName);
+                    if (exist.Count > 0)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", "Ya existe un registro", "Ok");
+
+                        IsBusy = false;
+                        CleanData();
+                        return;
+                    }
+
                     if (!string.IsNullOrWhiteSpace(_courseName))
                     {
                         var course = new SchoolGradeSQLite
@@ -524,12 +535,13 @@ namespace Attendance.VM
                         if (schoolGradeInfo>0)
                         {
                             await Application.Current.MainPage.DisplayAlert("Success", "Save Successful", "Ok");
+                            CleanData();
                         }
                     }
                 }
                 else
                     await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
-                CleanData();
+                //CleanData();
                 IsBusy = false;
 
             }
