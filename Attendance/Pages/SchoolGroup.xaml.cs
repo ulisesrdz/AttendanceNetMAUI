@@ -1,5 +1,6 @@
 using Attendance.Entities;
 using Attendance.Helpers;
+using Attendance.VM;
 
 namespace Attendance.Pages;
 
@@ -26,12 +27,11 @@ public partial class SchoolGroup : ContentPage
     private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         if (e.SelectedItem != null)
-        {
-           
-            var selectedCourse = (e.SelectedItem as SchoolGrade).id;
+        {            
+            var viewModel = BindingContext as SchoolGradeVM;
+            var selectedCourse = e.SelectedItem as SchoolGrade;
 
-            Session.Id_Course = selectedCourse;
-
+            viewModel.ItemSelected = selectedCourse;
             // Reiniciar la selección para permitir seleccionar el mismo elemento nuevamente
             //((ListView)sender).SelectedItem = null;
         }

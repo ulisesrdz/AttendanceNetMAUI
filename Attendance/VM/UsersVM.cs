@@ -177,7 +177,7 @@ namespace Attendance.VM
         {
             _accountService = new AccountService();
             InitVM();
-            Get_Students_InformationLocal();
+            //Get_Students_InformationLocal();
             //Tapped_For_StudentList();
         }
 
@@ -551,6 +551,7 @@ namespace Attendance.VM
             {
                 if (!IsBusy)
                 {
+                    IsBusy = true;
                     var _students = await App.DataBase.getUserbyIdUserAsync(id_user);
                     if (_students.Count > 0)
                     {
@@ -575,10 +576,11 @@ namespace Attendance.VM
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error", "Username or password invalid", "Ok");
-                        CleanData();
+                        await Application.Current.MainPage.DisplayAlert("Error", "No se encontro informacion", "Ok");
+                        CleanData();                        
+                        await App.Current.MainPage.Navigation.PushAsync(new MainPage());
                     }
-
+                    IsBusy = false;
                 }
             }
             catch (Exception ex)
@@ -606,6 +608,7 @@ namespace Attendance.VM
                             id_course = 0,
                             id_user = Session._IdUser,
                             phoneNumber = _phoneNumber,
+                            email=Email,
                             id = 0
                         };
                         var result = await App.DataBase.CreateStudentAsync(student);                       
@@ -619,6 +622,7 @@ namespace Attendance.VM
                         {                            
                             CleanData();
                             Session.status = 1;
+                            await Application.Current.MainPage.DisplayAlert("Success", "Save Successful", "Ok");
                             await App.Current.MainPage.Navigation.PushAsync(new MainPage());                           
                         }
                         
@@ -806,6 +810,7 @@ namespace Attendance.VM
             {
                 if (!IsBusy)
                 {
+                    IsBusy = true;
                     var _students = await App.DataBase.getStudentAsync();
                     if (_students.Count > 0)
                     {
@@ -830,9 +835,11 @@ namespace Attendance.VM
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error", "Username or password invalid", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Error", "No se encontro informacion", "Ok");
                         CleanData();
-                    }                    
+                        await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                    }
+                    IsBusy = false;
                 }
             }
             catch (Exception ex)

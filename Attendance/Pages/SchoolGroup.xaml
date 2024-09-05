@@ -2,14 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Attendance.Pages.SchoolGroup"
-             
+             xmlns:viewModels="clr-namespace:Attendance.VM"
              xmlns:handless="clr-namespace:Attendance.Handlers"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
              Title="{localization:Translate SchoolGroup_Page}">
     
-    <!--<ContentPage.BindingContext>
-        <viewModels:AttendanceVM/>
-    </ContentPage.BindingContext>-->
+    <ContentPage.BindingContext>
+        <viewModels:SchoolGradeVM/>
+    </ContentPage.BindingContext>
     <!--xmlns:viewModels="clr-namespace:Attendance.VM"-->
     
     <ContentPage.ToolbarItems>
