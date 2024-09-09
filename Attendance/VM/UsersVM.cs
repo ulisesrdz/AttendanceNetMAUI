@@ -188,7 +188,13 @@ namespace Attendance.VM
             //Get_Students_Information();
             Tapped_For_StudentListLocal(id);
         }
-
+        public UsersVM(int id,int id_course)
+        {
+            _accountService = new AccountService();
+            InitVM();
+            //Get_Students_Information();
+            Tapped_For_StudentListLocal(id,id_course);
+        }
         private void InitVM()
         {
             Tapped_For_SaveStudent_Command = new Command(Tapped_For_SaveStudentLocal);
@@ -590,6 +596,52 @@ namespace Attendance.VM
             }
         }
 
+        private async void Tapped_For_StudentListLocal(int id_user, int id_course)
+        {
+
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    var _students = await App.DataBase.getUserbyIdUserCourseAsync(id_user, id_course);
+                    if (_students.Count > 0)
+                    {
+                        var students = new List<Students>();
+                        foreach (var item in _students)
+                        {
+                            var stundent = new Students();
+                            stundent.id = item.id;
+                            stundent.id_user = item.id_user;
+                            stundent.email = item.email;
+                            stundent.phoneNumber = item.phoneNumber;
+                            stundent.name = item.name;
+                            stundent.last_name = item.last_name;
+
+                            students.Add(stundent);
+                        }
+
+                        if (students.Count > 0)
+                        {
+                            ltsStudents = students;
+                        }
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Error", "No se encontro informacion", "Ok");
+                        CleanData();
+                        await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                    }
+                    IsBusy = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                throw;
+            }
+        }
+
         private async void Tapped_For_SaveStudentLocal(object sender)
         {
             
@@ -651,7 +703,11 @@ namespace Attendance.VM
                 if (!IsBusy)
                 {
                     IsBusy = true;
-                    if (Session.schoolGrade)
+                    if (Session.attendanceView)
+                    {
+
+                    }
+                    else if (Session.schoolGrade)
                     {
                         var student = new StudentsSQLite
                         {

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using Windows.Media.Devices;
 
 namespace Attendance.VM
 {
@@ -144,6 +145,11 @@ namespace Attendance.VM
             Tapped_For_Register_Command = new Command(Tapped_For_RegisterLocal);
             CleanData();
         }
+
+        private void HideKeyboard()
+        {
+            MessagingCenter.Send(this, "HideKeyboard");
+        }
         
         #region Local
         private async void Tapped_For_RegisterLocal(object sender)
@@ -244,6 +250,7 @@ namespace Attendance.VM
                             }
                             else
                             {
+                                HideKeyboard();
                                 await Application.Current.MainPage.DisplayAlert("Error", "Username or password invalid", "Ok");
                                 CleanData();
                             }

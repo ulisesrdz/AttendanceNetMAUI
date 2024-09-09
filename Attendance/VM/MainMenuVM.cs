@@ -16,6 +16,11 @@ namespace Attendance.VM
             get;
             set;
         }
+        public Command Tapped_For_AttendanceView_Command
+        {
+            get;
+            set;
+        }
         public Command Tapped_For_BusinessURL_Command
         {
             get;
@@ -57,6 +62,7 @@ namespace Attendance.VM
             Tapped_For_Register_Command = new Command(Tapped_For_Register);
             Tapped_For_CourseRegisterCourseList_Command = new Command(Tapped_For_CourseRegisterCourseList);
             Tapped_For_PrintQRCode_Command = new Command(Tapped_For_PrintQRCode);
+            Tapped_For_AttendanceView_Command = new Command(Tapped_For_AttendanceList);
         }
 
         private async void Tapped_For_Attendance(object sender)
@@ -65,7 +71,13 @@ namespace Attendance.VM
             await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
             //await Application.Current.MainPage.Navigation.PushAsync(new page.Attendance());
         }
-
+        private async void Tapped_For_AttendanceList(object sender)
+        {
+            Session.schoolGrade = false;
+            Session.attendanceView = true;
+            await Application.Current.MainPage.Navigation.PushAsync(new page.AttendanceView());
+            //await Application.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+        }
         private async void Tapped_For_BusinessURL(object sender)
         {
             await Application.Current.MainPage.Navigation.PushAsync(new page.BusinessURL());

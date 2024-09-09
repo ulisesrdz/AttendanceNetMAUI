@@ -87,8 +87,8 @@
         Margin="10"
     />
             <Button 
-        Text="{localization:Translate NA}" 
-        Command="{Binding Tapped_For_Attendance_Command}" 
+        Text="{localization:Translate Attendance_title}" 
+        Command="{Binding Tapped_For_AttendanceView_Command}" 
         FontSize="20" 
         HeightRequest="150" 
         WidthRequest="150" 

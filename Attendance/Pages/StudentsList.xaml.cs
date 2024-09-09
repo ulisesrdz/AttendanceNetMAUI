@@ -10,7 +10,7 @@ public partial class StudentsList : ContentPage
 	{
 		InitializeComponent();
 		
-        BindingContext = new VM.UsersVM(Session._IdUser);
+        BindingContext = Session.attendanceView ? new VM.UsersVM(Session._IdUser,Session.Id_Course) : new VM.UsersVM(Session._IdUser);
     }
 
     private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)

@@ -27,11 +27,20 @@ public partial class SchoolGroup : ContentPage
     private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         if (e.SelectedItem != null)
-        {            
-            var viewModel = BindingContext as SchoolGradeVM;
+        {
             var selectedCourse = e.SelectedItem as SchoolGrade;
 
-            viewModel.ItemSelected = selectedCourse;
+            if (Session.schoolGrade)
+            {
+                var viewModel = BindingContext as SchoolGradeVM;
+                viewModel.ItemSelected = selectedCourse;
+            }
+            else
+            {
+                var viewModel = BindingContext as  AttendanceVM;
+                viewModel.ItemSelected = selectedCourse;
+            }
+            
             // Reiniciar la selección para permitir seleccionar el mismo elemento nuevamente
             //((ListView)sender).SelectedItem = null;
         }

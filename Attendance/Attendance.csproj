@@ -97,6 +97,9 @@
 	  <MauiXaml Update="Pages\Attendance.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\AttendanceView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\BusinessURL.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -71,6 +71,11 @@ namespace Attendance.API
             return _database.Table<StudentsSQLite>().Where(u => u.id_user == id_user).ToListAsync();
         }
 
+        public Task<List<StudentsSQLite>> getUserbyIdUserCourseAsync(int id_user, int id_course)
+        {
+            return _database.Table<StudentsSQLite>().Where(u => u.id_user == id_user && u.id_course == id_course).ToListAsync();
+        }
+
         public Task<int> CreateStudentAsync(StudentsSQLite _students)
         {
             if (_students.id != 0)

@@ -32,7 +32,8 @@ public partial class Attendance : ContentPage
                     Entities.AttendanceEnt attendance = new Entities.AttendanceEnt();
                     foreach (var barcode in e.Results)
                     {
-                        attendance.id_student = barcode.Value;
+                        var _barcode = barcode.Value.Split(',');
+                        attendance.id_student = _barcode[0];
                         attendance.date_time = DateTime.Now;
                         attendance.id_course =  Session.Id_Course.ToString();
                         attendance.id_user=Session._IdUser.ToString();

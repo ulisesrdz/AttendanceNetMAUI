@@ -74,6 +74,11 @@ namespace Attendance.VM
             get;
             set;
         }
+        public Command Tapped_For_Enter_User_Command
+        {
+            get;
+            set;
+        }
 
         public AttendanceVM()
         {
@@ -85,8 +90,9 @@ namespace Attendance.VM
 
         private void InitVM()
         {
-            Tapped_Save_Command = new Command(Tapped_For_Business);
+            Tapped_Save_Command = new Command(Tapped_For_BusinessLocal);
             Tapped_For_Enter_Command = new Command(Tapped_For_Enter);
+            Tapped_For_Enter_User_Command = new Command(Tapped_For_Enter_Users);
             CleanData();
         }
 
@@ -104,8 +110,28 @@ namespace Attendance.VM
             {
                 if (!IsBusy)
                 {
+                    IsBusy=true;
                     await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
-                   
+                    IsBusy=false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private async void Tapped_For_Enter_Users(object sender)
+        {
+
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                    IsBusy = false;
                 }
             }
             catch (Exception)
@@ -259,25 +285,23 @@ namespace Attendance.VM
                     {
                         foreach (var item in _lts)
                         {
-                            var attendanceStatus = await _accountService.SaveAttendanceData(item);
-                            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(attendanceStatus);
-                            MainThread.BeginInvokeOnMainThread(async () =>
+                            var attendance = new AttendanceEntSQLite
                             {
-                                if (jsonResult.status == "400")
-                                {
-                                    await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
-                                }
-                                else if (jsonResult.status == "500")
-                                {
-                                    await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
-                                }
-                                else if (jsonResult.status == "200")
-                                {
-                                    await Application.Current.MainPage.DisplayAlert("Success", jsonResult.Result.ToString(), "Aceptar");
-                                }
-                            });
-                        }
+                                id_course = item.id_course,
+                                date_time = DateTime.Now,
+                                id_student = item.id_student,
+                                id_user = item.id_user
 
+                            };
+
+                            var result = await App.DataBase.CreateAttendaceAsync(attendance);
+                            if (result > 0)
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Success", "Data Saved for " + item.student_name, "Ok");
+                                CleanData();
+                            }
+                            
+                        }
 
                     }
                     else
