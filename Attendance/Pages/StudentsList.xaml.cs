@@ -11,6 +11,11 @@ public partial class StudentsList : ContentPage
 		InitializeComponent();
 		
         BindingContext = Session.attendanceView ? new VM.UsersVM(Session._IdUser,Session.Id_Course) : new VM.UsersVM(Session._IdUser);
+
+        if (!Session.attendanceView && !Session.schoolGrade && !Session.attendance)
+        {
+            btnEnter.IsVisible = false;
+        }
     }
 
     private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)

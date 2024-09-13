@@ -4,7 +4,9 @@ using Attendance.Helpers;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using page = Attendance.Pages;
@@ -50,6 +52,21 @@ namespace Attendance.VM
             }
         }
 
+        private List<AttendanceEnt> _ltsAttendance { get; set; }
+        public List<AttendanceEnt> ltsAttendance
+        {
+            get { return _ltsAttendance; }
+            set
+            {
+                if (_ltsAttendance != value)
+                {
+                    _ltsAttendance = value;
+                    OnPropertyChange();
+                }
+
+            }
+        }
+
         private SchoolGrade _onItemSelected;
 
         public SchoolGrade ItemSelected
@@ -85,7 +102,11 @@ namespace Attendance.VM
             InitVM();
             _accountService = new AccountService();
             //Get_Information();
-            Get_InformationLocal();
+            if (Session.attendanceView)
+            {
+                Get_InformationLocal();
+            }
+           
         }
 
         private void InitVM()
@@ -111,7 +132,15 @@ namespace Attendance.VM
                 if (!IsBusy)
                 {
                     IsBusy=true;
-                    await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+                    if (Session.attendanceView)
+                    {
+                        await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+                    }
+                    
                     IsBusy=false;
                 }
             }
@@ -239,29 +268,52 @@ namespace Attendance.VM
                 if (!IsBusy)
                 {
                     IsBusy = true;
-                    var schoolGradeInfo = await App.DataBase.getSchoolGradebyIdUserAsync(Session._IdUser);
-
-                    if (schoolGradeInfo.Count > 0)
+                    int counter = 0;
+                    var ltsAtt = new List<AttendanceEnt>();
+                    var attenaces = await App.DataBase.getAttendacebyIdUserAsync(Session._IdUser.ToString());
+                    //var student = await App.DataBase.getAttendacebyIdUserAsync(Session.);
+                    if (attenaces.Count > 0)
                     {
-                        var _grade = new List<SchoolGrade>();
-                        foreach (var item in schoolGradeInfo)
+                        foreach (var item in attenaces)
                         {
-                            var grade = new SchoolGrade();
-                            grade.id = item.id;
-                            grade.id_user = item.id_user;
-                            grade.course_name = item.course_name;
-                            grade.groups = item.groups;
-                            grade.grade = item.grade;
+                            var attendace = new AttendanceEnt();
+                            var id_student = Convert.ToInt32(item.id_student);
+                            var student = await App.DataBase.getStudentbyIdAsync(id_student);
 
+                            attendace.counter = counter++;
+                            attendace.id_course = item.id_course;
+                            attendace.id_student = item.id_student;
+                            attendace.student_name = student.name + " " + student.last_name;
+                            attendace.date_time = item.date_time;
 
-                            _grade.Add(grade);
+                            ltsAtt.Add(attendace);
                         }
 
-                        if (_grade.Count > 0)
+                        if (ltsAtt.Count>0)
                         {
-                            ltsGrade = _grade;
+                            ltsAttendance = ltsAtt;
                         }
                     }
+                    //{
+                    //    var _grade = new List<SchoolGrade>();
+                    //    foreach (var item in schoolGradeInfo)
+                    //    {
+                    //        var grade = new SchoolGrade();
+                    //        grade.id = item.id;
+                    //        grade.id_user = item.id_user;
+                    //        grade.course_name = item.course_name;
+                    //        grade.groups = item.groups;
+                    //        grade.grade = item.grade;
+
+
+                    //        _grade.Add(grade);
+                    //    }
+
+                    //    if (_grade.Count > 0)
+                    //    {
+                    //        ltsGrade = _grade;
+                    //    }
+                    //}
                     IsBusy = false;
                 }
             }
@@ -285,6 +337,14 @@ namespace Attendance.VM
                     {
                         foreach (var item in _lts)
                         {
+                            var id_student = Convert.ToInt32(item.id_student);
+                            var id_course = Convert.ToInt32(item.id_course);
+                            var exists= await App.DataBase.getStudentbyIdAsync(id_student, id_course);
+                            if (!exists)
+                            {
+                                await Application.Current.MainPage.DisplayAlert("Failed", "This student " + item.student_name + " is not registred in this class", "Ok");
+                                return;
+                            }
                             var attendance = new AttendanceEntSQLite
                             {
                                 id_course = item.id_course,

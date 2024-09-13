@@ -76,7 +76,7 @@
                         </ListView >
                     </StackLayout>
                     <StackLayout>
-                        <Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate CommonEnter}" VerticalOptions="EndAndExpand" FontSize="20" FontAttributes="Bold"  Command="{Binding Tapped_For_Enter_Command}"/>
+                        <Button x:Name="btnEnter" CornerRadius="0" HeightRequest="60" Text="{localization:Translate CommonEnter}" VerticalOptions="EndAndExpand" FontSize="20" FontAttributes="Bold"  Command="{Binding Tapped_For_Enter_Command}"/>
                     </StackLayout>
                 </StackLayout>
                

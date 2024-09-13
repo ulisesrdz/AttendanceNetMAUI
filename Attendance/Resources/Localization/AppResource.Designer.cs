@@ -88,6 +88,15 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attendance Date.
+        /// </summary>
+        internal static string AttendanceDate {
+            get {
+                return ResourceManager.GetString("AttendanceDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter.
         /// </summary>
         internal static string btn_enter_tittle {
@@ -178,11 +187,29 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Print.
+        /// </summary>
+        internal static string CommonPrint {
+            get {
+                return ResourceManager.GetString("CommonPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         internal static string CommonSave {
             get {
                 return ResourceManager.GetString("CommonSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student Name.
+        /// </summary>
+        internal static string CommonStudentName {
+            get {
+                return ResourceManager.GetString("CommonStudentName", resourceCulture);
             }
         }
         

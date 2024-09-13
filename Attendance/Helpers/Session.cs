@@ -19,6 +19,7 @@ namespace Attendance.Helpers
 
         public static bool schoolGrade { get; set; }
         public static bool attendanceView { get; set; }
+        public static bool attendance { get; set; }
 
         public static string _token { get; set; }
         public static string _name { get; set; }

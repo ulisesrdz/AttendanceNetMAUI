@@ -17,7 +17,7 @@ namespace Attendance.Entities
         public string identifier { get; set; }
 
         public string student_name { get; set; }
-
+        public int counter { get; set; }
         public AttendanceEnt() 
         {
             id_student = "";
