@@ -299,7 +299,15 @@ namespace Attendance.VM
                     IsBusy = true;
                     if (accessType == NetworkAccess.Internet)
                     {
-                        if (ItemSelected != null)
+                        if (Session.attendanceView)
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new page.AttendanceView());
+                        }
+                        else if (Session.attendance)                        
+                        {
+                            await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+                        }
+                        else if (ItemSelected != null)
                         {
                             Session.Id_Course = ItemSelected.id;
                             Session._IdUser = ItemSelected.id_user;

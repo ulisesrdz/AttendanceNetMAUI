@@ -120,6 +120,9 @@
   <data name="About_Page" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AttendanceDate" xml:space="preserve">
+    <value>Attendance Date</value>
+  </data>
   <data name="Attendance_Page" xml:space="preserve">
     <value>Attendance</value>
   </data>
@@ -153,8 +156,14 @@
   <data name="CommonPN" xml:space="preserve">
     <value>Phone Number</value>
   </data>
+  <data name="CommonPrint" xml:space="preserve">
+    <value>Print</value>
+  </data>
   <data name="CommonSave" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="CommonStudentName" xml:space="preserve">
+    <value>Student Name</value>
   </data>
   <data name="CommonYes" xml:space="preserve">
     <value>Yes</value>

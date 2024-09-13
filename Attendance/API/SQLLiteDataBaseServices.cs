@@ -97,6 +97,10 @@ namespace Attendance.API
         {
             return _database.Table<StudentsSQLite>().Where(u => u.id == id).FirstOrDefaultAsync();
         }
+        public async Task<bool> getStudentbyIdAsync(int id, int id_course)
+        {
+            return await _database.Table<StudentsSQLite>().Where(u => u.id == id  && u.id_course == id_course).FirstOrDefaultAsync() != null ;
+        }
         #endregion
 
         #region SchoolGrade

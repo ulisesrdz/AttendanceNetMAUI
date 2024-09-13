@@ -6,9 +6,9 @@
              xmlns:handless="clr-namespace:Attendance.Handlers"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
              Title="AttendanceView">
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <viewModels:AttendanceVM/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
 
     <ContentPage.Content>
         <Grid RowDefinitions="1*,8*,1*">
@@ -35,7 +35,7 @@
                 <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="EndAndExpand" Padding="10" BackgroundColor="White" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                         <!--<StackLayout Padding="1" Orientation="Vertical" VerticalOptions="FillAndExpand"> SelectedItem="{Binding onItemSelected, Mode=TwoWay}"-->
-                        <ListView x:Name="ltsGrade" ItemsSource="{Binding ltsGrade}" ItemSelected="OnItemSelected">
+                        <ListView x:Name="ltsAttendance" ItemsSource="{Binding ltsAttendance}" ItemSelected="OnItemSelected">
                             <ListView.Header>
                                 <Grid BackgroundColor="{x:StaticResource Primary}" HeightRequest="35">
                                     <Grid.ColumnDefinitions>
@@ -47,9 +47,9 @@
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Column="0" Text="{localization:Translate SchoolGroup_grade}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
                                     <Label Grid.Column="1" BackgroundColor="{x:StaticResource Primary}"/>
-                                    <Label Grid.Column="2" Text="{localization:Translate SchoolGroup_group}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
+                                    <Label Grid.Column="2" Text="{localization:Translate CommonStudentName}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
                                     <Label Grid.Column="3" BackgroundColor="{x:StaticResource Primary}"/>
-                                    <Label Grid.Column="4" Text="{localization:Translate SchoolGroup_name}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
+                                    <Label Grid.Column="4" Text="{localization:Translate  AttendanceDate}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
                                 </Grid>
                             </ListView.Header>
                             <ListView.ItemTemplate >
@@ -65,11 +65,11 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <Label Grid.Column="0" Text="{Binding grade}" HorizontalOptions="Center" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
+                                                <Label Grid.Column="0" Text="{Binding counter}" HorizontalOptions="Center" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
                                                 <Label Grid.Column="1" BackgroundColor="Black" HorizontalTextAlignment="Center"/>
-                                                <Label Grid.Column="2" Text="{Binding groups}" HorizontalOptions="Center" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
+                                                <Label Grid.Column="2" Text="{Binding student_name}" HorizontalOptions="Center" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
                                                 <Label Grid.Column="3" BackgroundColor="Black" HorizontalTextAlignment="Center"/>
-                                                <Label Grid.Column="4" Text="{Binding course_name}"  HorizontalTextAlignment="Center"  HorizontalOptions="FillAndExpand" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
+                                                <Label Grid.Column="4" Text="{Binding date_time}"  HorizontalTextAlignment="Center"  HorizontalOptions="FillAndExpand" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
 
                                             </Grid>
                                         </ViewCell.View>
@@ -79,7 +79,7 @@
                         </ListView >
                     </StackLayout>
                     <StackLayout>
-                        <Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate CommonEnter}" VerticalOptions="EndAndExpand" FontSize="20" FontAttributes="Bold"  Command="{Binding Tapped_For_Enter_User_Command}"/>
+                        <Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate CommonPrint}" VerticalOptions="EndAndExpand" FontSize="20" FontAttributes="Bold"  Command="{Binding Tapped_For_Enter_User_Command}"/>
                     </StackLayout>
                 </StackLayout>
 

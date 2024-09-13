@@ -9,9 +9,9 @@ public partial class SchoolGroup : ContentPage
 	public SchoolGroup()
 	{
 		InitializeComponent();
-        
-        BindingContext = Session.schoolGrade ? new VM.SchoolGradeVM() : new VM.AttendanceVM();
-        //BindingContextAt = new VM.AttendanceVM();
+
+        //BindingContext = Session.schoolGrade ? new VM.SchoolGradeVM() : new VM.AttendanceVM();
+        BindingContext = new VM.SchoolGradeVM();
         //Get_Information();
     }
 
@@ -29,17 +29,18 @@ public partial class SchoolGroup : ContentPage
         if (e.SelectedItem != null)
         {
             var selectedCourse = e.SelectedItem as SchoolGrade;
-
-            if (Session.schoolGrade)
-            {
-                var viewModel = BindingContext as SchoolGradeVM;
-                viewModel.ItemSelected = selectedCourse;
-            }
-            else
-            {
-                var viewModel = BindingContext as  AttendanceVM;
-                viewModel.ItemSelected = selectedCourse;
-            }
+            var viewModel = BindingContext as SchoolGradeVM;
+            viewModel.ItemSelected = selectedCourse;
+            //if (Session.schoolGrade)
+            //{
+            //    var viewModel = BindingContext as SchoolGradeVM;
+            //    viewModel.ItemSelected = selectedCourse;
+            //}
+            //else
+            //{
+            //    var viewModel = BindingContext as  AttendanceVM;
+            //    viewModel.ItemSelected = selectedCourse;
+            //}
             
             // Reiniciar la selección para permitir seleccionar el mismo elemento nuevamente
             //((ListView)sender).SelectedItem = null;

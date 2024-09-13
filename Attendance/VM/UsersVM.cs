@@ -705,7 +705,7 @@ namespace Attendance.VM
                     IsBusy = true;
                     if (Session.attendanceView)
                     {
-
+                        await App.Current.MainPage.Navigation.PushAsync(new AttendanceView());
                     }
                     else if (Session.schoolGrade)
                     {

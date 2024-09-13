@@ -15,5 +15,6 @@ namespace Attendance.Entities
         public string id_student { get; set; }
         public string id_user { get; set; }
         public string id_course { get; set; }
+        
     }
 }
