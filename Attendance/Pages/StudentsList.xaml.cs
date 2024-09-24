@@ -12,9 +12,14 @@ public partial class StudentsList : ContentPage
 		
         BindingContext = Session.attendanceView ? new VM.UsersVM(Session._IdUser,Session.Id_Course) : new VM.UsersVM(Session._IdUser);
 
-        if (!Session.attendanceView && !Session.schoolGrade && !Session.attendance)
+        if ((!Session.attendanceView && !Session.schoolGrade && !Session.attendance) || Session.studentsListView)
         {
             btnEnter.IsVisible = false;
+            if (Session.studentsListView)
+            {
+                Session.attendanceView = false;
+                Session.studentsListView = false;
+            }            
         }
     }
 
@@ -31,4 +36,5 @@ public partial class StudentsList : ContentPage
             //((ListView)sender).SelectedItem = null;
         }
     }
+    
 }

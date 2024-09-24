@@ -15,7 +15,7 @@ public partial class Attendance : ContentPage
     public Attendance()
     {
 		InitializeComponent();
-        CreateData();
+        //CreateData();
     }
 
     private void CreateData()

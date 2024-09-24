@@ -309,9 +309,29 @@ namespace Attendance.VM
                         }
                         else if (ItemSelected != null)
                         {
-                            Session.Id_Course = ItemSelected.id;
-                            Session._IdUser = ItemSelected.id_user;
-                            await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                            if(Session.schoolGrade)
+                            {
+                                var opt = await Application.Current.MainPage.DisplayAlert("Question", "Quieres ver la lista de estudiantes", "Yes","No");
+                                if (opt)
+                                {
+                                    Session.Id_Course = ItemSelected.id;
+                                    Session._IdUser = ItemSelected.id_user;
+                                    Session.attendanceView = true;
+                                    Session.studentsListView = true;
+                                    await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                                }
+                                else
+                                {
+                                    Session.attendanceView = false;
+                                    Session.Id_Course = ItemSelected.id;
+                                    Session._IdUser = ItemSelected.id_user;
+                                    await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                                   
+                                }
+                            }
+                            //Session.Id_Course = ItemSelected.id;
+                            //Session._IdUser = ItemSelected.id_user;
+                            //await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
                         }
                         else
                         {

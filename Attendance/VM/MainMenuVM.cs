@@ -70,6 +70,7 @@ namespace Attendance.VM
             Session.schoolGrade = false;
             Session.attendanceView = false;
             Session.attendance = true;
+            Session.studentsListView = false;
             await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
             //await Application.Current.MainPage.Navigation.PushAsync(new page.Attendance());
         }
@@ -78,6 +79,7 @@ namespace Attendance.VM
             Session.schoolGrade = false;
             Session.attendanceView = true;
             Session.attendance = false;
+            Session.studentsListView = false;
             await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
             //await Application.Current.MainPage.Navigation.PushAsync(new page.AttendanceView());
         }
@@ -86,6 +88,7 @@ namespace Attendance.VM
             Session.schoolGrade = false;
             Session.attendanceView = false;
             Session.attendance = false;
+            Session.studentsListView = false;
             await Application.Current.MainPage.Navigation.PushAsync(new page.BusinessURL());
         }
         private async void Tapped_For_SchoolGroup(object sender)
@@ -93,6 +96,7 @@ namespace Attendance.VM
             Session.schoolGrade = true;
             Session.attendanceView = false;
             Session.attendance = false;
+            Session.studentsListView = false;
             await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
         }
 
@@ -101,6 +105,7 @@ namespace Attendance.VM
             Session.schoolGrade = false;
             Session.attendanceView = false;
             Session.attendance = false;
+            Session.studentsListView = false;
             await Application.Current.MainPage.Navigation.PushAsync(new page.StudentRegister());
         }
         private async void Tapped_For_CourseRegisterCourseList(object sender)
@@ -108,6 +113,7 @@ namespace Attendance.VM
             Session.schoolGrade = false;
             Session.attendanceView = false;
             Session.attendance = false;
+            Session.studentsListView = false;
             await Application.Current.MainPage.Navigation.PushAsync(new page.CourseRegister());
         }
         private async void Tapped_For_PrintQRCode(object sender)
