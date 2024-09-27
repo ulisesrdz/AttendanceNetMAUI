@@ -1,10 +1,12 @@
 ﻿using Attendance.API;
 using Attendance.Entities;
 using Attendance.Helpers;
-
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -97,6 +99,12 @@ namespace Attendance.VM
             set;
         }
 
+        public Command Tapped_For_Print_Command
+        {
+            get;
+            set;
+        }
+
         public AttendanceVM()
         {
             InitVM();
@@ -114,6 +122,7 @@ namespace Attendance.VM
             Tapped_Save_Command = new Command(Tapped_For_BusinessLocal);
             Tapped_For_Enter_Command = new Command(Tapped_For_Enter);
             Tapped_For_Enter_User_Command = new Command(Tapped_For_Enter_Users);
+            Tapped_For_Print_Command = new Command(Tapped_For_Print);
             CleanData();
         }
 
@@ -376,6 +385,169 @@ namespace Attendance.VM
             {
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
                 IsBusy = false;
+            }
+        }
+
+        private async void Tapped_For_Print()
+        {
+
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    IWorkbook workbook = new XSSFWorkbook();                   
+                    
+                    
+
+                    //ICellStyle dataStyle = workbook.CreateCellStyle();
+                    //dataStyle.FillForegroundColor = IndexedColors.LightGreen.Index;
+                    //dataStyle.FillPattern = FillPattern.SolidForeground;
+
+                    //ICellStyle mergedStyle = workbook.CreateCellStyle();
+                    //mergedStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    //mergedStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+
+                    //ICellStyle verticalTextStyle = workbook.CreateCellStyle();
+                    //verticalTextStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    //verticalTextStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    //verticalTextStyle.Rotation = 90;
+
+                    ISheet sheet = workbook.CreateSheet("Sheet1");
+
+                   
+                    // Header Style
+                    ICellStyle headerStyle = workbook.CreateCellStyle();
+                    headerStyle.FillForegroundColor = IndexedColors.LightBlue.Index;
+                    headerStyle.FillPattern = FillPattern.SolidForeground;
+                    headerStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    headerStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    // Header Title
+                    IRow row1 = sheet.CreateRow(0);
+                    row1.CreateCell(3).SetCellValue("CONTROL DE ASISTENCIA");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 3, 25)); 
+                    row1.GetCell(3).CellStyle = headerStyle;
+
+                    //Border Color
+                    XSSFColor borderColor = new XSSFColor(new byte[] { 0, 0, 0 });
+                    //Number Column
+                    ICellStyle itemStyle = workbook.CreateCellStyle();
+                    itemStyle.FillForegroundColor = IndexedColors.LightCornflowerBlue.Index;
+                    itemStyle.FillPattern = FillPattern.SolidForeground;
+                    itemStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    itemStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    itemStyle.Rotation = 90;
+                    itemStyle.BorderTop = BorderStyle.Thin;
+                    itemStyle.BorderLeft = BorderStyle.Thin;
+                    itemStyle.BorderBottom = BorderStyle.Thin;
+                    itemStyle.BorderRight = BorderStyle.Thin;
+                    itemStyle.WrapText = true;
+
+                    ((XSSFCellStyle)itemStyle).SetTopBorderColor(borderColor);
+                    ((XSSFCellStyle)itemStyle).SetBottomBorderColor(borderColor);
+                    ((XSSFCellStyle)itemStyle).SetLeftBorderColor(borderColor);
+                    ((XSSFCellStyle)itemStyle).SetRightBorderColor(borderColor);
+
+                    //Name column
+                    ICellStyle nameStyle = workbook.CreateCellStyle();
+                    nameStyle.FillForegroundColor = IndexedColors.BlueGrey.Index;
+                    nameStyle.FillPattern = FillPattern.SolidForeground;
+                    nameStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    nameStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    nameStyle.BorderTop = BorderStyle.Thin;
+                    nameStyle.BorderLeft = BorderStyle.Thin;
+                    nameStyle.BorderBottom = BorderStyle.Thin;
+                    nameStyle.BorderRight = BorderStyle.Thin;
+                    nameStyle.WrapText = true;
+
+                    ((XSSFCellStyle)nameStyle).SetTopBorderColor(borderColor);
+                    ((XSSFCellStyle)nameStyle).SetBottomBorderColor(borderColor);
+                    ((XSSFCellStyle)nameStyle).SetLeftBorderColor(borderColor);
+                    ((XSSFCellStyle)nameStyle).SetRightBorderColor(borderColor);
+                   
+                   
+                    IRow row2 = sheet.CreateRow(2);
+                    ICell itemMergedCell = row2.CreateCell(0);
+                    ICell nameMergedCell = row2.CreateCell(1);
+                    ICell monthMergedCell = row2.CreateCell(2);
+                    //ICell DayCell = row2.CreateCell(3);
+                    //ICell DayNoCell = row2.CreateCell(4);
+                    row2.CreateCell(0).SetCellValue("No.");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 5, 0, 0));
+                    row2.CreateCell(1).SetCellValue("Nombre y Apellidos");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 5, 1, 1));
+                    row2.CreateCell(2).SetCellValue($"{DateTime.Now.ToString("MMMM",new CultureInfo("es-ES")).ToUpper()}");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 2, 2, 10));
+                    
+                    //row2.CreateCell(4).SetCellValue("1");
+                    nameMergedCell.CellStyle = nameStyle;
+                    itemMergedCell.CellStyle = itemStyle;
+                    monthMergedCell.CellStyle = nameStyle;
+                    //DayCell.CellStyle = itemStyle;
+                    //DayNoCell.CellStyle = itemStyle;
+                    sheet.SetColumnWidth(0, 4 * 256);
+                    sheet.SetColumnWidth(1, 30 * 256);
+                    
+                    
+                    IRow row3 = sheet.CreateRow(3);
+                    ICell DayCell = row2.CreateCell(3);
+                    row3.CreateCell(3).SetCellValue("V");
+                    DayCell.CellStyle = itemStyle;
+                    // Crear celdas normales debajo del encabezado combinado
+
+                    //row2.CreateCell(0).SetCellValue("ID");
+                    //row2.CreateCell(1).SetCellValue("Nombre");
+                    //row2.CreateCell(2).SetCellValue("Edad");
+
+                    //// Combinar celdas verticalmente (Filas 3 a 4 en la columna A)
+                    //IRow row3 = sheet.CreateRow(2);
+                    //ICell mergedCell = row3.CreateCell(0);
+                    //mergedCell.SetCellValue("Valor Combinado");
+                    //sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 6, 0, 0)); // (fila_inicio, fila_fin, col_inicio, col_fin)
+
+                    //// Aplicar el estilo a la celda combinada verticalmente
+                    //mergedCell.CellStyle = verticalTextStyle;
+
+                    //// Agregar datos a otras celdas no combinadas
+                    //row3.CreateCell(1).SetCellValue("Ejemplo");
+                    //row3.CreateCell(2).SetCellValue(25);
+
+                    //IRow row4 = sheet.CreateRow(3);
+                    //row4.CreateCell(1).SetCellValue("Otro");
+                    //row4.CreateCell(2).SetCellValue(30);
+
+                    //// Crear una fila y añadir encabezados
+                    //IRow headerRow = sheet.CreateRow(0);
+                    //ICell headerCell1 = headerRow.CreateCell(0);
+                    //headerCell1.SetCellValue("ID");
+                    //headerCell1.CellStyle = headerStyle;
+                    //sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 2)); // (fila_inicio, fila_fin, col_inicio, col_fin)
+                    //row1.GetCell(0).CellStyle = mergedStyle;                                                                     // Crear una fila y añadir encabezados
+
+                    //ICell headerCell2 = headerRow.CreateCell(1);
+                    //headerCell2.SetCellValue("Nombre");
+                    //headerCell2.CellStyle = headerStyle;
+                    ////headerRow2.CreateCell(1).SetCellValue("Nombre");
+
+                    //// Crear una fila con datos
+                    //IRow dataRow = sheet.CreateRow(1);
+                    //dataRow.CreateCell(0).SetCellValue(1);
+                    //dataRow.CreateCell(1).SetCellValue("Ejemplo");
+
+                    // Guardar el archivo Excel
+                    string filePath = Path.Combine(FileSystem.AppDataDirectory, "attendance.xlsx");
+                    using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                    {
+                        workbook.Write(fileStream);
+                    }
+                    IsBusy = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                IsBusy = false;
+                throw;
             }
         }
         #endregion

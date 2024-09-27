@@ -720,6 +720,13 @@ namespace Attendance.VM
                             id = _selectedPerson.id
                         };
 
+                        var exist = await App.DataBase.getStudentbyIdAsync(student.id, student.id_course);
+                        if (exist)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Warning", "The student is already registered in this course", "Ok");
+                            IsBusy = false;
+                            return;
+                        }
                         var result = await App.DataBase.CreateStudentAsync(student);
 
                         if (result == 0)

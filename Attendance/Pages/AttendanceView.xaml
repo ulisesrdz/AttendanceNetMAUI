@@ -79,7 +79,7 @@
                         </ListView >
                     </StackLayout>
                     <StackLayout>
-                        <Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate CommonPrint}" VerticalOptions="EndAndExpand" FontSize="20" FontAttributes="Bold"  Command="{Binding Tapped_For_Enter_User_Command}"/>
+                        <Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate CommonPrint}" VerticalOptions="EndAndExpand" FontSize="20" FontAttributes="Bold"  Command="{Binding Tapped_For_Print_Command}"/>
                     </StackLayout>
                 </StackLayout>
 
