@@ -397,25 +397,15 @@ namespace Attendance.VM
                 {
                     IsBusy = true;
                     IWorkbook workbook = new XSSFWorkbook();                   
-                    
-                    
-
-                    //ICellStyle dataStyle = workbook.CreateCellStyle();
-                    //dataStyle.FillForegroundColor = IndexedColors.LightGreen.Index;
-                    //dataStyle.FillPattern = FillPattern.SolidForeground;
-
-                    //ICellStyle mergedStyle = workbook.CreateCellStyle();
-                    //mergedStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                    //mergedStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
-
-                    //ICellStyle verticalTextStyle = workbook.CreateCellStyle();
-                    //verticalTextStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                    //verticalTextStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
-                    //verticalTextStyle.Rotation = 90;
-
                     ISheet sheet = workbook.CreateSheet("Sheet1");
+                    
+                    IRow row;
+                    ICell cell;
 
-                   
+                    var id_user = Convert.ToInt32(Session._IdUser);
+                    var id_course = Convert.ToInt32(Session.Id_Course);                    
+                    var _lts = await App.DataBase.getUserbyIdUserCourseAsync(id_user, id_course);
+
                     // Header Style
                     ICellStyle headerStyle = workbook.CreateCellStyle();
                     headerStyle.FillForegroundColor = IndexedColors.LightBlue.Index;
@@ -423,10 +413,10 @@ namespace Attendance.VM
                     headerStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
                     headerStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
                     // Header Title
-                    IRow row1 = sheet.CreateRow(0);
-                    row1.CreateCell(3).SetCellValue("CONTROL DE ASISTENCIA");
-                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 3, 25)); 
-                    row1.GetCell(3).CellStyle = headerStyle;
+                    row = sheet.CreateRow(0);
+                    row.CreateCell(3).SetCellValue("CONTROL DE ASISTENCIA");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 3, 25));
+                    row.GetCell(3).CellStyle = headerStyle;
 
                     //Border Color
                     XSSFColor borderColor = new XSSFColor(new byte[] { 0, 0, 0 });
@@ -466,80 +456,104 @@ namespace Attendance.VM
                     ((XSSFCellStyle)nameStyle).SetRightBorderColor(borderColor);
                    
                    
-                    IRow row2 = sheet.CreateRow(2);
-                    ICell itemMergedCell = row2.CreateCell(0);
-                    ICell nameMergedCell = row2.CreateCell(1);
-                    ICell monthMergedCell = row2.CreateCell(2);
-                    //ICell DayCell = row2.CreateCell(3);
-                    //ICell DayNoCell = row2.CreateCell(4);
-                    row2.CreateCell(0).SetCellValue("No.");
+                    row = sheet.CreateRow(2);
+                    ICell itemMergedCell = row.CreateCell(0);
+                    ICell nameMergedCell = row.CreateCell(1);
+                    ICell monthMergedCell = row.CreateCell(2);
+                   
+                    row.CreateCell(0).SetCellValue("No.");
                     sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 5, 0, 0));
-                    row2.CreateCell(1).SetCellValue("Nombre y Apellidos");
+                    row.CreateCell(1).SetCellValue("Nombre y Apellidos");
                     sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 5, 1, 1));
-                    row2.CreateCell(2).SetCellValue($"{DateTime.Now.ToString("MMMM",new CultureInfo("es-ES")).ToUpper()}");
-                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 2, 2, 10));
+                    row.CreateCell(2).SetCellValue($"{DateTime.Now.ToString("MMMM",new CultureInfo("es-ES")).ToUpper()}");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 2, 2, 25));
                     
-                    //row2.CreateCell(4).SetCellValue("1");
                     nameMergedCell.CellStyle = nameStyle;
                     itemMergedCell.CellStyle = itemStyle;
                     monthMergedCell.CellStyle = nameStyle;
-                    //DayCell.CellStyle = itemStyle;
-                    //DayNoCell.CellStyle = itemStyle;
+                   
                     sheet.SetColumnWidth(0, 4 * 256);
                     sheet.SetColumnWidth(1, 30 * 256);
+
+                    row = sheet.CreateRow(3);
+                    ICell itemMerged = row.CreateCell(2);
+                    row.CreateCell(2).SetCellValue($"Materia");
+                    itemMerged.CellStyle = nameStyle;
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(3, 3, 2, 25));
                     
+                    IRow row4 = sheet.CreateRow(4);                    
+                    IRow row5 = sheet.CreateRow(5);
                     
-                    IRow row3 = sheet.CreateRow(3);
-                    ICell DayCell = row2.CreateCell(3);
-                    row3.CreateCell(3).SetCellValue("V");
-                    DayCell.CellStyle = itemStyle;
-                    // Crear celdas normales debajo del encabezado combinado
+                    var _listMoth = getDayofWeek(DateTime.Now.Year, DateTime.Now.Month);
+                    var index = 2;
 
-                    //row2.CreateCell(0).SetCellValue("ID");
-                    //row2.CreateCell(1).SetCellValue("Nombre");
-                    //row2.CreateCell(2).SetCellValue("Edad");
+                    foreach (var (day,no) in _listMoth)
+                    {
+                        ICell DayCell = row4.CreateCell(index);
+                        row4.CreateCell(index).SetCellValue(day);
+                        DayCell.CellStyle = nameStyle;
 
-                    //// Combinar celdas verticalmente (Filas 3 a 4 en la columna A)
-                    //IRow row3 = sheet.CreateRow(2);
-                    //ICell mergedCell = row3.CreateCell(0);
-                    //mergedCell.SetCellValue("Valor Combinado");
-                    //sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 6, 0, 0)); // (fila_inicio, fila_fin, col_inicio, col_fin)
+                        ICell DayNoCell = row5.CreateCell(index);
+                        row5.CreateCell(index).SetCellValue(no);
+                        DayNoCell.CellStyle = nameStyle;                       
 
-                    //// Aplicar el estilo a la celda combinada verticalmente
-                    //mergedCell.CellStyle = verticalTextStyle;
+                        sheet.SetColumnWidth(index, 4 * 256);
+                        sheet.SetColumnWidth(index, 4 * 256);
+                        
+                        index++;
+                    }
 
-                    //// Agregar datos a otras celdas no combinadas
-                    //row3.CreateCell(1).SetCellValue("Ejemplo");
-                    //row3.CreateCell(2).SetCellValue(25);
+                    index = 1;
+                   
+                    foreach (var item in _lts)
+                    {
+                        row = sheet.CreateRow(index + 5);                       
+                        cell = row.CreateCell(0);
+                        row.CreateCell(0).SetCellValue($"{index}");
+                        cell.CellStyle = nameStyle;
+                        
+                        cell = row.CreateCell(1);
+                        row.CreateCell(1).SetCellValue($"{item.name} {item.last_name}");
+                        cell.CellStyle = nameStyle;
 
-                    //IRow row4 = sheet.CreateRow(3);
-                    //row4.CreateCell(1).SetCellValue("Otro");
-                    //row4.CreateCell(2).SetCellValue(30);
+                        var attendance = _lts;//.attendanceList;  // Lista de asistencia del alumno
+                        for (int i = 0; i < _listMoth.Count; i++)
+                        {
+                            cell = row.CreateCell(2 + i);
+                            cell.SetCellValue(true ? "✓" : "X");
+                            cell.CellStyle = nameStyle;
+                        }
 
-                    //// Crear una fila y añadir encabezados
-                    //IRow headerRow = sheet.CreateRow(0);
-                    //ICell headerCell1 = headerRow.CreateCell(0);
-                    //headerCell1.SetCellValue("ID");
-                    //headerCell1.CellStyle = headerStyle;
-                    //sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 2)); // (fila_inicio, fila_fin, col_inicio, col_fin)
-                    //row1.GetCell(0).CellStyle = mergedStyle;                                                                     // Crear una fila y añadir encabezados
+                        int lastDayColumnIndex = 2 + _listMoth.Count - 1;
+                        cell = row.CreateCell(lastDayColumnIndex + 1);
+                        cell.CellFormula = $"COUNTIF({GetColumnLetter(2)}{index + 6}:{GetColumnLetter(lastDayColumnIndex)}{index + 6}, \"✓\")";
+                        cell.CellStyle = nameStyle;
 
-                    //ICell headerCell2 = headerRow.CreateCell(1);
-                    //headerCell2.SetCellValue("Nombre");
-                    //headerCell2.CellStyle = headerStyle;
-                    ////headerRow2.CreateCell(1).SetCellValue("Nombre");
+                        // Columna para porcentaje de asistencia
+                        cell = row.CreateCell(lastDayColumnIndex + 2);
+                        cell.CellFormula = $"{GetColumnLetter(lastDayColumnIndex + 1)}{index + 6}/{_listMoth.Count}";
+                        cell.CellStyle = nameStyle;
 
-                    //// Crear una fila con datos
-                    //IRow dataRow = sheet.CreateRow(1);
-                    //dataRow.CreateCell(0).SetCellValue(1);
-                    //dataRow.CreateCell(1).SetCellValue("Ejemplo");
+                        index++;
+                    }
 
                     // Guardar el archivo Excel
-                    string filePath = Path.Combine(FileSystem.AppDataDirectory, "attendance.xlsx");
-                    using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                    string filePath = Path.Combine(FileSystem.AppDataDirectory, "attendance1.xlsx");
+
+                    if (IsFileLocked(filePath))
                     {
-                        workbook.Write(fileStream);
+                        await Application.Current.MainPage.DisplayAlert("Error", "El documento se encuentra abierto.", "Aceptar");
+                        IsBusy = false;
+                        return;
                     }
+                    else
+                    {                       
+                        using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                        {
+                            workbook.Write(fileStream);
+                        }
+                    }
+                        
                     IsBusy = false;
                 }
             }
@@ -551,5 +565,61 @@ namespace Attendance.VM
             }
         }
         #endregion
+
+        private static List<(string,int)> getDayofWeek(int year, int month)
+        {
+            List<(string,int)> _daysOfMonthList = new List<(string,int)>();
+
+            int totalDaysInMonth = DateTime.DaysInMonth(year, month);
+
+            for (int i = 1; i <= totalDaysInMonth; i++)
+            {
+                DateTime _dateTime = new DateTime(year, month, i);
+
+                if (_dateTime.DayOfWeek != DayOfWeek.Saturday && _dateTime.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    string day = _dateTime.ToString("ddd", new CultureInfo("es-ES")).Substring(0, 1).ToUpper();
+
+                    _daysOfMonthList.Add((day,i));
+                }                    
+            }
+
+            return _daysOfMonthList;
+        }
+
+        private static bool IsFileLocked(string filePath)
+        {
+            FileStream stream = null;
+            try
+            {
+                stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            }
+            catch (IOException)
+            {
+                return true;
+            }
+            finally
+            {
+                stream?.Close();
+            }
+
+            return false;
+        }
+
+        string GetColumnLetter(int columnNumber)
+        {
+            int dividend = columnNumber + 1;
+            string columnName = String.Empty;
+            int modulo;
+
+            while (dividend > 0)
+            {
+                modulo = (dividend - 1) % 26;
+                columnName = Convert.ToChar(65 + modulo).ToString() + columnName;
+                dividend = (dividend - modulo) / 26;
+            }
+
+            return columnName;
+        }
     }
 }

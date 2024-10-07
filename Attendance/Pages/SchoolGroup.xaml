@@ -5,6 +5,7 @@
              xmlns:viewModels="clr-namespace:Attendance.VM"
              xmlns:handless="clr-namespace:Attendance.Handlers"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
+             xmlns:CustomViewCell="clr-namespace:Attendance.Helpers"
              Title="{localization:Translate SchoolGroup_Page}">
     
     <ContentPage.BindingContext>
@@ -45,8 +46,8 @@
                 <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="EndAndExpand" Padding="10" BackgroundColor="White" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                         <!--<StackLayout Padding="1" Orientation="Vertical" VerticalOptions="FillAndExpand"> SelectedItem="{Binding onItemSelected, Mode=TwoWay}"-->
-                        <ListView x:Name="ltsGrade" ItemsSource="{Binding ltsGrade}" ItemSelected="OnItemSelected">
-                            <ListView.Header>
+                        <ListView x:Name="ltsGrade" ItemsSource="{Binding ltsGrade}" ItemSelected="OnItemSelected" >                            
+                            <ListView.Header >                                
                                 <Grid BackgroundColor="{x:StaticResource Primary}" HeightRequest="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -64,7 +65,7 @@
                             </ListView.Header>
                             <ListView.ItemTemplate >
                                 <DataTemplate>
-                                    <ViewCell>
+                                    <CustomViewCell:CustomViewCell SelectedBackgroundColor="#cfd0d8" >
                                         <ViewCell.View>
                                             <Grid BackgroundColor="Transparent" HeightRequest="35">
                                                 <Grid.ColumnDefinitions>
@@ -83,7 +84,7 @@
 
                                             </Grid>
                                         </ViewCell.View>
-                                    </ViewCell>
+                                    </CustomViewCell:CustomViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView >

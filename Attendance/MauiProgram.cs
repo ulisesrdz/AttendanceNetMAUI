@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Attendance.Helpers;
+#if ANDROID
+using Attendance.Platforms.Android;
+#endif
+using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;
 
@@ -22,8 +26,12 @@ public static class MauiProgram
                  h.AddHandler(typeof(ZXing.Net.Maui.Controls.CameraBarcodeReaderView), typeof(CameraBarcodeReaderViewHandler));
                  h.AddHandler(typeof(ZXing.Net.Maui.Controls.CameraView), typeof(CameraViewHandler));
                  h.AddHandler(typeof(ZXing.Net.Maui.Controls.BarcodeGeneratorView), typeof(BarcodeGeneratorViewHandler));
+#if ANDROID
+                 h.AddHandler<CustomViewCell, CustomViewCellHandler>();
+#endif
              }); 
-            
+
+
 #if DEBUG
         builder.Logging.AddDebug();
 #endif        

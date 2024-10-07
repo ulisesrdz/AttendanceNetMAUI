@@ -299,8 +299,11 @@ namespace Attendance.VM
                     IsBusy = true;
                     if (accessType == NetworkAccess.Internet)
                     {
+                        Session.Id_Course = ItemSelected.id;
+                        Session._IdUser = ItemSelected.id_user;
+
                         if (Session.attendanceView)
-                        {
+                        {                           
                             await App.Current.MainPage.Navigation.PushAsync(new page.AttendanceView());
                         }
                         else if (Session.attendance)                        
@@ -313,20 +316,15 @@ namespace Attendance.VM
                             {
                                 var opt = await Application.Current.MainPage.DisplayAlert("Question", "Quieres ver la lista de estudiantes", "Yes","No");
                                 if (opt)
-                                {
-                                    Session.Id_Course = ItemSelected.id;
-                                    Session._IdUser = ItemSelected.id_user;
+                                {                                    
                                     Session.attendanceView = true;
                                     Session.studentsListView = true;
                                     await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
                                 }
                                 else
                                 {
-                                    Session.attendanceView = false;
-                                    Session.Id_Course = ItemSelected.id;
-                                    Session._IdUser = ItemSelected.id_user;
-                                    await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
-                                   
+                                    Session.attendanceView = false;                                    
+                                    await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());                                   
                                 }
                             }
                             //Session.Id_Course = ItemSelected.id;

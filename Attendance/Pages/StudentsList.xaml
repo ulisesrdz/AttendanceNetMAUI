@@ -5,6 +5,7 @@
              xmlns:viewModels="clr-namespace:Attendance.VM"
              xmlns:handless="clr-namespace:Attendance.Handlers"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
+              xmlns:CustomViewCell="clr-namespace:Attendance.Helpers"
              Title="StudentsList">
 
     <ContentPage.BindingContext>
@@ -58,7 +59,7 @@
                             </ListView.Header>
                             <ListView.ItemTemplate >
                                 <DataTemplate>
-                                    <ViewCell>
+                                    <CustomViewCell:CustomViewCell SelectedBackgroundColor="#cfd0d8" >
                                         <ViewCell.View>
                                             <Grid BackgroundColor="Transparent" HeightRequest="35">
                                                 <Grid.ColumnDefinitions>
@@ -70,7 +71,7 @@
 
                                             </Grid>
                                         </ViewCell.View>
-                                    </ViewCell>
+                                    </CustomViewCell:CustomViewCell >
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView >
