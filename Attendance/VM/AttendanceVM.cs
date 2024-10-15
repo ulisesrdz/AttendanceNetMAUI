@@ -279,7 +279,7 @@ namespace Attendance.VM
                     IsBusy = true;
                     int counter = 0;
                     var ltsAtt = new List<AttendanceEnt>();
-                    var attenaces = await App.DataBase.getAttendacebyIdUserAsync(Session._IdUser.ToString());
+                    var attenaces = await App.DataBase.getAttendacebyIdUserAsync(Session._IdUser.ToString(), Session.Id_Course.ToString());
                     //var student = await App.DataBase.getAttendacebyIdUserAsync(Session.);
                     if (attenaces.Count > 0)
                     {
@@ -539,7 +539,28 @@ namespace Attendance.VM
 
                     // Guardar el archivo Excel
                     string filePath = Path.Combine(FileSystem.AppDataDirectory, "attendance1.xlsx");
+#if ANDROID
+                        using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                        {
+                            workbook.Write(fileStream);
 
+                            bool msg = await Application.Current.MainPage.DisplayAlert("Aviso", "Se genero archivo correctamente, Desea compartirlo?", "Si", "No");
+                            
+                            
+                            if (msg)
+                            {
+                                await Share.RequestAsync(new ShareFileRequest
+                                {
+                                    Title = "Compartir Archivo",
+                                    File = new ShareFile(filePath)
+                                });
+                            }
+                            else
+                            {
+                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                            }
+                        }
+#else
                     if (IsFileLocked(filePath))
                     {
                         await Application.Current.MainPage.DisplayAlert("Error", "El documento se encuentra abierto.", "Aceptar");
@@ -547,13 +568,31 @@ namespace Attendance.VM
                         return;
                     }
                     else
-                    {                       
+                    {
                         using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                         {
                             workbook.Write(fileStream);
+
+                            bool msg = await Application.Current.MainPage.DisplayAlert("Aviso", "Se genero archivo correctamente, Desea compartirlo?", "Si", "No");
+
+
+                            if (msg)
+                            {
+                                await Share.RequestAsync(new ShareFileRequest
+                                {
+                                    Title = "Compartir Archivo",
+                                    File = new ShareFile(filePath)
+                                });
+                            }
+                            else
+                            {
+                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                            }
                         }
                     }
-                        
+#endif
+
+
                     IsBusy = false;
                 }
             }
@@ -566,6 +605,7 @@ namespace Attendance.VM
         }
         #endregion
 
+        #region Privete Methods
         private static List<(string,int)> getDayofWeek(int year, int month)
         {
             List<(string,int)> _daysOfMonthList = new List<(string,int)>();
@@ -621,5 +661,7 @@ namespace Attendance.VM
 
             return columnName;
         }
+
+        #endregion
     }
 }

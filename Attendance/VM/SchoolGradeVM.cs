@@ -161,7 +161,7 @@ namespace Attendance.VM
 
         
         public SchoolGradeVM()
-        {            
+        {
             InitVM();
             _accountService = new AccountService();
             Get_InformationLocal();

@@ -36,7 +36,7 @@
                 <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="EndAndExpand" Padding="10" BackgroundColor="White" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
                     <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                         <!--<StackLayout Padding="1" Orientation="Vertical" VerticalOptions="FillAndExpand"> SelectedItem="{Binding onItemSelected, Mode=TwoWay}"-->
-                        <ListView x:Name="ltsAttendance" ItemsSource="{Binding ltsAttendance}" ItemSelected="OnItemSelected" BackgroundColor="Aquamarine">
+                        <ListView x:Name="ltsAttendance" ItemsSource="{Binding ltsAttendance}" ItemSelected="OnItemSelected" >
                             <ListView.Header>
                                 <Grid BackgroundColor="{x:StaticResource Primary}" HeightRequest="35">
                                     <Grid.ColumnDefinitions>

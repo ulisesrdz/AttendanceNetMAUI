@@ -67,11 +67,20 @@ namespace Attendance.VM
 
         private async void Tapped_For_Attendance(object sender)
         {
-            Session.schoolGrade = false;
-            Session.attendanceView = false;
-            Session.attendance = true;
-            Session.studentsListView = false;
-            await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
+            try
+            {
+                Session.schoolGrade = false;
+                Session.attendanceView = false;
+                Session.attendance = true;
+                Session.studentsListView = false;
+                await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
+                throw;
+            }
+            
             //await Application.Current.MainPage.Navigation.PushAsync(new page.Attendance());
         }
         private async void Tapped_For_AttendanceList(object sender)
@@ -80,7 +89,8 @@ namespace Attendance.VM
             Session.attendanceView = true;
             Session.attendance = false;
             Session.studentsListView = false;
-            await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
+            await App.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
+            //await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
             //await Application.Current.MainPage.Navigation.PushAsync(new page.AttendanceView());
         }
         private async void Tapped_For_BusinessURL(object sender)

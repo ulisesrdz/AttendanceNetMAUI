@@ -15,7 +15,8 @@ public partial class Attendance : ContentPage
     public Attendance()
     {
 		InitializeComponent();
-        //CreateData();
+        CreateData();
+        isBusy = false;
     }
 
     private void CreateData()
@@ -25,6 +26,19 @@ public partial class Attendance : ContentPage
             Entities.AttendanceEnt attendance = new Entities.AttendanceEnt();
 
             attendance.id_student = "1";
+            attendance.date_time = DateTime.Now;
+            attendance.id_course = Session.Id_Course.ToString();
+            attendance.id_user = Session._IdUser.ToString();
+
+            viewModel._LtsAttendace.Add(attendance);
+            
+            if (viewModel != null && viewModel.Tapped_Save_Command.CanExecute(null))
+            {
+                viewModel.Tapped_Save_Command.Execute(null);
+            }
+
+
+            attendance.id_student = "2";
             attendance.date_time = DateTime.Now;
             attendance.id_course = Session.Id_Course.ToString();
             attendance.id_user = Session._IdUser.ToString();
@@ -44,7 +58,7 @@ public partial class Attendance : ContentPage
         //barcodeView.CameraLocation = barcodeView.CameraLocation == CameraLocation.Rear ? CameraLocation.Front : CameraLocation.Rear;
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            if (isBusy)
+            if (!isBusy)
             {
                 isBusy = true;
                 if (BindingContext is AttendanceVM viewModel)
@@ -71,7 +85,7 @@ public partial class Attendance : ContentPage
                             viewModel.Tapped_Save_Command.Execute(null);
                         }
 
-                        //await Application.Current.MainPage.DisplayAlert("Success", barcode.Value + " Saved", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Success", _barcode[1] + " Saved", "OK");
                         //await DisplayAlert("Success", barcode.Value + " Saved", "OK");
                         //var task = DisplayAlert("Success", barcode.Value + " Saved", "OK");
 

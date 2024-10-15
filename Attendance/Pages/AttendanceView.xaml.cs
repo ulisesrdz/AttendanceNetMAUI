@@ -22,5 +22,5 @@ public partial class AttendanceView : ContentPage
             viewModel.ItemSelected = selectedCourse;
            
         }
-    }
+    }   
 }

@@ -7,12 +7,12 @@ public partial class LoginA : ContentPage
 		InitializeComponent();
 
         var app = Application.Current as App;
-        if (app != null)
-        {
-            var currentTheme = Application.Current.RequestedTheme;
-            //var newTheme = currentTheme == AppTheme.Dark ? AppTheme.Light : AppTheme.Dark;
-            //app.ApplyTheme(newTheme);
-        }
+        //if (app != null)
+        //{
+        //    var currentTheme = Application.Current.RequestedTheme;
+        //    var newTheme = currentTheme == AppTheme.Dark ? AppTheme.Light : AppTheme.Dark;
+        //    app.ApplyTheme(newTheme);
+        //}
 
         //Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);
     }

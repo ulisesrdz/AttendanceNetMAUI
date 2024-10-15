@@ -151,9 +151,9 @@ namespace Attendance.API
         {
             return _database.Table<AttendanceEntSQLite>().Where(u => u.id == id).FirstOrDefaultAsync();
         }
-        public Task<List<AttendanceEntSQLite>> getAttendacebyIdUserAsync(string idUser)
+        public Task<List<AttendanceEntSQLite>> getAttendacebyIdUserAsync(string idUser, string id_course)
         {
-            return _database.Table<AttendanceEntSQLite>().Where(u => u.id_user == idUser).ToListAsync();
+            return _database.Table<AttendanceEntSQLite>().Where(u => u.id_user == idUser && id_course == id_course).ToListAsync();
         }
 
         public Task<int> CreateAttendaceAsync(AttendanceEntSQLite _attendance)
