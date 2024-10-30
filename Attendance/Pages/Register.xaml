@@ -74,7 +74,7 @@
                            FontAttributes="Bold"
                            TextColor="{x:StaticResource Primary}" />
                             <HorizontalStackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Tapped_For_SignUp_Command}"/>
+                                <TapGestureRecognizer Command="{Binding Tapped_For_SignIn_Command}"/>
                             </HorizontalStackLayout.GestureRecognizers>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>

@@ -135,6 +135,9 @@
   <data name="BusinessURL_Title" xml:space="preserve">
     <value>Business URL</value>
   </data>
+  <data name="CloseAppMsg" xml:space="preserve">
+    <value>Esta seguro de salir?</value>
+  </data>
   <data name="CommonClean" xml:space="preserve">
     <value>Limpiar</value>
   </data>
@@ -161,6 +164,9 @@
   </data>
   <data name="CommonStudentName" xml:space="preserve">
     <value>Estudiante</value>
+  </data>
+  <data name="CommonWarning" xml:space="preserve">
+    <value>Advertencia</value>
   </data>
   <data name="CommonYes" xml:space="preserve">
     <value>Si</value>

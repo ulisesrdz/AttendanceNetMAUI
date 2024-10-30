@@ -1,4 +1,5 @@
-﻿using Attendance.API;
+﻿
+using Attendance.API;
 using Attendance.Entities;
 using Attendance.Helpers;
 using System;
@@ -112,12 +113,18 @@ namespace Attendance.VM
             get;
             set;
         }
-
+        public Command Tapped_For_SignIn_Command
+        {
+            get;
+            set;
+        }
         public Command Tapped_For_Register_Command
         {
             get;
             set;
         }
+
+        
         #endregion
 
         public LoginVM()
@@ -143,6 +150,7 @@ namespace Attendance.VM
             Tapped_For_Login_Command = new Command(Tapped_For_LoginLocal);
             Tapped_For_SignUp_Command = new Command(Tapped_For_SignUp);
             Tapped_For_Register_Command = new Command(Tapped_For_RegisterLocal);
+            Tapped_For_SignIn_Command= new Command(Tapped_For_SignIn);
             CleanData();
         }
 
@@ -344,6 +352,11 @@ namespace Attendance.VM
         private async void Tapped_For_SignUp(object sender)
         {
             await App.Current.MainPage.Navigation.PushModalAsync(new Pages.Register());
+        }
+
+        private async void Tapped_For_SignIn(object sender)
+        {
+            await App.Current.MainPage.Navigation.PopModalAsync();
         }
         #endregion
 

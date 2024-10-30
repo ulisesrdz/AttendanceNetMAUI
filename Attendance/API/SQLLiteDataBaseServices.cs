@@ -11,14 +11,37 @@ namespace Attendance.API
     public class SQLLiteDataBaseServices
     {
         private readonly SQLiteAsyncConnection _database;
-
+        private static bool _tablesInitialized = false;
         public SQLLiteDataBaseServices(string dbPath)
-        {
+        {            
             _database = new SQLiteAsyncConnection(dbPath);
-            _database.CreateTableAsync<UserSQLite>().Wait();
-            _database.CreateTableAsync<StudentsSQLite>().Wait();
-            _database.CreateTableAsync<SchoolGradeSQLite>().Wait();
-            _database.CreateTableAsync<AttendanceEntSQLite>().Wait();
+
+            // verify if the db is already initialized
+            if (!_tablesInitialized)
+            {
+                Task.Run(async () => await InitializeDatabase()).Wait();
+                _tablesInitialized = true;
+            }
+        }
+
+        private async Task InitializeDatabase()
+        {
+            if (!await TableExistsAsync("UserSQLite"))
+                await _database.CreateTableAsync<UserSQLite>();
+            if (!await TableExistsAsync("StudentsSQLite"))
+                await _database.CreateTableAsync<StudentsSQLite>();
+            if (!await TableExistsAsync("SchoolGradeSQLite"))
+                await _database.CreateTableAsync<SchoolGradeSQLite>();
+            if (!await TableExistsAsync("AttendanceEntSQLite"))
+                await _database.CreateTableAsync<AttendanceEntSQLite>();
+        }
+
+        private async Task<bool> TableExistsAsync(string tableName)
+        {
+            var result = await _database.ExecuteScalarAsync<int>(
+                $"SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='{tableName}';");
+
+            return result > 0;
         }
 
         #region Users Queries
@@ -153,7 +176,19 @@ namespace Attendance.API
         }
         public Task<List<AttendanceEntSQLite>> getAttendacebyIdUserAsync(string idUser, string id_course)
         {
-            return _database.Table<AttendanceEntSQLite>().Where(u => u.id_user == idUser && id_course == id_course).ToListAsync();
+            return _database.Table<AttendanceEntSQLite>().Where(u => u.id_user == idUser && u.id_course == id_course).ToListAsync();
+        }
+
+        public Task<List<AttendanceEntSQLite>> getAttendacebyStudentAsync(string idUser, string id_course, string idStudent)
+        {
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime endDate = startDate.AddMonths(1).AddDays(-1);
+
+            return _database.Table<AttendanceEntSQLite>().Where(u => u.id_user == idUser 
+                                                                    && u.id_course == id_course 
+                                                                    && u.id_student == idStudent
+                                                                    && u.date_time >= startDate 
+                                                                    && u.date_time <= endDate).ToListAsync();
         }
 
         public Task<int> CreateAttendaceAsync(AttendanceEntSQLite _attendance)

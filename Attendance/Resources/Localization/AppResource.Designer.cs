@@ -124,6 +124,15 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure to exit?.
+        /// </summary>
+        internal static string CloseAppMsg {
+            get {
+                return ResourceManager.GetString("CloseAppMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Name.
         /// </summary>
         internal static string Common_LastName {
@@ -210,6 +219,15 @@ namespace Attendance.Resources.Localization {
         internal static string CommonStudentName {
             get {
                 return ResourceManager.GetString("CommonStudentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string CommonWarning {
+            get {
+                return ResourceManager.GetString("CommonWarning", resourceCulture);
             }
         }
         

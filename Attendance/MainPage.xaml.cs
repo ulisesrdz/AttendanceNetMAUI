@@ -1,5 +1,6 @@
 ﻿using Attendance.Helpers;
 using Attendance.Pages;
+using Attendance.Resources.Localization;
 
 
 namespace Attendance;
@@ -34,11 +35,11 @@ public partial class MainPage : ContentPage
 
     private async void onBack()
     {
-        var userChoise = await DisplayAlert("Warning", "Esta seguro de salir", "Si", "No");
+        var userChoise = await DisplayAlert(AppResource.CommonWarning, AppResource.CloseAppMsg, AppResource.CommonYes, AppResource.CommonNo);
         
         if (userChoise)
         {
-            Application.Current?.CloseWindow(Application.Current.MainPage.Window);
+            Application.Current.Quit();           
         }
         
     }

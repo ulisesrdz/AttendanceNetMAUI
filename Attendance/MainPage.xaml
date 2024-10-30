@@ -21,79 +21,227 @@
     </ContentPage.ToolbarItems>
    
     <ContentPage.Content>
-
        
-        <!--<Grid RowDefinitions="1*,8*,1*">
-            <Frame BackgroundColor="#cfd0d8" Grid.Row="0" HorizontalOptions="EndAndExpand"
-               Padding="0" 
-               Margin="0,-80,-80,0"
-               HeightRequest="250"
-               WidthRequest="250" CornerRadius="125">
-
-            </Frame>
-
-            <Frame BackgroundColor="{x:StaticResource Primary}" Grid.Row="0" HorizontalOptions="EndAndExpand"
-               Padding="0" 
-               Margin="0,-120,-120,0"
-               HeightRequest="250"
-               WidthRequest="250" CornerRadius="125">
-
-            </Frame>
-            
-        </Grid>-->
-        
         <FlexLayout Direction="Row" Wrap="Wrap" AlignItems="Center" JustifyContent="Center"  >
+           
+            <StackLayout>
+                <ImageButton                 
+                 Source="createqr.png"
+                 HeightRequest="150"
+                 WidthRequest="150"
+                 Aspect="AspectFill"
+                 Command="{Binding Tapped_For_Attendance_Command}" 
+                BorderColor="Black"
+                BorderWidth="3"
+                CornerRadius="10"
+                Padding="5"
+                BackgroundColor="{StaticResource White}"
+                    Margin="20, 0">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                </ImageButton>
+                <Label x:Name="lblAttendance"
+                   Text="{localization:Translate Attendance_title}"
+                   FontSize="18"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center" />
+            </StackLayout>
 
-            <!-- Row 1 -->
 
-            <Button 
-         Text="{localization:Translate Attendance_title}" 
-         Command="{Binding Tapped_For_Attendance_Command}" 
-         FontSize="20" 
-         HeightRequest="150" 
-         WidthRequest="150" 
-         Margin="10">
+            <StackLayout>
+                <ImageButton                 
+                  Source="school.png"
+                  HeightRequest="150"
+                  WidthRequest="150"
+                  Aspect="AspectFit"
+                      Command="{Binding Tapped_For_SchoolGroup_Command}" 
+                     BorderColor="Black"
+                     BorderWidth="3"
+                     CornerRadius="10"
+                     Padding="5"
+                     BackgroundColor="{StaticResource White}" Margin="20, 0">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                            </ImageButton>
+                        <Label x:Name="lblSchoolGroup"
+                Text="{localization:Translate SchoolGroup_Page}"
+                FontSize="18"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />   
+            </StackLayout>
+            
+            <StackLayout>
+                <ImageButton                 
+                      Source="adduser.png"
+                      HeightRequest="150"
+                      WidthRequest="150"
+                      Aspect="AspectFit"
+                          Command="{Binding Tapped_For_Register_Command}" 
+                         BorderColor="Black"
+                         BorderWidth="3"
+                         CornerRadius="10"
+                         Padding="5"
+                         BackgroundColor="{StaticResource White}" Margin="20, 0">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroupList>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateGroupList>
+                                    </VisualStateManager.VisualStateGroups>
+                                </ImageButton>
+                <Label x:Name="lblRegistered"
+                    Text="{localization:Translate Register_Page}"
+                    FontSize="18"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center" />
+            </StackLayout>
+            
+            <StackLayout>
+                <ImageButton                 
+                  Source="courselist.png"
+                  HeightRequest="150"
+                  WidthRequest="150"
+                  Aspect="AspectFit"
+                      Command="{Binding Tapped_For_CourseRegisterCourseList_Command}" 
+                     BorderColor="Black"
+                     BorderWidth="3"
+                     CornerRadius="10"
+                     Padding="5"
+                     BackgroundColor="{StaticResource White}" Margin="20, 0">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                            </ImageButton>
+                <Label x:Name="lblCourse"
+                Text="{localization:Translate CourseRegisterCourseList}"
+                FontSize="18"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+            </StackLayout>
 
+            <StackLayout>
+                <ImageButton                 
+                  Source="qrcode.png"
+                  HeightRequest="150"
+                  WidthRequest="150"
+                  Aspect="AspectFit"
+                      Command="{Binding Tapped_For_PrintQRCode_Command}" 
+                     BorderColor="Black"
+                     BorderWidth="3"
+                     CornerRadius="10"
+                     Padding="5"
+                     BackgroundColor="{StaticResource White}" Margin="20, 0">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                            </ImageButton>
+                            <Label x:Name="lblPrintQRCode"
+                Text="{localization:Translate QR_Code_Generated}"
+                FontSize="18"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+            </StackLayout>
 
-            </Button>
-
-            <Button 
-        Text="{localization:Translate SchoolGroup_Page}" 
-        Command="{Binding Tapped_For_SchoolGroup_Command}"  
-        FontSize="20" 
-        HeightRequest="150" 
-        WidthRequest="150" 
-        Margin="10"/>
-            <Button 
-        Text="{localization:Translate Register_Page}" 
-        Command="{Binding Tapped_For_Register_Command}"  
-        FontSize="20" 
-        HeightRequest="150" 
-        WidthRequest="150"
-        Margin="10"/>
-            <Button 
-        Text="{localization:Translate CourseRegisterCourseList}" 
-        Command="{Binding Tapped_For_CourseRegisterCourseList_Command}" 
-        FontSize="20" 
-        HeightRequest="150" 
-        WidthRequest="150" 
-        Margin="10"/>
-            <Button 
-        Text="{localization:Translate QR_Code_Generated}" 
-        Command="{Binding Tapped_For_PrintQRCode_Command}"  
-        FontSize="20" 
-        HeightRequest="150" 
-        WidthRequest="150" 
-        Margin="10"
-    />
-            <Button 
-        Text="{localization:Translate Attendance_title}" 
-        Command="{Binding Tapped_For_AttendanceView_Command}" 
-        FontSize="20" 
-        HeightRequest="150" 
-        WidthRequest="150" 
-        Margin="10"
-    />
+            <StackLayout>
+                <ImageButton                 
+                  Source="attendance1.png"
+                  HeightRequest="150"
+                  WidthRequest="150"
+                  Aspect="AspectFit"
+                      Command="{Binding Tapped_For_AttendanceView_Command}" 
+                     BorderColor="Black"
+                     BorderWidth="3"
+                     CornerRadius="10"
+                     Padding="5"
+                     BackgroundColor="{StaticResource White}" Margin="20, 0">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource White}"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="Pressed">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </VisualStateManager.VisualStateGroups>
+                            </ImageButton>
+                <Label x:Name="lblAttendanceList"
+                Text="{localization:Translate Attendance_title}"
+                FontSize="18"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
+            </StackLayout>
+           
 
 
         </FlexLayout>

@@ -515,12 +515,18 @@ namespace Attendance.VM
                         cell = row.CreateCell(1);
                         row.CreateCell(1).SetCellValue($"{item.name} {item.last_name}");
                         cell.CellStyle = nameStyle;
-
-                        var attendance = _lts;//.attendanceList;  // Lista de asistencia del alumno
+                        
+                        var att = await App.DataBase.getAttendacebyStudentAsync(item.id_user.ToString(), item.id_course.ToString(), item.id.ToString());
+                        
                         for (int i = 0; i < _listMoth.Count; i++)
                         {
-                            cell = row.CreateCell(2 + i);
-                            cell.SetCellValue(true ? "✓" : "X");
+                            var dayNumber = _listMoth[i].Item2;
+
+                            cell = row.CreateCell(2 + i);                           
+
+                            bool hasAttendance = att.Any(a => a.date_time.Day == dayNumber);
+
+                            cell.SetCellValue(hasAttendance ? "✓" : "X");
                             cell.CellStyle = nameStyle;
                         }
 
@@ -538,7 +544,7 @@ namespace Attendance.VM
                     }
 
                     // Guardar el archivo Excel
-                    string filePath = Path.Combine(FileSystem.AppDataDirectory, "attendance1.xlsx");
+                    string filePath = Path.Combine(FileSystem.AppDataDirectory, "attendance.xlsx");
 #if ANDROID
                         using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                         {

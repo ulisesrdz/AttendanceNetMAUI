@@ -1,3 +1,5 @@
+using Attendance.Resources.Localization;
+
 namespace Attendance.Pages;
 
 public partial class LoginA : ContentPage
@@ -26,5 +28,18 @@ public partial class LoginA : ContentPage
     private async void Tapped_For_Login(object sender, EventArgs e)
     {
         //await Shell.Current.GoToAsync("//MainMenu");        
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+
+        onBack();
+        return base.OnBackButtonPressed();
+    }
+
+    private async void onBack()
+    {
+        Application.Current.Quit();
+
     }
 }

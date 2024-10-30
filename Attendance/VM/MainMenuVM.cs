@@ -128,11 +128,21 @@ namespace Attendance.VM
         }
         private async void Tapped_For_PrintQRCode(object sender)
         {
-            Session.schoolGrade = false;
-            Session.attendanceView = false;
-            Session.attendance = false;
-            Session.attendance = false;
-            await Application.Current.MainPage.Navigation.PushAsync(new page.PrintQRCodePage());
+            try
+            {
+                Session.schoolGrade = false;
+                Session.attendanceView = false;
+                Session.attendance = false;
+                Session.attendance = false;
+                await Application.Current.MainPage.Navigation.PushAsync(new page.PrintQRCodePage());
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+
+                throw;
+            }
+            
         }
         
     }
