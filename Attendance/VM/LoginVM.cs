@@ -191,8 +191,8 @@ namespace Attendance.VM
                                 await Application.Current.MainPage.DisplayAlert("Guardado", "Usuario guardado en la base de datos", "OK");
                                 //OnCargarUsuariosClicked(null, null);
                                 CleanData();
-
-                                await App.Current.MainPage.Navigation.PushModalAsync(new Pages.LoginA());
+                                await App.Current.MainPage.Navigation.PopModalAsync();
+                                //await App.Current.MainPage.Navigation.PushModalAsync(new Pages.LoginA());
                             }
                             else
                             {
@@ -260,7 +260,7 @@ namespace Attendance.VM
                             {
                                 HideKeyboard();
                                 await Application.Current.MainPage.DisplayAlert("Error", "Username or password invalid", "Ok");
-                                CleanData();
+                                //CleanData();
                             }
                                                       
 
