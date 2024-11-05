@@ -23,7 +23,7 @@ namespace Attendance.VM
         public string name_user;
         public string email_user;
         public string pass;
-        public string phone_number;
+        public string phone_number;        
 
         public string Password
         {
@@ -98,10 +98,10 @@ namespace Attendance.VM
                 pass = value;
                 OnPropertyChange();
             }
-        }
+        }       
         #endregion
 
-        #region Command
+       #region Command
         public Command Tapped_For_Login_Command
         {
             get;

@@ -38,6 +38,12 @@
          WidthRequest="250" CornerRadius="125">
             </Frame>
 
+            <ActivityIndicator 
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Color="Blue"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand" />
 
             <Frame CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
             Grid.Row="1" VerticalOptions="FillAndExpand"

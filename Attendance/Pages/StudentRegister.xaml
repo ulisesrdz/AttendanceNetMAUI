@@ -29,6 +29,13 @@
 
             </Frame>
 
+            <ActivityIndicator 
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Color="Blue"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand" />
+
             <Frame ZIndex="1" CornerRadius="0" BackgroundColor="{x:StaticResource DashboardBackground}"
             Grid.Row="1" VerticalOptions="CenterAndExpand"
             Margin="30,50,30,0"
