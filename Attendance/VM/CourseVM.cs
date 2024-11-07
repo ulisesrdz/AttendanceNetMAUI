@@ -6,11 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Attendance.Pages;
 using Attendance.Helpers;
+using Attendance.Resources.Localization;
 
 namespace Attendance.VM
 {
     class CourseVM:ViewModelBase
     {
+        #region Properties
         AccountService _accountService;
         int id_course;
         public int IdCourse
@@ -22,7 +24,8 @@ namespace Attendance.VM
                 OnPropertyChange();
             }
         }
-
+        #endregion
+        #region Commands
         public Command Tapped_For_Add_Command
         {
             get;
@@ -50,7 +53,10 @@ namespace Attendance.VM
             get;
             set;
         }
-        
+        #endregion
+
+
+
         public CourseVM()
         {
             InitVM();
@@ -85,7 +91,7 @@ namespace Attendance.VM
 
         private async void Tapped_For_Back(object sender)
         {
-            await App.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+            await App.Current.MainPage.Navigation.PushAsync(new MainPage());
             //await Shell.Current.GoToAsync("//MainMenu");
         }
 
@@ -97,49 +103,38 @@ namespace Attendance.VM
                 if (!IsBusy)
                 {
                     IsBusy = true;
-                    if (accessType == NetworkAccess.Internet)
+                    if (id_course != 0)
                     {
-                        if (id_course != 0)
+                        var result = await _accountService.DeleteStudent(id_course);
+
+                        var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(result);
+
+                        if (jsonResult.status == "400")
                         {
-                            var result = await _accountService.DeleteStudent(id_course);
-
-                            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(result);
-
-                            if (jsonResult.status == "400")
-                            {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
-                                CleanData();
-                            }
-                            else if (jsonResult.status == "200")
-                            {
-
-                                //ltsStudents.Remove(SelectedPerson);
-
-                                CleanData();
-                                Session.status = 1;
-                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
-                                //Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
-                                //await Shell.Current.GoToAsync("//MainMenu");
-                            }
-                            else
-                            {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
-                            }
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
+                            CleanData();
                         }
-
-
-                        // Connection to internet is available
+                        else if (jsonResult.status == "200")
+                        {
+                            CleanData();
+                            Session.status = 1;
+                            await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        }
+                        else
+                        {
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
+                        }
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
 
@@ -154,49 +149,41 @@ namespace Attendance.VM
                 if (!IsBusy)
                 {
                     IsBusy = true;
-                    if (accessType == NetworkAccess.Internet)
+                    if (Session._IdUser > 0)
                     {
-                        if (Session._IdUser > 0)
+                        var result = await _accountService.DeleteStudents(Session._IdUser);
+
+                        var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(result);
+
+                        if (jsonResult.status == "400")
                         {
-                            var result = await _accountService.DeleteStudents(Session._IdUser);
-
-                            var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(result);
-
-                            if (jsonResult.status == "400")
-                            {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
-                                CleanData();
-                            }
-                            else if (jsonResult.status == "200")
-                            {
-
-                                //ltsStudents.Remove(SelectedPerson);
-
-                                CleanData();
-                                Session.status = 1;
-                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
-                                //Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
-                                //await Shell.Current.GoToAsync("//MainMenu");
-                            }
-                            else
-                            {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
-                            }
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
+                            CleanData();
                         }
+                        else if (jsonResult.status == "200")
+                        {
 
+                            //ltsStudents.Remove(SelectedPerson);
 
-                        // Connection to internet is available
+                            CleanData();
+                            Session.status = 1;
+                            await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        }
+                        else
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                        }
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
 

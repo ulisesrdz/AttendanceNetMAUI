@@ -70,11 +70,38 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attendance saved {0}..
+        /// </summary>
+        internal static string Attendance_DataSaved {
+            get {
+                return ResourceManager.GetString("Attendance_DataSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This student {0} is not registred in this class..
+        /// </summary>
+        internal static string Attendance_NotRegistered {
+            get {
+                return ResourceManager.GetString("Attendance_NotRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attendance.
         /// </summary>
         internal static string Attendance_Page {
             get {
                 return ResourceManager.GetString("Attendance_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data saved by {0}..
+        /// </summary>
+        internal static string Attendance_Save {
+            get {
+                return ResourceManager.GetString("Attendance_Save", resourceCulture);
             }
         }
         
@@ -133,11 +160,92 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Common_Error {
+            get {
+                return ResourceManager.GetString("Common_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information not found..
+        /// </summary>
+        internal static string Common_InfoNotFound {
+            get {
+                return ResourceManager.GetString("Common_InfoNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal Server Error {0}..
+        /// </summary>
+        internal static string Common_InternalError {
+            get {
+                return ResourceManager.GetString("Common_InternalError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Name.
         /// </summary>
         internal static string Common_LastName {
             get {
                 return ResourceManager.GetString("Common_LastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        internal static string Common_OK {
+            get {
+                return ResourceManager.GetString("Common_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Still in process..
+        /// </summary>
+        internal static string Common_Processing {
+            get {
+                return ResourceManager.GetString("Common_Processing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Question.
+        /// </summary>
+        internal static string Common_Question {
+            get {
+                return ResourceManager.GetString("Common_Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Successful..
+        /// </summary>
+        internal static string Common_RecordSaved {
+            get {
+                return ResourceManager.GetString("Common_RecordSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Failed..
+        /// </summary>
+        internal static string Common_SaveFailed {
+            get {
+                return ResourceManager.GetString("Common_SaveFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successful.
+        /// </summary>
+        internal static string Common_Successful {
+            get {
+                return ResourceManager.GetString("Common_Successful", resourceCulture);
             }
         }
         
@@ -313,6 +421,24 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please add the required information..
+        /// </summary>
+        internal static string Login_RequiredFields {
+            get {
+                return ResourceManager.GetString("Login_RequiredFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid username or password..
+        /// </summary>
+        internal static string Login_WrongPass {
+            get {
+                return ResourceManager.GetString("Login_WrongPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Don&apos;t have account?.
         /// </summary>
         internal static string LoginCreateAccount {
@@ -394,6 +520,60 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Course.
+        /// </summary>
+        internal static string PrintDoc_Course {
+            get {
+                return ResourceManager.GetString("PrintDoc_Course", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The document file is opened..
+        /// </summary>
+        internal static string PrintDoc_DocOpen {
+            get {
+                return ResourceManager.GetString("PrintDoc_DocOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complete Name.
+        /// </summary>
+        internal static string PrintDoc_Name {
+            get {
+                return ResourceManager.GetString("PrintDoc_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File was generated correctly, Do you want to share it?.
+        /// </summary>
+        internal static string PrintDoc_Saved {
+            get {
+                return ResourceManager.GetString("PrintDoc_Saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Share File..
+        /// </summary>
+        internal static string PrintDoc_ShareFile {
+            get {
+                return ResourceManager.GetString("PrintDoc_ShareFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attendance List.
+        /// </summary>
+        internal static string PrintDoc_Title {
+            get {
+                return ResourceManager.GetString("PrintDoc_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create QR Code.
         /// </summary>
         internal static string QR_Code_Generated {
@@ -408,6 +588,33 @@ namespace Attendance.Resources.Localization {
         internal static string Register_Page {
             get {
                 return ResourceManager.GetString("Register_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to see the student list?.
+        /// </summary>
+        internal static string SchooGradel_ListView {
+            get {
+                return ResourceManager.GetString("SchooGradel_ListView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, select a course..
+        /// </summary>
+        internal static string SchoolGrade_CourseNotSelected {
+            get {
+                return ResourceManager.GetString("SchoolGrade_CourseNotSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A record already exists..
+        /// </summary>
+        internal static string SchoolGrade_RecordExist {
+            get {
+                return ResourceManager.GetString("SchoolGrade_RecordExist", resourceCulture);
             }
         }
         
@@ -471,6 +678,24 @@ namespace Attendance.Resources.Localization {
         internal static string SingleDelete {
             get {
                 return ResourceManager.GetString("SingleDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student is assigned correctly. Do you want to add another student?.
+        /// </summary>
+        internal static string Student_Added {
+            get {
+                return ResourceManager.GetString("Student_Added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The student is already registered in this course..
+        /// </summary>
+        internal static string Student_Exists {
+            get {
+                return ResourceManager.GetString("Student_Exists", resourceCulture);
             }
         }
         

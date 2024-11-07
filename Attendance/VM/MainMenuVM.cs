@@ -89,9 +89,9 @@ namespace Attendance.VM
             Session.attendanceView = true;
             Session.attendance = false;
             Session.studentsListView = false;
-            await App.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
-            //await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
-            //await Application.Current.MainPage.Navigation.PushAsync(new page.AttendanceView());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new page.SchoolGroup());
+            //await Application.Current.MainPage.Navigation.PushModalAsync(new page.SchoolGroup());
+            //await Application.Current.MainPage.Navigation.PushModalAsync(new page.AttendanceView());
         }
         private async void Tapped_For_BusinessURL(object sender)
         {
@@ -99,7 +99,7 @@ namespace Attendance.VM
             Session.attendanceView = false;
             Session.attendance = false;
             Session.studentsListView = false;
-            await Application.Current.MainPage.Navigation.PushAsync(new page.BusinessURL());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new page.BusinessURL());
         }
         private async void Tapped_For_SchoolGroup(object sender)
         {
@@ -107,7 +107,7 @@ namespace Attendance.VM
             Session.attendanceView = false;
             Session.attendance = false;
             Session.studentsListView = false;
-            await Application.Current.MainPage.Navigation.PushAsync(new page.SchoolGroup());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new page.SchoolGroup());
         }
 
         private async void Tapped_For_Register(object sender)
@@ -116,7 +116,7 @@ namespace Attendance.VM
             Session.attendanceView = false;
             Session.attendance = false;
             Session.studentsListView = false;
-            await Application.Current.MainPage.Navigation.PushAsync(new page.StudentRegister());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new page.StudentRegister());
         }
         private async void Tapped_For_CourseRegisterCourseList(object sender)
         {
@@ -124,7 +124,7 @@ namespace Attendance.VM
             Session.attendanceView = false;
             Session.attendance = false;
             Session.studentsListView = false;
-            await Application.Current.MainPage.Navigation.PushAsync(new page.CourseRegister());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new page.CourseRegister());
         }
         private async void Tapped_For_PrintQRCode(object sender)
         {
@@ -134,7 +134,7 @@ namespace Attendance.VM
                 Session.attendanceView = false;
                 Session.attendance = false;
                 Session.attendance = false;
-                await Application.Current.MainPage.Navigation.PushAsync(new page.PrintQRCodePage());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new page.PrintQRCodePage());
             }
             catch (Exception ex)
             {

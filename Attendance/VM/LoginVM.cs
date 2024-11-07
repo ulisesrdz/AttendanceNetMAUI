@@ -2,6 +2,7 @@
 using Attendance.API;
 using Attendance.Entities;
 using Attendance.Helpers;
+using Attendance.Resources.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -172,7 +173,7 @@ namespace Attendance.VM
                         var exist = await App.DataBase.getUserbyUserAsync(email_user);
                         if (exist != null)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "The email is already created", "Ok");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.SchoolGrade_RecordExist, AppResource.Common_OK);
                         }
                         else
                         {
@@ -188,15 +189,15 @@ namespace Attendance.VM
                             var result = await App.DataBase.CreateUserAsync(_user);
                             if (result > 0)
                             {
-                                await Application.Current.MainPage.DisplayAlert("Guardado", "Usuario guardado en la base de datos", "OK");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.Common_RecordSaved, AppResource.Common_OK);
                                 //OnCargarUsuariosClicked(null, null);
                                 CleanData();
-                                await App.Current.MainPage.Navigation.PopModalAsync();
+                                await App.Current.MainPage.Navigation.PopAsync();
                                 //await App.Current.MainPage.Navigation.PushModalAsync(new Pages.LoginA());
                             }
                             else
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", "Ocurrio un error", "Aceptar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_SaveFailed, AppResource.Common_OK);
                             }
                         }
                         
@@ -204,18 +205,18 @@ namespace Attendance.VM
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Failed", "Please add the required information", "OK");
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Login_RequiredFields, AppResource.Common_OK);
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
 
                 CleanData();
                 IsBusy = false;
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
         }
@@ -237,48 +238,42 @@ namespace Attendance.VM
                 if (!IsBusy)
                 {
                     IsBusy = true;
-                    if (accessType == NetworkAccess.Internet)
-                    {
-                        if (!string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password))
-                        {                           
-                            
-                            var _users = await App.DataBase.loginAsync(Username, Password);
-                            if (_users != null)
-                            {
-                                Session._IdUser = _users.id;
-                                Session._name = _users.name_user;
-                                Session._email = _users.email_user;
-                                Session._identifier = _users.identifier;
-                                Session.phone_number = _users.phone_number;
-                                Session.status = 1;
+                    if(!string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password))
+                        {
 
-                                CleanData();
-                                Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
-                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
-                            }
-                            else
-                            {
-                                HideKeyboard();
-                                await Application.Current.MainPage.DisplayAlert("Error", "Username or password invalid", "Ok");
-                                //CleanData();
-                            }
-                                                      
+                        var _users = await App.DataBase.loginAsync(Username, Password);
+                        if (_users != null)
+                        {
+                            Session._IdUser = _users.id;
+                            Session._name = _users.name_user;
+                            Session._email = _users.email_user;
+                            Session._identifier = _users.identifier;
+                            Session.phone_number = _users.phone_number;
+                            Session.status = 1;
 
+                            CleanData();
+                            Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
+                            await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        }
+                        else
+                        {
+                            HideKeyboard();
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Login_WrongPass, AppResource.Common_OK);
+                            //CleanData();
                         }
 
 
-                        // Connection to internet is available
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
 

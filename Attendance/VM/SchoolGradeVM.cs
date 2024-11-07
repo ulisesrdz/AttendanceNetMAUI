@@ -9,20 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Attendance.Resources.Localization;
+using System.Collections.ObjectModel;
 
 namespace Attendance.VM
 {
-    public class ItemViewModel
-    {
-        public string Name { get; set; }
-        // Otros propiedades según tus necesidades
-    }
-
     class SchoolGradeVM : ViewModelBase
     {
         #region Properties
-        AccountService _accountService;
-        //SchoolGrade ltsGrade;
+        AccountService _accountService;        
 
         private string _name;
         private string Name
@@ -97,8 +92,9 @@ namespace Attendance.VM
                 }
             }
         }
-        private List<SchoolGrade> _ltsGrade { get; set; }
-        public List<SchoolGrade> ltsGrade
+        
+        private ObservableCollection<SchoolGrade> _ltsGrade { get; set; }
+        public ObservableCollection<SchoolGrade> ltsGrade
         {
             get { return _ltsGrade; }
             set
@@ -107,6 +103,10 @@ namespace Attendance.VM
                 {
                     _ltsGrade = value;
                     OnPropertyChange();
+                }
+                else
+                {
+
                 }
 
             }
@@ -126,6 +126,7 @@ namespace Attendance.VM
 
             }
         }
+
         #endregion
 
         #region Command
@@ -161,12 +162,13 @@ namespace Attendance.VM
 
         
         public SchoolGradeVM()
-        {
+        {            
             InitVM();
-            _accountService = new AccountService();
+            CleanData();
+            _accountService = new AccountService();           
             Get_InformationLocal();
         }
-
+        
         public void getInfo()
         {
             InitVM();
@@ -176,8 +178,8 @@ namespace Attendance.VM
 
         void CleanData()
         {
-            ltsGrade = new List<SchoolGrade>();
-            _ltsGrade = new List<SchoolGrade>();
+            ltsGrade = new ObservableCollection<SchoolGrade>();
+            _ltsGrade = new ObservableCollection<SchoolGrade>();
         }        
 
         private void InitVM()
@@ -204,7 +206,7 @@ namespace Attendance.VM
                         var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(schoolGradeInfo);
                         if (jsonResult.status == "400")
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                         }
                         else if (jsonResult.status == "500")
                         {
@@ -213,7 +215,7 @@ namespace Attendance.VM
                         else if (jsonResult.status == "200")
                         {
                             //var _obj = Newtonsoft.Json.JsonConvert.SerializeObject(jsonResult.Result);
-                            ltsGrade = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SchoolGrade>>(jsonResult.Result.ToString());
+                            ltsGrade = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<SchoolGrade>>(jsonResult.Result.ToString());
 
                             //_ltsGrade
                         }
@@ -222,7 +224,7 @@ namespace Attendance.VM
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 throw;
             }
         }
@@ -252,7 +254,7 @@ namespace Attendance.VM
 
                             if (jsonResult.status == "400")
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                                 CleanData();
                             }
                             else if (jsonResult.status == "200")
@@ -262,29 +264,25 @@ namespace Attendance.VM
 
                                 CleanData();
                                 Session.status = 1;
-                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
-                                //Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
-                                //await Shell.Current.GoToAsync("//MainMenu");
+                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());                               
                             }
                             else
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                             }
                         }
 
-
-                        // Connection to internet is available
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
         }
@@ -314,7 +312,7 @@ namespace Attendance.VM
                         {
                             if(Session.schoolGrade)
                             {
-                                var opt = await Application.Current.MainPage.DisplayAlert("Question", "Quieres ver la lista de estudiantes", "Yes","No");
+                                var opt = await Application.Current.MainPage.DisplayAlert(AppResource.Common_Question, AppResource.SchooGradel_ListView, AppResource.CommonYes, AppResource.CommonNo);
                                 if (opt)
                                 {                                    
                                     Session.attendanceView = true;
@@ -326,19 +324,13 @@ namespace Attendance.VM
                                     Session.attendanceView = false;                                    
                                     await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());                                   
                                 }
-                            }
-                            //Session.Id_Course = ItemSelected.id;
-                            //Session._IdUser = ItemSelected.id_user;
-                            //await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                            }                           
                         }
                         else
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "No se ha seleccionado ningun curso", "Aceptar");
-                        }
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.SchoolGrade_CourseNotSelected, AppResource.Common_OK);
+                        }                        
                         
-                        //await Application.Current.MainPage.Navigation.PushAsync(new Attendance());
-                        //var aaa = ItemSelected;
-                        //var dataInfoStatus = await _accountService.GetSchoolGradeInfo(Session._IdUser);
                     }
                     else
                     {
@@ -350,7 +342,7 @@ namespace Attendance.VM
                         }
                         else
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "No se ha seleccionado ningun curso", "Aceptar");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.SchoolGrade_CourseNotSelected, AppResource.Common_OK);
                         }
                     }
                     IsBusy = false;
@@ -381,39 +373,32 @@ namespace Attendance.VM
 
                             if (jsonResult.status == "400")
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                                 CleanData();
                             }
                             else if (jsonResult.status == "200")
                             {
-
-                                //ltsStudents.Remove(SelectedPerson);
-
                                 CleanData();
                                 Session.status = 1;
-                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
-                                //Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
-                                //await Shell.Current.GoToAsync("//MainMenu");
+                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());                                
                             }
                             else
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                             }
                         }
 
-
-                        // Connection to internet is available
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
 
@@ -438,39 +423,31 @@ namespace Attendance.VM
 
                             if (jsonResult.status == "400")
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                                 CleanData();
                             }
                             else if (jsonResult.status == "200")
                             {
-
-                                //ltsStudents.Remove(SelectedPerson);
-
                                 CleanData();
                                 Session.status = 1;
-                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
-                                //Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
-                                //await Shell.Current.GoToAsync("//MainMenu");
+                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());                                
                             }
                             else
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                             }
                         }
-
-
-                        // Connection to internet is available
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
 
@@ -495,7 +472,7 @@ namespace Attendance.VM
 
                     if (schoolGradeInfo.Count > 0)
                     {
-                        var _grade = new List<SchoolGrade>();
+                        _ltsGrade.Clear();
                         foreach (var item in schoolGradeInfo)
                         {
                             var grade = new SchoolGrade();
@@ -506,18 +483,16 @@ namespace Attendance.VM
                             grade.grade = item.grade;
 
 
-                            _grade.Add(grade);
+                            _ltsGrade.Add(grade);
                         }
 
-                        if (_grade.Count > 0)
-                        {
-                            ltsGrade = _grade;
-                        }
+                        
                     }
                     else
                     {
-                        ltsGrade = new List<SchoolGrade>();
-                        await Application.Current.MainPage.DisplayAlert("Error", "No se ha entrado informacion", "Aceptar");
+                        _ltsGrade = new ObservableCollection<SchoolGrade>();
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
+                        await Application.Current.MainPage.Navigation.PopAsync();
                     }
                     IsBusy = false;
                     //CleanData();
@@ -525,7 +500,8 @@ namespace Attendance.VM
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
+                await Application.Current.MainPage.Navigation.PopAsync();
                 throw;
             }
         }
@@ -540,7 +516,7 @@ namespace Attendance.VM
                     var exist = await App.DataBase.existSchoolGradeAsync(Session._IdUser, _courseName);
                     if (exist.Count > 0)
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error", "Ya existe un registro", "Ok");
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.SchoolGrade_RecordExist, AppResource.Common_OK);
 
                         IsBusy = false;
                         CleanData();
@@ -560,20 +536,20 @@ namespace Attendance.VM
                         var schoolGradeInfo = await App.DataBase.CreateGradeAsync(course);
                         if (schoolGradeInfo>0)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Success", "Save Successful", "Ok");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.Common_RecordSaved, AppResource.Common_OK);
                             CleanData();
                         }
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 //CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
         }
@@ -599,7 +575,7 @@ namespace Attendance.VM
 
                         if (result == 0)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Save Failed", "Ok");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_SaveFailed, AppResource.Common_OK);
                             CleanData();
                         }
                         else if (result > 0)
@@ -607,20 +583,20 @@ namespace Attendance.VM
                             ltsGrade.Remove(ItemSelected);
                             CleanData();
                             Session.status = 1;
-                            await Application.Current.MainPage.DisplayAlert("Success", "Save Successful", "Ok");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.Common_RecordSaved, AppResource.Common_OK);
                             await App.Current.MainPage.Navigation.PushAsync(new MainPage());
                         }                       
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
 
@@ -652,7 +628,7 @@ namespace Attendance.VM
 
                         if (result == 0)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Save Failed", "Ok");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_SaveFailed, AppResource.Common_OK);
                             CleanData();
                         }
                         else if (result > 0)
@@ -666,14 +642,14 @@ namespace Attendance.VM
                     }                   
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
 

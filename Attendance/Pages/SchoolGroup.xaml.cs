@@ -9,19 +9,13 @@ public partial class SchoolGroup : ContentPage
 	public SchoolGroup()
 	{
 		InitializeComponent();
-
-        //BindingContext = Session.schoolGrade ? new VM.SchoolGradeVM() : new VM.AttendanceVM();
+        //BindingContext = VM.SchoolGradeVM.GetInstance();
         BindingContext = new VM.SchoolGradeVM();
-        //Get_Information();
     }
 
     protected override void OnAppearing()
 	{
-		base.OnAppearing();
-		//if (ltsGrade == null)
-		//{
-  //          Get_Information();
-  //      }
+		base.OnAppearing();		
     }
 
     private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -31,19 +25,7 @@ public partial class SchoolGroup : ContentPage
             var selectedCourse = e.SelectedItem as SchoolGrade;
             var viewModel = BindingContext as SchoolGradeVM;
             viewModel.ItemSelected = selectedCourse;
-            //if (Session.schoolGrade)
-            //{
-            //    var viewModel = BindingContext as SchoolGradeVM;
-            //    viewModel.ItemSelected = selectedCourse;
-            //}
-            //else
-            //{
-            //    var viewModel = BindingContext as  AttendanceVM;
-            //    viewModel.ItemSelected = selectedCourse;
-            //}
             
-            // Reiniciar la selección para permitir seleccionar el mismo elemento nuevamente
-            //((ListView)sender).SelectedItem = null;
         }
     }
 

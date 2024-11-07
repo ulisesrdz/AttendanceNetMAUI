@@ -120,8 +120,17 @@
   <data name="AttendanceDate" xml:space="preserve">
     <value>Asistencia</value>
   </data>
+  <data name="Attendance_DataSaved" xml:space="preserve">
+    <value>Asistencia almacenada {0}.</value>
+  </data>
+  <data name="Attendance_NotRegistered" xml:space="preserve">
+    <value>El estudiante {0} no se ha registrado en esta clase.</value>
+  </data>
   <data name="Attendance_Page" xml:space="preserve">
     <value>Asistencia</value>
+  </data>
+  <data name="Attendance_Save" xml:space="preserve">
+    <value>Informacion guardada por {0}.</value>
   </data>
   <data name="Attendance_title" xml:space="preserve">
     <value>Asistencia</value>
@@ -171,6 +180,33 @@
   <data name="CommonYes" xml:space="preserve">
     <value>Si</value>
   </data>
+  <data name="Common_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Common_InfoNotFound" xml:space="preserve">
+    <value>No se encontro informacion.</value>
+  </data>
+  <data name="Common_InternalError" xml:space="preserve">
+    <value>Error interno {0}.</value>
+  </data>
+  <data name="Common_OK" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="Common_Processing" xml:space="preserve">
+    <value>La operacion se encuentra en proceso.</value>
+  </data>
+  <data name="Common_Question" xml:space="preserve">
+    <value>Pregunta</value>
+  </data>
+  <data name="Common_RecordSaved" xml:space="preserve">
+    <value>Registro almacenado correctamente.</value>
+  </data>
+  <data name="Common_SaveFailed" xml:space="preserve">
+    <value>No se guardo registro.</value>
+  </data>
+  <data name="Common_Successful" xml:space="preserve">
+    <value>Exito</value>
+  </data>
   <data name="CourseGrade" xml:space="preserve">
     <value>Grados</value>
   </data>
@@ -216,17 +252,50 @@
   <data name="Login_Page" xml:space="preserve">
     <value>Iniciar Sesion</value>
   </data>
+  <data name="Login_RequiredFields" xml:space="preserve">
+    <value>Por favor agregue la información requerida.</value>
+  </data>
+  <data name="Login_WrongPass" xml:space="preserve">
+    <value>Nombre de usuario o contraseña no válidos.</value>
+  </data>
   <data name="MainMenu" xml:space="preserve">
     <value>Menu Principal</value>
   </data>
   <data name="NA" xml:space="preserve">
     <value>No disponible</value>
   </data>
+  <data name="PrintDoc_Course" xml:space="preserve">
+    <value>Materia</value>
+  </data>
+  <data name="PrintDoc_DocOpen" xml:space="preserve">
+    <value>El documento se encuentra abierto.</value>
+  </data>
+  <data name="PrintDoc_Name" xml:space="preserve">
+    <value>Nombre Completo</value>
+  </data>
+  <data name="PrintDoc_Saved" xml:space="preserve">
+    <value>Se genero archivo correctamente, Desea compartirlo?</value>
+  </data>
+  <data name="PrintDoc_ShareFile" xml:space="preserve">
+    <value>Compartir Archivo.</value>
+  </data>
+  <data name="PrintDoc_Title" xml:space="preserve">
+    <value>Control de Asistencia</value>
+  </data>
   <data name="QR_Code_Generated" xml:space="preserve">
     <value>Imprimir Codigo QR</value>
   </data>
   <data name="Register_Page" xml:space="preserve">
     <value>Registro de Usuario</value>
+  </data>
+  <data name="SchooGradel_ListView" xml:space="preserve">
+    <value>Desea ver la lista de estudiantes?</value>
+  </data>
+  <data name="SchoolGrade_CourseNotSelected" xml:space="preserve">
+    <value>No se ha seleccionado ningun curso.</value>
+  </data>
+  <data name="SchoolGrade_RecordExist" xml:space="preserve">
+    <value>Ya existe un registro.</value>
   </data>
   <data name="SchoolGroupTitle" xml:space="preserve">
     <value>Seleccionar Grupo Escolar</value>
@@ -254,6 +323,12 @@
   </data>
   <data name="StudentsSeeStudent" xml:space="preserve">
     <value>Ver Estudiantes</value>
+  </data>
+  <data name="Student_Added" xml:space="preserve">
+    <value>Se asigno estudiante correctamente, Desea agregar otro estudiante?</value>
+  </data>
+  <data name="Student_Exists" xml:space="preserve">
+    <value>El estudiante se asigno a esta materia.</value>
   </data>
   <data name="Student_Title" xml:space="preserve">
     <value>Estudiantes</value>

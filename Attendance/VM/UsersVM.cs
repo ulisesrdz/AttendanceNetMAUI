@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Attendance.Helpers;
 using Attendance.Pages;
+using System.Collections.ObjectModel;
+using Attendance.Resources.Localization;
 
 namespace Attendance.VM
 {
@@ -121,8 +123,8 @@ namespace Attendance.VM
             }
         }
 
-        private List<Students> _ltsStudents { get; set; }
-        public List<Students> ltsStudents
+        private ObservableCollection<Students> _ltsStudents { get; set; }
+        public ObservableCollection<Students> ltsStudents
         {
             get { return _ltsStudents; }
             set
@@ -213,6 +215,8 @@ namespace Attendance.VM
             IDUser = 0;
             IDCourse = 0;
             IdStudent = 0;
+            _ltsStudents = new ObservableCollection<Students>();
+            ltsStudents = new ObservableCollection<Students>();
         }
 
         #region API
@@ -244,7 +248,7 @@ namespace Attendance.VM
 
                             if (jsonResult.status == "400")
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                                 CleanData();
                             }
                             else if (jsonResult.status == "200")
@@ -254,10 +258,10 @@ namespace Attendance.VM
 
                                 CleanData();
                                 Session.status = 1;
-                                bool msg = await Application.Current.MainPage.DisplayAlert("Aviso", "Se asigno estudiante, Desea agregar otro estudiante?", "Si","No");
+                                bool msg = await Application.Current.MainPage.DisplayAlert(AppResource.CommonWarning, AppResource.Student_Added, AppResource.CommonYes, AppResource.CommonNo);
                                 if (!msg)
                                 {
-                                    await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                                    await App.Current.MainPage.Navigation.PopToRootAsync();
                                 }
                                 else
                                 {
@@ -270,7 +274,7 @@ namespace Attendance.VM
                             }
                             else
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                                 CleanData();
                                 IsBusy = false;
                             }
@@ -316,7 +320,7 @@ namespace Attendance.VM
 
                             if (jsonResult.status == "400")
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                                 CleanData();
                             }
                             else if (jsonResult.status == "200")
@@ -332,7 +336,7 @@ namespace Attendance.VM
                             }
                             else
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                             }
                         }
 
@@ -372,7 +376,7 @@ namespace Attendance.VM
                             
                             if (jsonResult.status == "400")
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                                 CleanData();
                             }
                             else if (jsonResult.status == "200")
@@ -388,7 +392,7 @@ namespace Attendance.VM
                             }
                             else
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                             }
                         }
 
@@ -429,7 +433,7 @@ namespace Attendance.VM
 
                             if (jsonResult.status == "400")
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Continuar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                                 CleanData();
                             }
                             else if (jsonResult.status == "200")
@@ -445,16 +449,17 @@ namespace Attendance.VM
                             }
                             else
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                             }
                         }
 
 
                         // Connection to internet is available
                     }
+                    else
+                        await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
                 }
-                else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                
                 CleanData();
                 IsBusy = false;
 
@@ -481,16 +486,16 @@ namespace Attendance.VM
                         var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(schoolGradeInfo);
                         if (jsonResult.status == "400")
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                         }
                         else if (jsonResult.status == "500")
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                         }
                         else if (jsonResult.status == "200")
                         {
                             //var _obj = Newtonsoft.Json.JsonConvert.SerializeObject(jsonResult.Result);
-                            ltsStudents = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Students>>(jsonResult.Result.ToString());
+                            _ltsStudents = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<Students>>(jsonResult.Result.ToString());
 
                             //_ltsGrade
                         }
@@ -524,16 +529,16 @@ namespace Attendance.VM
                         var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(studentInfo);
                         if (jsonResult.status == "400")
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                         }
                         else if (jsonResult.status == "500")
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                         }
                         else if (jsonResult.status == "200")
                         {
                             //var _obj = Newtonsoft.Json.JsonConvert.SerializeObject(jsonResult.Result);
-                            ltsStudents = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Students>>(jsonResult.Result.ToString());
+                            _ltsStudents = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<Students>>(jsonResult.Result.ToString());
 
                             //_ltsGrade
                         }
@@ -561,7 +566,7 @@ namespace Attendance.VM
                     var _students = await App.DataBase.getUserbyIdUserAsync(id_user);
                     if (_students.Count > 0)
                     {
-                        var students = new List<Students>();
+                        _ltsStudents.Clear();
                         foreach (var item in _students)
                         {
                             var stundent = new Students();
@@ -572,26 +577,22 @@ namespace Attendance.VM
                             stundent.name = item.name;
                             stundent.last_name = item.last_name;
 
-                            students.Add(stundent);
+                            _ltsStudents.Add(stundent);
                         }
-
-                        if (students.Count > 0)
-                        {
-                            ltsStudents = students;
-                        }
+                       
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error", "No se encontro informacion", "Ok");
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
                         CleanData();                        
-                        await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        await App.Current.MainPage.Navigation.PopToRootAsync();
                     }
                     IsBusy = false;
                 }
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 throw;
             }
         }
@@ -607,7 +608,7 @@ namespace Attendance.VM
                     var _students = await App.DataBase.getUserbyIdUserCourseAsync(id_user, id_course);
                     if (_students.Count > 0)
                     {
-                        var students = new List<Students>();
+                        _ltsStudents.Clear();
                         foreach (var item in _students)
                         {
                             var stundent = new Students();
@@ -618,26 +619,21 @@ namespace Attendance.VM
                             stundent.name = item.name;
                             stundent.last_name = item.last_name;
 
-                            students.Add(stundent);
-                        }
-
-                        if (students.Count > 0)
-                        {
-                            ltsStudents = students;
-                        }
+                            _ltsStudents.Add(stundent);
+                        }                       
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error", "No se encontro informacion", "Ok");
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
                         CleanData();
-                        await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        await App.Current.MainPage.Navigation.PopToRootAsync();
                     }
                     IsBusy = false;
                 }
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 throw;
             }
         }
@@ -667,28 +663,28 @@ namespace Attendance.VM
 
                         if (result == 0)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Save Failed", "Ok");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_SaveFailed, AppResource.Common_OK);
                             CleanData();
                         }
                         else if (result > 0)
                         {                            
                             CleanData();
                             Session.status = 1;
-                            await Application.Current.MainPage.DisplayAlert("Success", "Save Successful", "Ok");
-                            await App.Current.MainPage.Navigation.PushAsync(new MainPage());                           
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.Common_RecordSaved, AppResource.Common_OK);
+                            await App.Current.MainPage.Navigation.PopToRootAsync();                           
                         }
                         
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
 
@@ -723,7 +719,7 @@ namespace Attendance.VM
                         var exist = await App.DataBase.getStudentbyIdAsync(student.id, student.id_course);
                         if (exist)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Warning", "The student is already registered in this course", "Ok");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.CommonWarning, AppResource.Student_Exists, AppResource.Common_OK);
                             IsBusy = false;
                             return;
                         }
@@ -731,17 +727,17 @@ namespace Attendance.VM
 
                         if (result == 0)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Save Failed", "Ok");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_SaveFailed, AppResource.Common_OK);
                             CleanData();
                         }
                         else if (result > 0)
                         {
                             CleanData();
                             Session.status = 1;
-                            bool msg = await Application.Current.MainPage.DisplayAlert("Aviso", "Se asigno estudiante, Desea agregar otro estudiante?", "Si", "No");
+                            bool msg = await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.Student_Added, AppResource.CommonYes, AppResource.CommonNo);
                             if (!msg)
                             {
-                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                                await App.Current.MainPage.Navigation.PopToRootAsync();
                             }
                             else
                             {
@@ -782,7 +778,7 @@ namespace Attendance.VM
 
                         if (result == 0)
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Save Failed", "Ok");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_SaveFailed, AppResource.Common_OK);
                             CleanData();
                         }
                         else if (result > 0)
@@ -790,21 +786,21 @@ namespace Attendance.VM
                             ltsStudents.Remove(SelectedPerson);
                             CleanData();
                             Session.status = 1;
-                            await Application.Current.MainPage.DisplayAlert("Success", "Save Successful", "Ok");
-                            await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.Common_RecordSaved, AppResource.Common_OK);
+                            await App.Current.MainPage.Navigation.PopAsync();
                         }
                         
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_Error);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
 
@@ -838,7 +834,7 @@ namespace Attendance.VM
 
                             if (result == 0)
                             {
-                                await Application.Current.MainPage.DisplayAlert("Error", "Save Failed", "Ok");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_SaveFailed, AppResource.Common_OK);
                                 CleanData();
                             }
                             else if (result > 0)
@@ -846,21 +842,21 @@ namespace Attendance.VM
                                 ltsStudents.Remove(item);
                                 CleanData();
                                 Session.status = 1;
-                                await Application.Current.MainPage.DisplayAlert("Success", "Save Successful", "Ok");
-                                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.Common_RecordSaved, AppResource.Common_OK);
+                                await App.Current.MainPage.Navigation.PopToRootAsync();
                             }
                         }
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert("Error", "Es necesario tener una conexion a internet para continuar", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
                 CleanData();
                 IsBusy = false;
 
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
 
@@ -877,7 +873,7 @@ namespace Attendance.VM
                     var _students = await App.DataBase.getStudentAsync();
                     if (_students.Count > 0)
                     {
-                        var students = new List<Students>();
+                        _ltsStudents.Clear();
                         foreach (var item in _students)
                         {
                             var stundent = new Students();
@@ -888,26 +884,22 @@ namespace Attendance.VM
                             stundent.name = item.name;
                             stundent.last_name = item.last_name;
 
-                            students.Add(stundent);
+                            _ltsStudents.Add(stundent);
                         }
 
-                        if (students.Count > 0)
-                        {
-                            ltsStudents = students;
-                        }
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error", "No se encontro informacion", "Ok");
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
                         CleanData();
-                        await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                        await App.Current.MainPage.Navigation.PopToRootAsync();
                     }
                     IsBusy = false;
                 }
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError,ex.Message), AppResource.Common_OK);
                 throw;
             }
         }

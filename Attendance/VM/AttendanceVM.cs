@@ -1,10 +1,12 @@
 ﻿using Attendance.API;
 using Attendance.Entities;
 using Attendance.Helpers;
+using Attendance.Resources.Localization;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.Linq;
@@ -17,13 +19,14 @@ namespace Attendance.VM
 {
     class AttendanceVM : ViewModelBase
     {
+        #region Properties
         List<AttendanceEnt> _lts;
         AccountService _accountService;
         public List<AttendanceEnt> _LtsAttendace
         {
             get { return _lts; }
-            set 
-            { 
+            set
+            {
                 _lts = value;
                 OnPropertyChange();
             }
@@ -39,8 +42,8 @@ namespace Attendance.VM
             }
         }
 
-        private List<SchoolGrade> _ltsGrade { get; set; }
-        public List<SchoolGrade> ltsGrade
+        private ObservableCollection<SchoolGrade> _ltsGrade { get; set; }
+        public ObservableCollection<SchoolGrade> ltsGrade
         {
             get { return _ltsGrade; }
             set
@@ -54,8 +57,8 @@ namespace Attendance.VM
             }
         }
 
-        private List<AttendanceEnt> _ltsAttendance { get; set; }
-        public List<AttendanceEnt> ltsAttendance
+        private ObservableCollection<AttendanceEnt> _ltsAttendance { get; set; }
+        public ObservableCollection<AttendanceEnt> ltsAttendance
         {
             get { return _ltsAttendance; }
             set
@@ -83,6 +86,11 @@ namespace Attendance.VM
                 }
             }
         }
+        #endregion
+
+        #region Commands
+        #endregion
+
         public Command Tapped_Save_Command
         {
             get;
@@ -128,8 +136,10 @@ namespace Attendance.VM
 
         private void CleanData()
         {
-           
+            _ltsAttendance = new ObservableCollection<AttendanceEnt>();
             _lts = new List<AttendanceEnt>();
+            _ltsGrade = new ObservableCollection<SchoolGrade>();
+            ltsGrade = new ObservableCollection<SchoolGrade>();
         }
 
         #region API
@@ -153,9 +163,9 @@ namespace Attendance.VM
                     IsBusy=false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 throw;
             }
         }
@@ -172,9 +182,9 @@ namespace Attendance.VM
                     IsBusy = false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 throw;
             }
         }
@@ -192,16 +202,16 @@ namespace Attendance.VM
                         var jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiRequest>(schoolGradeInfo);
                         if (jsonResult.status == "400")
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                         }
                         else if (jsonResult.status == "500")
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_Error);
                         }
                         else if (jsonResult.status == "200")
                         {
                             //var _obj = Newtonsoft.Json.JsonConvert.SerializeObject(jsonResult.Result);
-                            ltsGrade = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SchoolGrade>>(jsonResult.Result.ToString());
+                            _ltsGrade = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<SchoolGrade>>(jsonResult.Result.ToString());
 
                             //_ltsGrade
                         }
@@ -210,7 +220,7 @@ namespace Attendance.VM
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 throw;
             }
         }
@@ -235,15 +245,15 @@ namespace Attendance.VM
                                 {
                                     if (jsonResult.status == "400")
                                     {
-                                        await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                                     }
                                     else if (jsonResult.status == "500")
                                     {
-                                        await Application.Current.MainPage.DisplayAlert("Error", jsonResult.Result.ToString(), "Aceptar");
+                                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, jsonResult.Result.ToString(), AppResource.Common_OK);
                                     }
                                     else if (jsonResult.status == "200")
                                     {
-                                        await Application.Current.MainPage.DisplayAlert("Success", jsonResult.Result.ToString(), "Aceptar");
+                                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, jsonResult.Result.ToString(), AppResource.Common_OK);
                                     }
                                 });
                             }
@@ -252,7 +262,7 @@ namespace Attendance.VM
                         }
                         else
                         {
-                            await Application.Current.MainPage.DisplayAlert("Error", "Missing URL", "OK");
+                            await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
                         }
                     }
                         
@@ -261,7 +271,7 @@ namespace Attendance.VM
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);                
                 IsBusy = false;
             }
         }
@@ -278,11 +288,13 @@ namespace Attendance.VM
                 {
                     IsBusy = true;
                     int counter = 0;
-                    var ltsAtt = new List<AttendanceEnt>();
+                    
                     var attenaces = await App.DataBase.getAttendacebyIdUserAsync(Session._IdUser.ToString(), Session.Id_Course.ToString());
-                    //var student = await App.DataBase.getAttendacebyIdUserAsync(Session.);
-                    if (attenaces.Count > 0)
+                    
+                    if (attenaces.Count > 0)                       
                     {
+                        _ltsAttendance.Clear();
+
                         foreach (var item in attenaces)
                         {
                             var attendace = new AttendanceEnt();
@@ -295,40 +307,17 @@ namespace Attendance.VM
                             attendace.student_name = student.name + " " + student.last_name;
                             attendace.date_time = item.date_time;
 
-                            ltsAtt.Add(attendace);
+                            _ltsAttendance.Add(attendace);
                         }
 
-                        if (ltsAtt.Count>0)
-                        {
-                            ltsAttendance = ltsAtt;
-                        }
                     }
-                    //{
-                    //    var _grade = new List<SchoolGrade>();
-                    //    foreach (var item in schoolGradeInfo)
-                    //    {
-                    //        var grade = new SchoolGrade();
-                    //        grade.id = item.id;
-                    //        grade.id_user = item.id_user;
-                    //        grade.course_name = item.course_name;
-                    //        grade.groups = item.groups;
-                    //        grade.grade = item.grade;
-
-
-                    //        _grade.Add(grade);
-                    //    }
-
-                    //    if (_grade.Count > 0)
-                    //    {
-                    //        ltsGrade = _grade;
-                    //    }
-                    //}
+                   
                     IsBusy = false;
                 }
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
                 throw;
             }
@@ -351,7 +340,7 @@ namespace Attendance.VM
                             var exists= await App.DataBase.getStudentbyIdAsync(id_student, id_course);
                             if (!exists)
                             {
-                                await Application.Current.MainPage.DisplayAlert("Failed", "This student " + item.student_name + " is not registred in this class", "Ok");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.CommonWarning, string.Format(AppResource.Attendance_NotRegistered, item.student_name), AppResource.Common_OK);
                                 return;
                             }
                             var attendance = new AttendanceEntSQLite
@@ -366,7 +355,7 @@ namespace Attendance.VM
                             var result = await App.DataBase.CreateAttendaceAsync(attendance);
                             if (result > 0)
                             {
-                                await Application.Current.MainPage.DisplayAlert("Success", "Data Saved for " + item.student_name, "Ok");
+                                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, string.Format(AppResource.Attendance_Save, item.student_name), AppResource.Common_OK);
                                 CleanData();
                             }
                             
@@ -375,7 +364,7 @@ namespace Attendance.VM
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error", "Missing URL", "OK");
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
                     }
 
                     IsBusy = false;
@@ -383,7 +372,7 @@ namespace Attendance.VM
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, string.Format(AppResource.Common_InternalError, ex.Message), AppResource.Common_OK);
                 IsBusy = false;
             }
         }
@@ -414,7 +403,7 @@ namespace Attendance.VM
                     headerStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
                     // Header Title
                     row = sheet.CreateRow(0);
-                    row.CreateCell(3).SetCellValue("CONTROL DE ASISTENCIA");
+                    row.CreateCell(3).SetCellValue(AppResource.PrintDoc_Title);
                     sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 3, 25));
                     row.GetCell(3).CellStyle = headerStyle;
 
@@ -463,7 +452,7 @@ namespace Attendance.VM
                    
                     row.CreateCell(0).SetCellValue("No.");
                     sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 5, 0, 0));
-                    row.CreateCell(1).SetCellValue("Nombre y Apellidos");
+                    row.CreateCell(1).SetCellValue(AppResource.PrintDoc_Name);
                     sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 5, 1, 1));
                     row.CreateCell(2).SetCellValue($"{DateTime.Now.ToString("MMMM",new CultureInfo("es-ES")).ToUpper()}");
                     sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 2, 2, 25));
@@ -477,7 +466,7 @@ namespace Attendance.VM
 
                     row = sheet.CreateRow(3);
                     ICell itemMerged = row.CreateCell(2);
-                    row.CreateCell(2).SetCellValue($"Materia");
+                    row.CreateCell(2).SetCellValue(AppResource.PrintDoc_Course);
                     itemMerged.CellStyle = nameStyle;
                     sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(3, 3, 2, 25));
                     
@@ -569,7 +558,7 @@ namespace Attendance.VM
 #else
                     if (IsFileLocked(filePath))
                     {
-                        await Application.Current.MainPage.DisplayAlert("Error", "El documento se encuentra abierto.", "Aceptar");
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.PrintDoc_DocOpen, AppResource.Common_OK);
                         IsBusy = false;
                         return;
                     }
@@ -579,14 +568,14 @@ namespace Attendance.VM
                         {
                             workbook.Write(fileStream);
 
-                            bool msg = await Application.Current.MainPage.DisplayAlert("Aviso", "Se genero archivo correctamente, Desea compartirlo?", "Si", "No");
+                            bool msg = await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.PrintDoc_Saved, AppResource.CommonYes, AppResource.CommonNo);
 
 
                             if (msg)
                             {
                                 await Share.RequestAsync(new ShareFileRequest
                                 {
-                                    Title = "Compartir Archivo",
+                                    Title = AppResource.PrintDoc_ShareFile,
                                     File = new ShareFile(filePath)
                                 });
                             }
@@ -604,7 +593,7 @@ namespace Attendance.VM
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, ex.Message, AppResource.Common_OK);
                 IsBusy = false;
                 throw;
             }

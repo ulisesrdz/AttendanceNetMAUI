@@ -5,6 +5,7 @@ using ZXing.Net.Maui;
 using ZXing.QrCode.Internal;
 using Attendance.Helpers;
 using System.Runtime.InteropServices;
+using Attendance.Resources.Localization;
 
 namespace Attendance.Pages;
 
@@ -15,7 +16,7 @@ public partial class Attendance : ContentPage
     public Attendance()
     {
 		InitializeComponent();
-        CreateData();
+        //CreateData();
         isBusy = false;
     }
 
@@ -85,7 +86,7 @@ public partial class Attendance : ContentPage
                             viewModel.Tapped_Save_Command.Execute(null);
                         }
 
-                        await Application.Current.MainPage.DisplayAlert("Success", _barcode[1] + " Saved", "OK");
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, string.Format(AppResource.Attendance_DataSaved, _barcode[1]), AppResource.Common_OK);
                         //await DisplayAlert("Success", barcode.Value + " Saved", "OK");
                         //var task = DisplayAlert("Success", barcode.Value + " Saved", "OK");
 

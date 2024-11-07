@@ -5,12 +5,13 @@
              xmlns:viewModels="clr-namespace:Attendance.VM"
              xmlns:handless="clr-namespace:Attendance.Handlers"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
-             xmlns:CustomViewCell="clr-namespace:Attendance.Helpers"
+             xmlns:CustomViewCell="clr-namespace:Attendance.Helpers" 
+             NavigationPage.HasBackButton="True"
              Title="{localization:Translate SchoolGroup_Page}">
     
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <viewModels:SchoolGradeVM/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
     <!--xmlns:viewModels="clr-namespace:Attendance.VM"-->
     
     <ContentPage.ToolbarItems>

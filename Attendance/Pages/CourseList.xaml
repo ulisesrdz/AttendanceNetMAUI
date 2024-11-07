@@ -9,10 +9,6 @@
              Title="CourseLists">
 
 
-    <ContentPage.BindingContext>
-        <viewModels:SchoolGradeVM/>
-    </ContentPage.BindingContext>
-
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{localization:Translate SingleDelete}" Priority="1" Order="Secondary"
                  Command="{Binding Tapped_For_DeleteCourse_Command}" 
@@ -72,9 +68,7 @@
                                             <Grid BackgroundColor="Transparent" HeightRequest="35">
                                                 <Grid.ColumnDefinitions>                                                   
                                                     <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                
+                                                </Grid.ColumnDefinitions>                                                
                                                 <Label Grid.Column="4" Text="{Binding course_name}"  HorizontalTextAlignment="Center"  HorizontalOptions="FillAndExpand" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
 
                                             </Grid>
