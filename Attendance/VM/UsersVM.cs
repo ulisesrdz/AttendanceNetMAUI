@@ -261,7 +261,7 @@ namespace Attendance.VM
                                 bool msg = await Application.Current.MainPage.DisplayAlert(AppResource.CommonWarning, AppResource.Student_Added, AppResource.CommonYes, AppResource.CommonNo);
                                 if (!msg)
                                 {
-                                    await App.Current.MainPage.Navigation.PopToRootAsync();
+                                    await App.Current.MainPage.Navigation.PopAsync();
                                 }
                                 else
                                 {
@@ -585,7 +585,7 @@ namespace Attendance.VM
                     {
                         await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
                         CleanData();                        
-                        await App.Current.MainPage.Navigation.PopToRootAsync();
+                        await App.Current.MainPage.Navigation.PopAsync();
                     }
                     IsBusy = false;
                 }
@@ -626,7 +626,7 @@ namespace Attendance.VM
                     {
                         await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
                         CleanData();
-                        await App.Current.MainPage.Navigation.PopToRootAsync();
+                        await App.Current.MainPage.Navigation.PopAsync();
                     }
                     IsBusy = false;
                 }
@@ -671,7 +671,7 @@ namespace Attendance.VM
                             CleanData();
                             Session.status = 1;
                             await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.Common_RecordSaved, AppResource.Common_OK);
-                            await App.Current.MainPage.Navigation.PopToRootAsync();                           
+                            await App.Current.MainPage.Navigation.PopAsync();                           
                         }
                         
                     }
@@ -737,7 +737,7 @@ namespace Attendance.VM
                             bool msg = await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.Student_Added, AppResource.CommonYes, AppResource.CommonNo);
                             if (!msg)
                             {
-                                await App.Current.MainPage.Navigation.PopToRootAsync();
+                                await App.Current.MainPage.Navigation.PopAsync();
                             }
                             else
                             {
@@ -843,7 +843,7 @@ namespace Attendance.VM
                                 CleanData();
                                 Session.status = 1;
                                 await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, AppResource.Common_RecordSaved, AppResource.Common_OK);
-                                await App.Current.MainPage.Navigation.PopToRootAsync();
+                                await App.Current.MainPage.Navigation.PopAsync();
                             }
                         }
                     }
@@ -892,7 +892,7 @@ namespace Attendance.VM
                     {
                         await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
                         CleanData();
-                        await App.Current.MainPage.Navigation.PopToRootAsync();
+                        await App.Current.MainPage.Navigation.PopAsync();
                     }
                     IsBusy = false;
                 }

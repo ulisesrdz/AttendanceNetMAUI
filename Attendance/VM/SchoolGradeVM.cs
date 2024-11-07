@@ -184,7 +184,7 @@ namespace Attendance.VM
 
         private void InitVM()
         {
-            Tapped_For_Enter_Command = new Command(Tapped_For_Enter);
+            Tapped_For_Enter_Command = new Command(Tapped_For_EnterLocal);
             Tapped_For_Add_Command = new Command(Tapped_For_AddLocal);
             Tapped_For_DeleteCourse_Command = new Command(Tapped_For_DeleteCourseLocal);
             Tapped_For_DeleteCourses_Command = new Command(Tapped_For_DeleteCoursesLocal);
@@ -461,6 +461,56 @@ namespace Attendance.VM
         #endregion
 
         #region Local
+
+        private async void Tapped_For_EnterLocal(object sender)
+        {           
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    Session.Id_Course = ItemSelected.id;
+                    Session._IdUser = ItemSelected.id_user;
+
+                    if (Session.attendanceView)
+                    {
+                        await App.Current.MainPage.Navigation.PushAsync(new page.AttendanceView());
+                    }
+                    else if (Session.attendance)
+                    {
+                        await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+                    }
+                    else if (ItemSelected != null)
+                    {
+                        if (Session.schoolGrade)
+                        {
+                            var opt = await Application.Current.MainPage.DisplayAlert(AppResource.Common_Question, AppResource.SchooGradel_ListView, AppResource.CommonYes, AppResource.CommonNo);
+                            if (opt)
+                            {
+                                Session.attendanceView = true;
+                                Session.studentsListView = true;
+                                await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                            }
+                            else
+                            {
+                                Session.attendanceView = false;
+                                await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.SchoolGrade_CourseNotSelected, AppResource.Common_OK);
+                    }
+                    IsBusy = false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         private async void Get_InformationLocal()
         {
             try

@@ -89,8 +89,6 @@ namespace Attendance.VM
         #endregion
 
         #region Commands
-        #endregion
-
         public Command Tapped_Save_Command
         {
             get;
@@ -112,6 +110,7 @@ namespace Attendance.VM
             get;
             set;
         }
+        #endregion        
 
         public AttendanceVM()
         {
@@ -263,6 +262,7 @@ namespace Attendance.VM
                         else
                         {
                             await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
+                            await Application.Current.MainPage.Navigation.PopAsync();
                         }
                     }
                         
@@ -311,7 +311,12 @@ namespace Attendance.VM
                         }
 
                     }
-                   
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                    }
+
                     IsBusy = false;
                 }
             }
@@ -365,6 +370,7 @@ namespace Attendance.VM
                     else
                     {
                         await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_InfoNotFound, AppResource.Common_OK);
+                        await Application.Current.MainPage.Navigation.PopAsync();
                     }
 
                     IsBusy = false;
