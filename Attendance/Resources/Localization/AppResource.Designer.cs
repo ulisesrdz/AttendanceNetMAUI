@@ -70,6 +70,51 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Front.
+        /// </summary>
+        internal static string Attendace_CameraF {
+            get {
+                return ResourceManager.GetString("Attendace_CameraF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rear.
+        /// </summary>
+        internal static string Attendace_CameraT {
+            get {
+                return ResourceManager.GetString("Attendace_CameraT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flash.
+        /// </summary>
+        internal static string Attendace_Light {
+            get {
+                return ResourceManager.GetString("Attendace_Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Student Registered {0}..
+        /// </summary>
+        internal static string Attendace_StudentRegistered {
+            get {
+                return ResourceManager.GetString("Attendace_StudentRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The student {0} has already been registered..
+        /// </summary>
+        internal static string Attendance_AlreadyRegistered {
+            get {
+                return ResourceManager.GetString("Attendance_AlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attendance saved {0}..
         /// </summary>
         internal static string Attendance_DataSaved {
@@ -102,6 +147,15 @@ namespace Attendance.Resources.Localization {
         internal static string Attendance_Save {
             get {
                 return ResourceManager.GetString("Attendance_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scan Barcode....
+        /// </summary>
+        internal static string Attendance_Scanning {
+            get {
+                return ResourceManager.GetString("Attendance_Scanning", resourceCulture);
             }
         }
         
@@ -588,6 +642,15 @@ namespace Attendance.Resources.Localization {
         internal static string Register_Page {
             get {
                 return ResourceManager.GetString("Register_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you already have an account?.
+        /// </summary>
+        internal static string Registrer_LogIn {
+            get {
+                return ResourceManager.GetString("Registrer_LogIn", resourceCulture);
             }
         }
         

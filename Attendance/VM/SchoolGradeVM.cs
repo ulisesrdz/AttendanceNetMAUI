@@ -165,8 +165,12 @@ namespace Attendance.VM
         {            
             InitVM();
             CleanData();
-            _accountService = new AccountService();           
-            Get_InformationLocal();
+            _accountService = new AccountService();
+            if (Session.studentsListView || Session.attendanceView || Session.attendance || Session.schoolGrade)
+            {
+                Get_InformationLocal();
+            }
+            
         }
         
         public void getInfo()
@@ -178,6 +182,14 @@ namespace Attendance.VM
 
         void CleanData()
         {
+            _name = String.Empty;
+            _group = String.Empty;
+            _grade = String.Empty;
+            Name = String.Empty;
+            Group = String.Empty;
+            Grade = String.Empty;
+            CourseName = String.Empty;
+            _courseName = String.Empty;
             ltsGrade = new ObservableCollection<SchoolGrade>();
             _ltsGrade = new ObservableCollection<SchoolGrade>();
         }        
@@ -306,7 +318,8 @@ namespace Attendance.VM
                         }
                         else if (Session.attendance)                        
                         {
-                            await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+                            //await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+                            await App.Current.MainPage.Navigation.PushAsync(App.Services.GetService<page.Attendance>());
                         }
                         else if (ItemSelected != null)
                         {
@@ -469,6 +482,14 @@ namespace Attendance.VM
                 if (!IsBusy)
                 {
                     IsBusy = true;
+
+                    if(ItemSelected == null)
+                    {
+                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.SchoolGrade_CourseNotSelected, AppResource.Common_OK);
+                        IsBusy = false;
+                        return;
+                    }
+
                     Session.Id_Course = ItemSelected.id;
                     Session._IdUser = ItemSelected.id_user;
 
@@ -478,10 +499,13 @@ namespace Attendance.VM
                     }
                     else if (Session.attendance)
                     {
-                        await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+                        //await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+                        await App.Current.MainPage.Navigation.PushAsync(App.Services.GetService<page.Attendance>());
                     }
                     else if (ItemSelected != null)
                     {
+                       
+
                         if (Session.schoolGrade)
                         {
                             var opt = await Application.Current.MainPage.DisplayAlert(AppResource.Common_Question, AppResource.SchooGradel_ListView, AppResource.CommonYes, AppResource.CommonNo);
@@ -593,7 +617,7 @@ namespace Attendance.VM
                 }
                 else
                     await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Common_Processing, AppResource.Common_OK);
-                //CleanData();
+                CleanData();
                 IsBusy = false;
 
             }

@@ -6,6 +6,7 @@ using ZXing.QrCode.Internal;
 using Attendance.Helpers;
 using System.Runtime.InteropServices;
 using Attendance.Resources.Localization;
+using Plugin.Maui.Audio;
 
 namespace Attendance.Pages;
 
@@ -13,12 +14,17 @@ public partial class Attendance : ContentPage
 {
     private bool isBusy {  get; set; }
     public int Id_Course { get; set; }
-    public Attendance()
+
+    private readonly AudioService _audioService;   
+
+    public Attendance(AudioService audioService)
     {
-		InitializeComponent();
-        //CreateData();
+        InitializeComponent();
         isBusy = false;
+        _audioService = audioService;
+
     }
+
 
     private void CreateData()
     {
@@ -70,10 +76,13 @@ public partial class Attendance : ContentPage
                     foreach (var barcode in e.Results)
                     {
                         var _barcode = barcode.Value.Split(',');
-                        attendance.id_student = _barcode[0];
+                        attendance.id_student = _barcode[1];
                         attendance.date_time = DateTime.Now;
                         attendance.id_course =  Session.Id_Course.ToString();
-                        attendance.id_user=Session._IdUser.ToString();
+                        attendance.id_user = Session._IdUser.ToString();
+                        attendance.student_name = _barcode[0];
+
+                        await _audioService.PlaySoundAsync("scannerbeep.mp3");
 
                         lbl.Text = $"Barcodes: {barcode.Format} -> {barcode.Value}";
 
@@ -86,7 +95,7 @@ public partial class Attendance : ContentPage
                             viewModel.Tapped_Save_Command.Execute(null);
                         }
 
-                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, string.Format(AppResource.Attendance_DataSaved, _barcode[1]), AppResource.Common_OK);
+                        //await Application.Current.MainPage.DisplayAlert(AppResource.Common_Successful, string.Format(AppResource.Attendance_DataSaved, _barcode[1]), AppResource.Common_OK);
                         //await DisplayAlert("Success", barcode.Value + " Saved", "OK");
                         //var task = DisplayAlert("Success", barcode.Value + " Saved", "OK");
 
@@ -114,8 +123,7 @@ public partial class Attendance : ContentPage
         ////$"Barcodes: {barcode.Format} -> {barcode.Value}";
         //}
 
-    }
-    
+    }    
 
     async void OnButtonClick(object sender, EventArgs args)
     {

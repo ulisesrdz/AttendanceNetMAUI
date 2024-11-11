@@ -156,7 +156,8 @@ namespace Attendance.VM
                     }
                     else
                     {
-                        await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());
+                        //await App.Current.MainPage.Navigation.PushAsync(new page.Attendance());]\
+                        await App.Current.MainPage.Navigation.PushAsync(App.Services.GetService<page.Attendance>());
                     }
                     
                     IsBusy=false;
@@ -342,12 +343,22 @@ namespace Attendance.VM
                         {
                             var id_student = Convert.ToInt32(item.id_student);
                             var id_course = Convert.ToInt32(item.id_course);
-                            var exists= await App.DataBase.getStudentbyIdAsync(id_student, id_course);
-                            if (!exists)
+                            var NotExists= await App.DataBase.getStudentbyIdAsync(id_student, id_course);
+                            if (!NotExists)
                             {
                                 await Application.Current.MainPage.DisplayAlert(AppResource.CommonWarning, string.Format(AppResource.Attendance_NotRegistered, item.student_name), AppResource.Common_OK);
+                                IsBusy = false; 
                                 return;
                             }
+
+                            var exists = await App.DataBase.getAttendanceRegistered(item.id_student, item.id_course);
+                            if (exists)
+                            {
+                                await Application.Current.MainPage.DisplayAlert(AppResource.CommonWarning, string.Format(AppResource.Attendance_AlreadyRegistered, item.student_name), AppResource.Common_OK);
+                                IsBusy = false;
+                                return;
+                            }
+
                             var attendance = new AttendanceEntSQLite
                             {
                                 id_course = item.id_course,
@@ -356,6 +367,8 @@ namespace Attendance.VM
                                 id_user = item.id_user
 
                             };
+
+
 
                             var result = await App.DataBase.CreateAttendaceAsync(attendance);
                             if (result > 0)

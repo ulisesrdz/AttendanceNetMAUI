@@ -4,21 +4,27 @@
              x:Class="Attendance.Pages.Attendance"
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
              xmlns:viewModels="clr-namespace:Attendance.VM"
-             Title="Attendance">
+             xmlns:localization="clr-namespace:Attendance.Resources.Localization"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="{localization:Translate Attendance_Page}">
+    
     <ContentPage.BindingContext>
         <viewModels:AttendanceVM/>
     </ContentPage.BindingContext>
     
-    <ContentPage.ToolbarItems>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Text="Acción"
                      Order="Primary"
                      IconImageSource="save_icon.png"
                      Priority="0"
                      Command="{Binding Tapped_Save_Command}"/>
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
 
     <Grid RowDefinitions="*,*">
 
+        <toolkit:MediaElement x:Name="correctMediaElement" IsVisible="false"
+            Source="embed://scannerbeep.mp3" />
+        
         <ActivityIndicator 
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
@@ -26,14 +32,13 @@
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="CenterAndExpand" />
 
-        <zxing:CameraBarcodeReaderView
-            
+        <zxing:CameraBarcodeReaderView            
 			Grid.Row="0"
-           
 			x:Name="barcodeView"
 			BarcodesDetected="BarcodesDetected" 
              IsDetecting="True"
             IsTorchOn="False"/>
+
         <HorizontalStackLayout
             Grid.Row="0"
             HorizontalOptions="End"
@@ -44,11 +49,12 @@
                 Toggled="touchOnSwitch_Toggled" />
         <Label
                 Margin="0,0,10,0"
-                Text="Light"
+                Text="{localization:Translate Attendace_Light}"
                 TextColor="White"
                 VerticalOptions="Center"
                 VerticalTextAlignment="Center" />
         </HorizontalStackLayout>
+        
         <HorizontalStackLayout
             Grid.Row="0"
             HorizontalOptions="Start"
@@ -70,13 +76,15 @@
                 VerticalOptions="Center"
                 VerticalTextAlignment="Center" />
         </HorizontalStackLayout>
+        
         <Label Grid.Row="0"
-               Text="Scan Barcode..."
-                x:Name="lblTitle"
+               Text= "{localization:Translate Attendance_Scanning}"
+               x:Name="lblTitle"
                TextColor="White"
                FontSize="Subtitle"
                HorizontalOptions="Center"
                VerticalOptions="Center"/>
+        
         <Label Grid.Row="2"
                Text=""
                x:Name="lbl"

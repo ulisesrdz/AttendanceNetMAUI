@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Attendace_CameraF" xml:space="preserve">
+    <value>Frontal</value>
+  </data>
+  <data name="Attendace_CameraT" xml:space="preserve">
+    <value>Trasera</value>
+  </data>
+  <data name="Attendace_Light" xml:space="preserve">
+    <value>Flash</value>
+  </data>
+  <data name="Attendace_StudentRegistered" xml:space="preserve">
+    <value>Usuario registrado {0}.</value>
+  </data>
   <data name="AttendanceDate" xml:space="preserve">
     <value>Asistencia</value>
+  </data>
+  <data name="Attendance_AlreadyRegistered" xml:space="preserve">
+    <value>El estudiante {0} ya ha sido registrado.</value>
   </data>
   <data name="Attendance_DataSaved" xml:space="preserve">
     <value>Asistencia almacenada {0}.</value>
@@ -131,6 +146,9 @@
   </data>
   <data name="Attendance_Save" xml:space="preserve">
     <value>Informacion guardada por {0}.</value>
+  </data>
+  <data name="Attendance_Scanning" xml:space="preserve">
+    <value>Escanear Codigo....</value>
   </data>
   <data name="Attendance_title" xml:space="preserve">
     <value>Asistencia</value>
@@ -287,6 +305,9 @@
   </data>
   <data name="Register_Page" xml:space="preserve">
     <value>Registro de Usuario</value>
+  </data>
+  <data name="Registrer_LogIn" xml:space="preserve">
+    <value>Ya tienes una cuenta?</value>
   </data>
   <data name="SchooGradel_ListView" xml:space="preserve">
     <value>Desea ver la lista de estudiantes?</value>

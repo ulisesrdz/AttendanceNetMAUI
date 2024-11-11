@@ -41,6 +41,10 @@ public partial class MainPage : ContentPage
         {
             Application.Current.Quit();           
         }
+        else
+        {
+            await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+        }
         
     }
 }

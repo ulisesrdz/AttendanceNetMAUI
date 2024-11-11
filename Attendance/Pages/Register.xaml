@@ -42,27 +42,27 @@
                Margin="30,70,30,10"
                >
                 <ScrollView>
-                    <VerticalStackLayout Spacing="25">
-                        <Label Text="SIGN IN" FontSize="28" FontAttributes="Bold" />
+                    <VerticalStackLayout Spacing="20">
+                        <Label Text="{localization:Translate LoginSingup}" FontSize="28" FontAttributes="Bold" />
 
                         <Frame Padding="10" BorderColor="Transparent" CornerRadius="0">
                             <Grid ColumnDefinitions="25,*" ColumnSpacing="10">
                                 <Image VerticalOptions="Center" Source="user.png" HeightRequest="25" WidthRequest="25" />
-                                <handless:BorderlessEntry VerticalOptions="Center" Placeholder="Name" Grid.Column="1" Text="{Binding Name_user}"/>
+                                <handless:BorderlessEntry VerticalOptions="Center" Placeholder="{localization:Translate CommonName}" Grid.Column="1" Text="{Binding Name_user}"/>
                             </Grid>
                         </Frame>
 
                         <Frame Padding="10" BorderColor="Transparent" CornerRadius="0">
                             <Grid ColumnDefinitions="25,*" ColumnSpacing="10">
                                 <Image VerticalOptions="Center" Source="email.png" HeightRequest="25" WidthRequest="25" />
-                                <handless:BorderlessEntry VerticalOptions="Center" Placeholder="Email" Grid.Column="1" Text="{Binding Email_user}"/>
+                                <handless:BorderlessEntry VerticalOptions="Center" Placeholder="{localization:Translate CommonEmail}" Grid.Column="1" Text="{Binding Email_user}"/>
                             </Grid>
                         </Frame>
 
                         <Frame Padding="10" BorderColor="Transparent" CornerRadius="0">
                             <Grid ColumnDefinitions="25,*" ColumnSpacing="10">
                                 <Image VerticalOptions="Center" Source="mobile.png" HeightRequest="25" WidthRequest="25" />
-                                <handless:BorderlessEntry VerticalOptions="Center" Placeholder="Mobile Number" Grid.Column="1" Text="{Binding Phone_number}"/>
+                                <handless:BorderlessEntry VerticalOptions="Center" Placeholder="{localization:Translate CommonPN}" Grid.Column="1" Text="{Binding Phone_number}"/>
                             </Grid>
                         </Frame>
 
@@ -76,8 +76,8 @@
                         <Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate LoginSingup}" FontSize="20" FontAttributes="Bold" Command="{Binding Tapped_For_Register_Command}"/>
 
                         <HorizontalStackLayout Spacing="10">
-                            <Label  FontAttributes="Bold" TextColor="Gray" Text="already have a account?" VerticalTextAlignment="Center" />
-                            <Label  Text="SIGN IN" FontSize="18" 
+                            <Label  FontAttributes="Bold" TextColor="Gray" Text="{localization:Translate Registrer_LogIn}" VerticalTextAlignment="Center" />
+                            <Label  Text="{localization:Translate LoginTitle}" FontSize="18" 
                            FontAttributes="Bold"
                            TextColor="{x:StaticResource Primary}" />
                             <HorizontalStackLayout.GestureRecognizers>

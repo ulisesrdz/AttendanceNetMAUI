@@ -123,7 +123,7 @@ namespace Attendance.API
         public async Task<bool> getStudentbyIdAsync(int id, int id_course)
         {
             return await _database.Table<StudentsSQLite>().Where(u => u.id == id  && u.id_course == id_course).FirstOrDefaultAsync() != null ;
-        }
+        }        
         #endregion
 
         #region SchoolGrade
@@ -208,6 +208,10 @@ namespace Attendance.API
             return _database.DeleteAsync(_attendance);
         }
 
+        public async Task<bool> getAttendanceRegistered(string id_student, string id_course)
+        {
+            return await _database.Table<AttendanceEntSQLite>().Where(u => u.id_student == id_student && DateTime.Now>=u.date_time && u.id_course== id_course).FirstOrDefaultAsync() != null;
+        }
         #endregion
     }
 }

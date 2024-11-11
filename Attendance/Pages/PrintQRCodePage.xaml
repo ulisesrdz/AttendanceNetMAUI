@@ -6,7 +6,7 @@
              xmlns:handless="clr-namespace:Attendance.Handlers"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
              xmlns:CustomViewCell="clr-namespace:Attendance.Helpers"
-             Title="PrintQRCodePage">
+             Title="{localization:Translate QR_Code_Generated}">
    
 
     <ContentPage.ToolbarItems>
@@ -57,7 +57,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Grid.Column="4" Text="{localization:Translate SchoolGroup_name}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
+                                    <Label Grid.Column="4" Text="{localization:Translate CommonStudentName}" HorizontalTextAlignment="Center" TextColor="White" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="Center" Style="{StaticResource ColumnHeaderLabelStyle}"/>
                                 </Grid>
                             </ListView.Header>
                             <ListView.ItemTemplate >

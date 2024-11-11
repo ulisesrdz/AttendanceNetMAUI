@@ -7,9 +7,9 @@
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
              
              Title="{localization:Translate CourseRegisterTitle}">
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <viewModels:SchoolGradeVM/>
-    </ContentPage.BindingContext>    
+    </ContentPage.BindingContext>-->    
 
     <ContentPage.ToolbarItems>
         <!--<ToolbarItem Text="Acción"

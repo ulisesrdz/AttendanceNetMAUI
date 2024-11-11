@@ -1,5 +1,6 @@
 using Attendance.Entities;
 using Attendance.VM;
+using Attendance.Helpers;
 
 namespace Attendance.Pages;
 
@@ -8,6 +9,7 @@ public partial class CourseList : ContentPage
 	public CourseList()
 	{
 		InitializeComponent();
+        Session.studentsListView = true;
         BindingContext = new VM.SchoolGradeVM();
         //Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);
         //BindingContext = new VM.CourseVM();

@@ -120,8 +120,23 @@
   <data name="About_Page" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="Attendace_CameraF" xml:space="preserve">
+    <value>Front</value>
+  </data>
+  <data name="Attendace_CameraT" xml:space="preserve">
+    <value>Rear</value>
+  </data>
+  <data name="Attendace_Light" xml:space="preserve">
+    <value>Flash</value>
+  </data>
+  <data name="Attendace_StudentRegistered" xml:space="preserve">
+    <value>Student Registered {0}.</value>
+  </data>
   <data name="AttendanceDate" xml:space="preserve">
     <value>Attendance Date</value>
+  </data>
+  <data name="Attendance_AlreadyRegistered" xml:space="preserve">
+    <value>The student {0} has already been registered.</value>
   </data>
   <data name="Attendance_DataSaved" xml:space="preserve">
     <value>Attendance saved {0}.</value>
@@ -134,6 +149,9 @@
   </data>
   <data name="Attendance_Save" xml:space="preserve">
     <value>Data saved by {0}.</value>
+  </data>
+  <data name="Attendance_Scanning" xml:space="preserve">
+    <value>Scan Barcode...</value>
   </data>
   <data name="Attendance_title" xml:space="preserve">
     <value>Attendance</value>
@@ -293,6 +311,9 @@
   </data>
   <data name="Register_Page" xml:space="preserve">
     <value>User Register</value>
+  </data>
+  <data name="Registrer_LogIn" xml:space="preserve">
+    <value>Do you already have an account?</value>
   </data>
   <data name="SchooGradel_ListView" xml:space="preserve">
     <value>Do you want to see the student list?</value>

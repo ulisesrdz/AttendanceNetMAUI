@@ -11,6 +11,10 @@ namespace Attendance.VM
 {
     class MainMenuVM : ViewModelBase
     {
+        #region Properties
+        #endregion
+
+        #region Commands
         public Command Tapped_For_Attendance_Command
         {
             get;
@@ -48,6 +52,8 @@ namespace Attendance.VM
             get;
             set;
         }
+        #endregion
+
 
         public MainMenuVM() 
         {

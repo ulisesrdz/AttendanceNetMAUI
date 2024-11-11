@@ -58,6 +58,32 @@ public partial class App : Application
         MainPage = new NavigationPage(new LoginA());
     }
 
+    public static IServiceProvider Services { get; private set; }
+
+    public App(IServiceProvider serviceProvider)
+    {
+        InitializeComponent();
+        InitializeClosingPopup();
+
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
+        {
+            if (view is BorderlessEntry)
+            {
+#if __ANDROID__
+                handler.PlatformView.SetBackgroundColor(Colors.Transparent.ToPlatform());
+#elif __IOS__
+                handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#endif
+            }
+        });
+
+        // Guardar el proveedor de servicios en la propiedad estática
+        Services = serviceProvider;
+
+        App.Current.UserAppTheme = AppTheme.Light;
+        MainPage = new NavigationPage(new LoginA());
+    }
+
     //public void SetAppTheme(AppTheme theme)
     //{
     //    App.Current.UserAppTheme = theme;

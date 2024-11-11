@@ -25,6 +25,7 @@ namespace Attendance.VM
             }
         }
         #endregion
+
         #region Commands
         public Command Tapped_For_Add_Command
         {
