@@ -178,6 +178,15 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Backup DB.
+        /// </summary>
+        internal static string Backup_DB {
+            get {
+                return ResourceManager.GetString("Backup_DB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter.
         /// </summary>
         internal static string btn_enter_tittle {
@@ -210,6 +219,15 @@ namespace Attendance.Resources.Localization {
         internal static string CloseAppMsg {
             get {
                 return ResourceManager.GetString("CloseAppMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string Common_Cancel {
+            get {
+                return ResourceManager.GetString("Common_Cancel", resourceCulture);
             }
         }
         
@@ -462,6 +480,42 @@ namespace Attendance.Resources.Localization {
         internal static string Home_Page {
             get {
                 return ResourceManager.GetString("Home_Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to log in with fingerprint/faceID?.
+        /// </summary>
+        internal static string Login_FingerPrint {
+            get {
+                return ResourceManager.GetString("Login_FingerPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please authenticate FingerPrint..
+        /// </summary>
+        internal static string Login_FingerPrintAuth {
+            get {
+                return ResourceManager.GetString("Login_FingerPrintAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The fingerprint does not match the stored one..
+        /// </summary>
+        internal static string Login_FingerPrintError {
+            get {
+                return ResourceManager.GetString("Login_FingerPrintError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign in with credentials..
+        /// </summary>
+        internal static string Login_LoginCredentials {
+            get {
+                return ResourceManager.GetString("Login_LoginCredentials", resourceCulture);
             }
         }
         

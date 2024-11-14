@@ -8,18 +8,20 @@ using Microsoft.Extensions.Logging;
 using Plugin.Maui.Audio;
 using ZXing.Net.Maui;
 using ZXing.Net.Maui.Controls;
+using Plugin.Maui.Biometric;
 
 
 namespace Attendance;
 
 public static class MauiProgram
 {
+
 	public static MauiApp CreateMauiApp()
 	{
 
-       
+        //var defaultImpl = BiometricAuthenticationService.Default;
 
-    var builder = MauiApp.CreateBuilder();
+        var builder = MauiApp.CreateBuilder();
 		
 		builder
 			.UseMauiApp<App>()
@@ -42,6 +44,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<IAudioManager>(AudioManager.Current);
         builder.Services.AddSingleton<AudioService>();
         builder.Services.AddTransient<pages.Attendance>();
+
+        builder.Services.AddSingleton<IBiometric>(BiometricAuthenticationService.Default);
         //builder.Services.AddSingleton<Attendance>();
 #if DEBUG
         builder.Logging.AddDebug();

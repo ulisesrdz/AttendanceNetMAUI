@@ -1,3 +1,4 @@
+using Attendance.Helpers;
 using Attendance.Resources.Localization;
 
 namespace Attendance.Pages;
@@ -17,6 +18,10 @@ public partial class LoginA : ContentPage
         //}
 
         //Shell.SetFlyoutBehavior(this, FlyoutBehavior.Disabled);
+    }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();        
     }
 
     private async void Tapped_For_SignUP(object sender, EventArgs e)

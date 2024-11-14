@@ -153,6 +153,9 @@
   <data name="Attendance_title" xml:space="preserve">
     <value>Asistencia</value>
   </data>
+  <data name="Backup_DB" xml:space="preserve">
+    <value>Respaldar BD</value>
+  </data>
   <data name="btn_share_tittle" xml:space="preserve">
     <value>Compartir</value>
   </data>
@@ -197,6 +200,9 @@
   </data>
   <data name="CommonYes" xml:space="preserve">
     <value>Si</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancelar</value>
   </data>
   <data name="Common_Error" xml:space="preserve">
     <value>Error</value>
@@ -266,6 +272,18 @@
   </data>
   <data name="LoginTitle" xml:space="preserve">
     <value>Inicio de Sesion</value>
+  </data>
+  <data name="Login_FingerPrint" xml:space="preserve">
+    <value>Desea iniciar sesion con huella/faceID?</value>
+  </data>
+  <data name="Login_FingerPrintAuth" xml:space="preserve">
+    <value>Por favor autentique la huella digital.</value>
+  </data>
+  <data name="Login_FingerPrintError" xml:space="preserve">
+    <value>La huella no coincida con la almacenada.</value>
+  </data>
+  <data name="Login_LoginCredentials" xml:space="preserve">
+    <value>Iniciar sesion con credenciales.</value>
   </data>
   <data name="Login_Page" xml:space="preserve">
     <value>Iniciar Sesion</value>

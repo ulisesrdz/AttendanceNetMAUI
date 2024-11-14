@@ -6,7 +6,7 @@
              xmlns:handless="clr-namespace:Attendance.Handlers"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
               xmlns:CustomViewCell="clr-namespace:Attendance.Helpers"
-             Title="StudentsList">    
+             Title="{localization:Translate Student_Title}">    
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{localization:Translate SingleDelete}" Priority="1" Order="Secondary"

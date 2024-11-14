@@ -30,5 +30,7 @@
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app uses barcode scanning to...</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Need your face to unlock! </string>
 </dict>
 </plist>

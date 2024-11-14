@@ -156,6 +156,9 @@
   <data name="Attendance_title" xml:space="preserve">
     <value>Attendance</value>
   </data>
+  <data name="Backup_DB" xml:space="preserve">
+    <value>Backup DB</value>
+  </data>
   <data name="btn_enter_tittle" xml:space="preserve">
     <value>Enter</value>
   </data>
@@ -200,6 +203,9 @@
   </data>
   <data name="CommonYes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="Common_Error" xml:space="preserve">
     <value>Error</value>
@@ -272,6 +278,18 @@
   </data>
   <data name="LoginTitle" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="Login_FingerPrint" xml:space="preserve">
+    <value>Do you want to log in with fingerprint/faceID?</value>
+  </data>
+  <data name="Login_FingerPrintAuth" xml:space="preserve">
+    <value>Please authenticate FingerPrint.</value>
+  </data>
+  <data name="Login_FingerPrintError" xml:space="preserve">
+    <value>The fingerprint does not match the stored one.</value>
+  </data>
+  <data name="Login_LoginCredentials" xml:space="preserve">
+    <value>Sign in with credentials.</value>
   </data>
   <data name="Login_Page" xml:space="preserve">
     <value>Login</value>

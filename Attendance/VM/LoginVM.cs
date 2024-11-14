@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using Windows.Media.Devices;
+using Plugin.Maui.Biometric;
 
 namespace Attendance.VM
 {
@@ -99,10 +99,39 @@ namespace Attendance.VM
                 pass = value;
                 OnPropertyChange();
             }
-        }       
+        }
+
+        private bool _isTextBoxVisible;
+        public bool IsTextBoxVisible
+        {
+            get => _isTextBoxVisible;
+            set
+            {
+                if (_isTextBoxVisible != value)
+                {
+                    _isTextBoxVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _isFingerPrintVisible;
+        public bool IsFingerPrintVisible
+        {
+            get => _isFingerPrintVisible;
+            set
+            {
+                if (_isFingerPrintVisible != value)
+                {
+                    _isFingerPrintVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         #endregion
 
-       #region Command
+        #region Command
         public Command Tapped_For_Login_Command
         {
             get;
@@ -125,7 +154,17 @@ namespace Attendance.VM
             set;
         }
 
-        
+        public Command Tapped_FingerprintLogin_Command
+        {
+            get;
+            set;
+        }
+
+        public Command Tapped_LoginWithCredentials_Command
+        {
+            get;
+            set;
+        }
         #endregion
 
         public LoginVM()
@@ -152,15 +191,39 @@ namespace Attendance.VM
             Tapped_For_SignUp_Command = new Command(Tapped_For_SignUp);
             Tapped_For_Register_Command = new Command(Tapped_For_RegisterLocal);
             Tapped_For_SignIn_Command= new Command(Tapped_For_SignIn);
+            Tapped_FingerprintLogin_Command = new Command(AuthenticateWithBiometricsAsync);
+            Tapped_LoginWithCredentials_Command = new Command(Tapped_LoginWithCredentials);
             CleanData();
+
+            Session._email = Preferences.Default.Get("SavedUsername", string.Empty);
+            Session._IdUser = Preferences.Default.Get("SavedUsername_id", 0);
+            var FingerPrint_Ind = Preferences.Default.Get("FingerPrint_Ind", string.Empty);
+
+            if (string.IsNullOrEmpty(Session._email) || (string.IsNullOrEmpty(FingerPrint_Ind) || FingerPrint_Ind == "N"))
+            {
+                IsFingerPrintVisible = false;
+                IsTextBoxVisible = true;
+            }
+            else
+            {
+                Username = Session._email;
+                IsFingerPrintVisible = true;
+                IsTextBoxVisible = false;
+            }
         }
 
         private void HideKeyboard()
         {
             MessagingCenter.Send(this, "HideKeyboard");
         }
-        
+
         #region Local
+
+        private void Tapped_LoginWithCredentials()
+        {
+            IsTextBoxVisible = !IsTextBoxVisible;
+            IsFingerPrintVisible = !IsFingerPrintVisible;            
+        }
         private async void Tapped_For_RegisterLocal(object sender)
         {
             try
@@ -251,6 +314,39 @@ namespace Attendance.VM
                             Session.phone_number = _users.phone_number;
                             Session.status = 1;
 
+                            Preferences.Default.Set("SavedUsername_id", _users.id);
+                            Preferences.Default.Set("SavedUsername", _users.email_user);
+
+                            var FingerPrint = Preferences.Default.Get("FingerPrint_Ind", string.Empty);
+
+                            if (string.IsNullOrEmpty(FingerPrint) || FingerPrint == "N")
+                            {
+                                bool msg = await Application.Current.MainPage.DisplayAlert(AppResource.Common_Question, AppResource.Login_FingerPrint, AppResource.CommonYes, AppResource.CommonNo);
+
+                                if (msg)
+                                {
+                                    var result = await BiometricAuthenticationService.Default.AuthenticateAsync(new AuthenticationRequest
+                                    {
+                                        Title = AppResource.Login_FingerPrintAuth,
+                                        NegativeText = AppResource.Common_Cancel
+                                    }, CancellationToken.None);
+
+                                    if (result.Status == BiometricResponseStatus.Success)
+                                    {
+                                        Preferences.Default.Set("FingerPrint_Ind", "Y");
+                                    }
+                                    else
+                                    {
+                                        HideKeyboard();
+                                        await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Login_FingerPrintError, AppResource.Common_OK);
+                                    }
+                                }
+                                else
+                                {
+                                    Preferences.Default.Set("FingerPrint_Ind", "N");
+                                }
+                            }
+                            
                             CleanData();
                             Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
                             await App.Current.MainPage.Navigation.PushAsync(new MainPage());
@@ -280,6 +376,27 @@ namespace Attendance.VM
 
         }
 
+        
+
+        public async void AuthenticateWithBiometricsAsync()
+        {
+            var result = await BiometricAuthenticationService.Default.AuthenticateAsync(new AuthenticationRequest
+            {
+                Title = AppResource.Login_FingerPrintAuth,
+                NegativeText = AppResource.Common_Cancel
+            }, CancellationToken.None);
+
+            if (result.Status == BiometricResponseStatus.Success)
+            {                
+                Application.Current.MainPage = new NavigationPage(new Pages.MainMenu());
+                await App.Current.MainPage.Navigation.PushAsync(new MainPage());
+            }
+            else
+            {
+                HideKeyboard();
+                await Application.Current.MainPage.DisplayAlert(AppResource.Common_Error, AppResource.Login_FingerPrintError, AppResource.Common_OK);
+            }
+        }
         #endregion
 
         #region API

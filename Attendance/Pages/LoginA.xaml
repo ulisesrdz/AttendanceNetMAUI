@@ -46,20 +46,27 @@
                     <Frame Padding="10" BorderColor="Transparent" CornerRadius="0">
                         <Grid ColumnDefinitions="25,*" ColumnSpacing="10">
                             <Image VerticalOptions="Center" Source="email.png" HeightRequest="25" WidthRequest="25" />
-                            <handless:BorderlessEntry VerticalOptions="Center" Placeholder="{localization:Translate LoginEmail}" Grid.Column="1" Text="{Binding Username}"/>
+                            <handless:BorderlessEntry x:Name="txtUsername" VerticalOptions="Center" Placeholder="{localization:Translate LoginEmail}" Grid.Column="1" Text="{Binding Username}"/>
                         </Grid>
                     </Frame>
 
-                    <Frame Padding="10" BorderColor="Transparent" CornerRadius="0">
+                    <Frame Padding="10" BorderColor="Transparent" CornerRadius="0" x:Name="PassFrame" IsVisible="{Binding IsTextBoxVisible}">
                         <Grid ColumnDefinitions="25,*" ColumnSpacing="10">
                             <Image VerticalOptions="Center" Source="password.png" HeightRequest="25" WidthRequest="25" />
-                            <handless:BorderlessEntry VerticalOptions="Center" Placeholder="{localization:Translate LoginPassword}" IsPassword="True" Grid.Column="1" Text="{Binding Password}" />
+                            <handless:BorderlessEntry x:Name="txtPass" VerticalOptions="Center" Placeholder="{localization:Translate LoginPassword}" IsPassword="True" Grid.Column="1" Text="{Binding Password}" />
                         </Grid>
                     </Frame>
 
-                    <Button CornerRadius="0" HeightRequest="60" Text="{localization:Translate LoginSingIn}" FontSize="20" FontAttributes="Bold" Command="{Binding Tapped_For_Login_Command}"/>
+                    <Button x:Name="btnLogin" IsVisible="{Binding IsTextBoxVisible}" CornerRadius="0" HeightRequest="60" Text="{localization:Translate LoginSingIn}" FontSize="20" FontAttributes="Bold" Command="{Binding Tapped_For_Login_Command}"/>
+
+                    <Button x:Name="btnFingerPrintSession" IsVisible="{Binding IsFingerPrintVisible}" CornerRadius="0" HeightRequest="60" Text="Iniciar sesión con huella" FontSize="20" FontAttributes="Bold" Command="{Binding Tapped_FingerprintLogin_Command}" />
+
                     <!--Lest create borderless entry -->
-                    <Label FontAttributes="Bold" Text="{localization:Translate LoginForgotPass}" TextColor="Gray" HorizontalTextAlignment="Center" />
+                    <Label x:Name="lblCredentials" FontAttributes="Bold" Text="{localization:Translate Login_LoginCredentials}" IsVisible="{Binding IsFingerPrintVisible}" TextColor="Gray" HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Tapped_LoginWithCredentials_Command}"/>
+                        </Label.GestureRecognizers>
+                    </Label> 
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
                         <Label  FontAttributes="Bold" TextColor="Gray" Text="{localization:Translate LoginCreateAccount}" VerticalTextAlignment="Center" />
                         <Label  Text="{localization:Translate LoginSingup}" FontSize="18"

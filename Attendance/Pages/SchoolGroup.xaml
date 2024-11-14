@@ -84,11 +84,11 @@
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <Label Grid.Column="0" Text="{Binding Grade}" HorizontalOptions="Center" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
+                                                <Label Grid.Column="0" Text="{Binding grade}" HorizontalOptions="Center" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
                                                 <Label Grid.Column="1" BackgroundColor="Black" HorizontalTextAlignment="Center"/>
-                                                <Label Grid.Column="2" Text="{Binding Group}" HorizontalOptions="Center" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
+                                                <Label Grid.Column="2" Text="{Binding groups}" HorizontalOptions="Center" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
                                                 <Label Grid.Column="3" BackgroundColor="Black" HorizontalTextAlignment="Center"/>
-                                                <Label Grid.Column="4" Text="{Binding CourseName}"  HorizontalTextAlignment="Center"  HorizontalOptions="FillAndExpand" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
+                                                <Label Grid.Column="4" Text="{Binding course_name}"  HorizontalTextAlignment="Center"  HorizontalOptions="FillAndExpand" TextColor="Black" LineBreakMode="WordWrap" Style="{StaticResource BodyLabelStyle}"/>
 
                                             </Grid>
                                         </ViewCell.View>

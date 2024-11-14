@@ -210,7 +210,12 @@ namespace Attendance.API
 
         public async Task<bool> getAttendanceRegistered(string id_student, string id_course)
         {
-            return await _database.Table<AttendanceEntSQLite>().Where(u => u.id_student == id_student && DateTime.Now>=u.date_time && u.id_course== id_course).FirstOrDefaultAsync() != null;
+            //return await _database.Table<AttendanceEntSQLite>().Where(u => u.id_student == id_student && DateTime.Now.Date>=u.date_time.Date && u.id_course== id_course).FirstOrDefaultAsync() != null;
+            var attendance = await _database.Table<AttendanceEntSQLite>()
+                                    .Where(u => u.id_student == id_student && u.id_course == id_course)
+                                    .ToListAsync();
+
+            return attendance.Any(u => u.date_time.Date == DateTime.Now.Date);
         }
         #endregion
     }

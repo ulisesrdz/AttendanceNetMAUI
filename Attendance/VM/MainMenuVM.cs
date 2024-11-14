@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Attendance.Helpers;
+using Attendance.Resources.Localization;
 
 namespace Attendance.VM
 {
@@ -52,6 +53,12 @@ namespace Attendance.VM
             get;
             set;
         }
+
+        public Command Tapped_For_BackupDatabase_Command
+        {
+            get;
+            set;
+        }
         #endregion
 
 
@@ -69,8 +76,18 @@ namespace Attendance.VM
             Tapped_For_CourseRegisterCourseList_Command = new Command(Tapped_For_CourseRegisterCourseList);
             Tapped_For_PrintQRCode_Command = new Command(Tapped_For_PrintQRCode);
             Tapped_For_AttendanceView_Command = new Command(Tapped_For_AttendanceList);
+            Tapped_For_BackupDatabase_Command = new Command(Tapped_For_BackupDatabase);
         }
 
+        private async void Tapped_For_BackupDatabase()
+        {
+            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "Attendance.db3");
+            await Share.RequestAsync(new ShareFileRequest
+            {
+                Title = AppResource.PrintDoc_ShareFile,
+                File = new ShareFile(dbPath)
+            });
+        }
         private async void Tapped_For_Attendance(object sender)
         {
             try

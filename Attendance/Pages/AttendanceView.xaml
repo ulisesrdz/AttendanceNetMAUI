@@ -6,7 +6,7 @@
              xmlns:handless="clr-namespace:Attendance.Handlers"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
              xmlns:CustomViewCell="clr-namespace:Attendance.Helpers"
-             Title="AttendanceView">
+             Title="{localization:Translate Attendance_Page}">
     <!--<ContentPage.BindingContext>
         <viewModels:AttendanceVM/>
     </ContentPage.BindingContext>-->

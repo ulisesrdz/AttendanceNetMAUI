@@ -12,8 +12,8 @@
     </ContentPage.BindingContext>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{localization:Translate Settings_Page}" Priority="1" Order="Secondary"
-                  Command="{Binding Tapped_For_BusinessURL_Command}" 
+        <ToolbarItem Text="{localization:Translate Backup_DB}" Priority="1" Order="Secondary"
+                  Command="{Binding Tapped_For_BackupDatabase_Command}" 
              />
 
         <ToolbarItem Text="{localization:Translate About_Page}" Priority="2" Order="Secondary"
@@ -26,17 +26,17 @@
            
             <StackLayout>
                 <ImageButton                 
-                 Source="createqr.png"
+                 Source="qrcode.png"
                  HeightRequest="150"
                  WidthRequest="150"
                  Aspect="AspectFill"
                  Command="{Binding Tapped_For_Attendance_Command}" 
-                BorderColor="Black"
+                BorderColor="Transparent"
                 BorderWidth="3"
                 CornerRadius="10"
                 Padding="5"
                 BackgroundColor="{StaticResource White}"
-                    Margin="20, 0">
+                    Margin="20, 20">
                 <VisualStateManager.VisualStateGroups>
                     <VisualStateGroupList>
                         <VisualStateGroup x:Name="CommonStates">
@@ -69,11 +69,11 @@
                   WidthRequest="150"
                   Aspect="AspectFit"
                       Command="{Binding Tapped_For_SchoolGroup_Command}" 
-                     BorderColor="Black"
+                     BorderColor="Transparent"
                      BorderWidth="3"
                      CornerRadius="10"
                      Padding="5"
-                     BackgroundColor="{StaticResource White}" Margin="20, 0">
+                     BackgroundColor="{StaticResource White}" Margin="20, 20">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
                                         <VisualStateGroup x:Name="CommonStates">
@@ -105,11 +105,11 @@
                       WidthRequest="150"
                       Aspect="AspectFit"
                           Command="{Binding Tapped_For_Register_Command}" 
-                         BorderColor="Black"
+                         BorderColor="Transparent"
                          BorderWidth="3"
                          CornerRadius="10"
                          Padding="5"
-                         BackgroundColor="{StaticResource White}" Margin="20, 0">
+                         BackgroundColor="{StaticResource White}" Margin="20, 20">
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroupList>
                                             <VisualStateGroup x:Name="CommonStates">
@@ -141,11 +141,11 @@
                   WidthRequest="150"
                   Aspect="AspectFit"
                       Command="{Binding Tapped_For_CourseRegisterCourseList_Command}" 
-                     BorderColor="Black"
+                     BorderColor="Transparent"
                      BorderWidth="3"
                      CornerRadius="10"
                      Padding="5"
-                     BackgroundColor="{StaticResource White}" Margin="20, 0">
+                     BackgroundColor="{StaticResource White}" Margin="20, 20">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
                                         <VisualStateGroup x:Name="CommonStates">
@@ -172,16 +172,16 @@
 
             <StackLayout>
                 <ImageButton                 
-                  Source="qrcode.png"
+                  Source="createqr.png"
                   HeightRequest="150"
                   WidthRequest="150"
                   Aspect="AspectFit"
                       Command="{Binding Tapped_For_PrintQRCode_Command}" 
-                     BorderColor="Black"
+                     BorderColor="Transparent"
                      BorderWidth="3"
                      CornerRadius="10"
                      Padding="5"
-                     BackgroundColor="{StaticResource White}" Margin="20, 0">
+                     BackgroundColor="{StaticResource White}" Margin="20, 20">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
                                         <VisualStateGroup x:Name="CommonStates">
@@ -213,11 +213,11 @@
                   WidthRequest="150"
                   Aspect="AspectFit"
                       Command="{Binding Tapped_For_AttendanceView_Command}" 
-                     BorderColor="Black"
+                     BorderColor="Transparent"
                      BorderWidth="3"
                      CornerRadius="10"
                      Padding="5"
-                     BackgroundColor="{StaticResource White}" Margin="20, 0">
+                     BackgroundColor="{StaticResource White}" Margin="20, 20">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroupList>
                                         <VisualStateGroup x:Name="CommonStates">

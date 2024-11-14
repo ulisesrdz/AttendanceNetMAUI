@@ -535,18 +535,18 @@ namespace Attendance.VM
                             bool hasAttendance = att.Any(a => a.date_time.Day == dayNumber);
 
                             cell.SetCellValue(hasAttendance ? "✓" : "X");
-                            cell.CellStyle = nameStyle;
+                            //cell.CellStyle = nameStyle;
                         }
 
                         int lastDayColumnIndex = 2 + _listMoth.Count - 1;
                         cell = row.CreateCell(lastDayColumnIndex + 1);
                         cell.CellFormula = $"COUNTIF({GetColumnLetter(2)}{index + 6}:{GetColumnLetter(lastDayColumnIndex)}{index + 6}, \"✓\")";
-                        cell.CellStyle = nameStyle;
+                        //cell.CellStyle = nameStyle;
 
                         // Columna para porcentaje de asistencia
                         cell = row.CreateCell(lastDayColumnIndex + 2);
                         cell.CellFormula = $"{GetColumnLetter(lastDayColumnIndex + 1)}{index + 6}/{_listMoth.Count}";
-                        cell.CellStyle = nameStyle;
+                        //cell.CellStyle = nameStyle;
 
                         index++;
                     }

@@ -10,12 +10,13 @@ public partial class SchoolGroup : ContentPage
 	{
 		InitializeComponent();
         //BindingContext = VM.SchoolGradeVM.GetInstance();
-        BindingContext = new VM.SchoolGradeVM();
+        
     }
 
     protected override void OnAppearing()
 	{
-		base.OnAppearing();		
+		base.OnAppearing();
+        BindingContext = new VM.SchoolGradeVM();
     }
 
     private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -24,9 +25,9 @@ public partial class SchoolGroup : ContentPage
         {
             var selectedCourse = e.SelectedItem as SchoolGrade;
             var viewModel = BindingContext as SchoolGradeVM;
-            viewModel.ItemSelected = selectedCourse;
-            
+            viewModel.ItemSelected = selectedCourse;            
         }
+       
     }
 
     protected override void OnDisappearing()
