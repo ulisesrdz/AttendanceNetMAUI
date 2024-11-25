@@ -86,6 +86,36 @@ namespace Attendance.VM
                 }
             }
         }
+
+        private MonthItem _selectedMonth;
+        public MonthItem SelectedMonth
+        {
+            get => _selectedMonth;
+            set
+            {
+                if (_selectedMonth != value)
+                {
+                    _selectedMonth = value;
+                    OnPropertyChanged(nameof(SelectedMonth));
+
+                }
+            }
+        }
+
+        private ObservableCollection<MonthItem> _months { get; set; }
+        public ObservableCollection<MonthItem> Months
+        {
+            get { return _months; }
+            set
+            {
+                if (_months != value)
+                {
+                    _months = value;
+                    OnPropertyChange();
+                }
+
+            }
+        }
         #endregion
 
         #region Commands
@@ -121,6 +151,11 @@ namespace Attendance.VM
             {
                 Get_InformationLocal();
             }
+            if (Session.monthlist)
+            {
+                Get_MonthList();
+                //Session.monthlist = false;
+            }
            
         }
 
@@ -139,6 +174,7 @@ namespace Attendance.VM
             _lts = new List<AttendanceEnt>();
             _ltsGrade = new ObservableCollection<SchoolGrade>();
             ltsGrade = new ObservableCollection<SchoolGrade>();
+            Months = new ObservableCollection<MonthItem> { new MonthItem() };
         }
 
         #region API
@@ -150,7 +186,14 @@ namespace Attendance.VM
                 if (!IsBusy)
                 {
                     IsBusy=true;
-                    if (Session.attendanceView)
+                    if (Session.monthlist)
+                    {
+                        Session.monthlist = false;
+                        Session.attendanceView = true;
+                        Session.monthValue = SelectedMonth.Value;
+                        await App.Current.MainPage.Navigation.PushAsync(new page.AttendanceView());
+                    }
+                    else if (Session.attendanceView)
                     {
                         await App.Current.MainPage.Navigation.PushAsync(new page.StudentsList());
                     }
@@ -280,6 +323,25 @@ namespace Attendance.VM
         #endregion
 
         #region Local
+
+        private void Get_MonthList()
+        {
+            Months = new ObservableCollection<MonthItem>
+            {
+                new MonthItem { Name = AppResource.Month_Jan, Value = 1 },
+                new MonthItem { Name = AppResource.Month_Feb, Value = 2 },
+                new MonthItem { Name = AppResource.Month_Mar, Value = 3 },
+                new MonthItem { Name = AppResource.Month_Apr, Value = 4 },
+                new MonthItem { Name = AppResource.Month_May, Value = 5 },
+                new MonthItem { Name = AppResource.Month_Jun, Value = 6 },
+                new MonthItem { Name = AppResource.Month_Jul, Value = 7 },
+                new MonthItem { Name = AppResource.Month_Aug, Value = 8 },
+                new MonthItem { Name = AppResource.Month_Sep, Value = 9 },
+                new MonthItem { Name = AppResource.Month_Oct, Value = 10 },
+                new MonthItem { Name = AppResource.Month_Nov, Value = 11 },
+                new MonthItem { Name = AppResource.Month_Dec, Value = 12 }
+            };
+        }
         private async void Get_InformationLocal()
         {
             
@@ -290,7 +352,7 @@ namespace Attendance.VM
                     IsBusy = true;
                     int counter = 0;
                     
-                    var attenaces = await App.DataBase.getAttendacebyIdUserAsync(Session._IdUser.ToString(), Session.Id_Course.ToString());
+                    var attenaces = await App.DataBase.getAttendacebyIdUserAsync(Session._IdUser.ToString(), Session.Id_Course.ToString(), Session.monthValue);
                     
                     if (attenaces.Count > 0)                       
                     {
@@ -457,6 +519,32 @@ namespace Attendance.VM
                     nameStyle.BorderBottom = BorderStyle.Thin;
                     nameStyle.BorderRight = BorderStyle.Thin;
                     nameStyle.WrapText = true;
+                    
+                    //Details
+                    ICellStyle detailStyle = workbook.CreateCellStyle();
+                    //detailStyle.FillForegroundColor = IndexedColors.BlueGrey.Index;
+                    detailStyle.FillPattern = FillPattern.NoFill;
+                    detailStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    detailStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    detailStyle.BorderTop = BorderStyle.Thin;
+                    detailStyle.BorderLeft = BorderStyle.Thin;
+                    detailStyle.BorderBottom = BorderStyle.Thin;
+                    detailStyle.BorderRight = BorderStyle.Thin;
+                    detailStyle.WrapText = true;
+                    
+                    //Details percentage
+                    ICellStyle percentageStyle = workbook.CreateCellStyle();
+                    IDataFormat dataFormat = workbook.CreateDataFormat();
+                    //detailStyle.FillForegroundColor = IndexedColors.BlueGrey.Index;
+                    percentageStyle.FillPattern = FillPattern.NoFill;
+                    percentageStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                    percentageStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                    percentageStyle.DataFormat = dataFormat.GetFormat("0.00%");
+                    percentageStyle.BorderTop = BorderStyle.Thin;
+                    percentageStyle.BorderLeft = BorderStyle.Thin;
+                    percentageStyle.BorderBottom = BorderStyle.Thin;
+                    percentageStyle.BorderRight = BorderStyle.Thin;
+                    percentageStyle.WrapText = true;
 
                     ((XSSFCellStyle)nameStyle).SetTopBorderColor(borderColor);
                     ((XSSFCellStyle)nameStyle).SetBottomBorderColor(borderColor);
@@ -499,11 +587,11 @@ namespace Attendance.VM
                     {
                         ICell DayCell = row4.CreateCell(index);
                         row4.CreateCell(index).SetCellValue(day);
-                        DayCell.CellStyle = nameStyle;
+                        DayCell.CellStyle = detailStyle;
 
                         ICell DayNoCell = row5.CreateCell(index);
                         row5.CreateCell(index).SetCellValue(no);
-                        DayNoCell.CellStyle = nameStyle;                       
+                        DayNoCell.CellStyle = detailStyle;                       
 
                         sheet.SetColumnWidth(index, 4 * 256);
                         sheet.SetColumnWidth(index, 4 * 256);
@@ -518,11 +606,11 @@ namespace Attendance.VM
                         row = sheet.CreateRow(index + 5);                       
                         cell = row.CreateCell(0);
                         row.CreateCell(0).SetCellValue($"{index}");
-                        cell.CellStyle = nameStyle;
+                        cell.CellStyle = detailStyle;
                         
                         cell = row.CreateCell(1);
                         row.CreateCell(1).SetCellValue($"{item.name} {item.last_name}");
-                        cell.CellStyle = nameStyle;
+                        cell.CellStyle = detailStyle;
                         
                         var att = await App.DataBase.getAttendacebyStudentAsync(item.id_user.ToString(), item.id_course.ToString(), item.id.ToString());
                         
@@ -535,18 +623,18 @@ namespace Attendance.VM
                             bool hasAttendance = att.Any(a => a.date_time.Day == dayNumber);
 
                             cell.SetCellValue(hasAttendance ? "✓" : "X");
-                            //cell.CellStyle = nameStyle;
+                            cell.CellStyle = detailStyle;
                         }
 
                         int lastDayColumnIndex = 2 + _listMoth.Count - 1;
                         cell = row.CreateCell(lastDayColumnIndex + 1);
                         cell.CellFormula = $"COUNTIF({GetColumnLetter(2)}{index + 6}:{GetColumnLetter(lastDayColumnIndex)}{index + 6}, \"✓\")";
-                        //cell.CellStyle = nameStyle;
+                        cell.CellStyle = detailStyle;
 
                         // Columna para porcentaje de asistencia
                         cell = row.CreateCell(lastDayColumnIndex + 2);
-                        cell.CellFormula = $"{GetColumnLetter(lastDayColumnIndex + 1)}{index + 6}/{_listMoth.Count}";
-                        //cell.CellStyle = nameStyle;
+                        cell.CellFormula = $"{GetColumnLetter(lastDayColumnIndex + 1)}{index + 6}/{_listMoth.Count}";                        
+                        cell.CellStyle = percentageStyle;
 
                         index++;
                     }

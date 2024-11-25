@@ -297,6 +297,45 @@
   <data name="MainMenu" xml:space="preserve">
     <value>Menu Principal</value>
   </data>
+  <data name="Month_Apr" xml:space="preserve">
+    <value>Abril</value>
+  </data>
+  <data name="Month_Aug" xml:space="preserve">
+    <value>Agosto</value>
+  </data>
+  <data name="Month_Dec" xml:space="preserve">
+    <value>Diciembre</value>
+  </data>
+  <data name="Month_Feb" xml:space="preserve">
+    <value>Febrero</value>
+  </data>
+  <data name="Month_Jan" xml:space="preserve">
+    <value>Enero</value>
+  </data>
+  <data name="Month_Jul" xml:space="preserve">
+    <value>Julio</value>
+  </data>
+  <data name="Month_Jun" xml:space="preserve">
+    <value>Junio</value>
+  </data>
+  <data name="Month_Mar" xml:space="preserve">
+    <value>Marzo</value>
+  </data>
+  <data name="Month_May" xml:space="preserve">
+    <value>Mayo</value>
+  </data>
+  <data name="Month_Nov" xml:space="preserve">
+    <value>Noviembre</value>
+  </data>
+  <data name="Month_Oct" xml:space="preserve">
+    <value>Octubre</value>
+  </data>
+  <data name="Month_Sep" xml:space="preserve">
+    <value>Septiembre</value>
+  </data>
+  <data name="Month_Title" xml:space="preserve">
+    <value>Mes</value>
+  </data>
   <data name="NA" xml:space="preserve">
     <value>No disponible</value>
   </data>

@@ -6,7 +6,7 @@
              xmlns:handless="clr-namespace:Attendance.Handlers"
              xmlns:localization="clr-namespace:Attendance.Resources.Localization"
               xmlns:CustomViewCell="clr-namespace:Attendance.Helpers"
-             Title="CourseLists">
+             Title="{localization:Translate CourseRegisterTitle}">
 
 
     <ContentPage.ToolbarItems>

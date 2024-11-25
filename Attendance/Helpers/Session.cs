@@ -15,13 +15,14 @@ namespace Attendance.Helpers
         public static int _IdURL { get; set; }
         public static int _IdUser { get; set; }
         public static int Id_Course { get; set; }
+        public static int monthValue { get; set; }
         public static byte[] Sign { get; set; }
 
         public static bool schoolGrade { get; set; }
         public static bool attendanceView { get; set; }
         public static bool attendance { get; set; }
         public static bool studentsListView { get; set; }
-
+        public static bool monthlist {  get; set; }
         public static string _token { get; set; }
         public static string _name { get; set; }
         public static string _email { get; set; }

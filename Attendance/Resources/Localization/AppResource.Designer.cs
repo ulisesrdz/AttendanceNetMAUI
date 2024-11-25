@@ -619,6 +619,123 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to April.
+        /// </summary>
+        internal static string Month_Apr {
+            get {
+                return ResourceManager.GetString("Month_Apr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to August.
+        /// </summary>
+        internal static string Month_Aug {
+            get {
+                return ResourceManager.GetString("Month_Aug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to December.
+        /// </summary>
+        internal static string Month_Dec {
+            get {
+                return ResourceManager.GetString("Month_Dec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to February.
+        /// </summary>
+        internal static string Month_Feb {
+            get {
+                return ResourceManager.GetString("Month_Feb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to January.
+        /// </summary>
+        internal static string Month_Jan {
+            get {
+                return ResourceManager.GetString("Month_Jan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to July.
+        /// </summary>
+        internal static string Month_Jul {
+            get {
+                return ResourceManager.GetString("Month_Jul", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to June.
+        /// </summary>
+        internal static string Month_Jun {
+            get {
+                return ResourceManager.GetString("Month_Jun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to March.
+        /// </summary>
+        internal static string Month_Mar {
+            get {
+                return ResourceManager.GetString("Month_Mar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to May.
+        /// </summary>
+        internal static string Month_May {
+            get {
+                return ResourceManager.GetString("Month_May", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to November.
+        /// </summary>
+        internal static string Month_Nov {
+            get {
+                return ResourceManager.GetString("Month_Nov", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to October.
+        /// </summary>
+        internal static string Month_Oct {
+            get {
+                return ResourceManager.GetString("Month_Oct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to September.
+        /// </summary>
+        internal static string Month_Sep {
+            get {
+                return ResourceManager.GetString("Month_Sep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Month.
+        /// </summary>
+        internal static string Month_Title {
+            get {
+                return ResourceManager.GetString("Month_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Avialable.
         /// </summary>
         internal static string NA {

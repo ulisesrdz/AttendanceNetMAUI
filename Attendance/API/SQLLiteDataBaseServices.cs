@@ -34,6 +34,8 @@ namespace Attendance.API
                 await _database.CreateTableAsync<SchoolGradeSQLite>();
             if (!await TableExistsAsync("AttendanceEntSQLite"))
                 await _database.CreateTableAsync<AttendanceEntSQLite>();
+            if (!await TableExistsAsync("StudentInCourseSQLite"))
+                await _database.CreateTableAsync<StudentInCourseSQLite>();
         }
 
         private async Task<bool> TableExistsAsync(string tableName)
@@ -96,9 +98,18 @@ namespace Attendance.API
 
         public Task<List<StudentsSQLite>> getUserbyIdUserCourseAsync(int id_user, int id_course)
         {
-            return _database.Table<StudentsSQLite>().Where(u => u.id_user == id_user && u.id_course == id_course).ToListAsync();
-        }
+            //return _database.Table<StudentsSQLite>().Where(u => u.id_user == id_user && u.id_course == id_course).ToListAsync();
+            var query = @"SELECT s.*
+                        FROM StudentsSQLite s
+                        INNER JOIN StudentInCourseSQLite sic ON s.id_user = sic.id_student
+                        WHERE s.id_user = ? AND sic.id_course = ?";
 
+            return _database.QueryAsync<StudentsSQLite>(query, id_user, id_course);
+        }
+        public Task<int> AddCourseStudentAsync(StudentInCourseSQLite _students)
+        {
+            return _database.InsertAsync(_students);            
+        }
         public Task<int> CreateStudentAsync(StudentsSQLite _students)
         {
             if (_students.id != 0)
@@ -122,7 +133,15 @@ namespace Attendance.API
         }
         public async Task<bool> getStudentbyIdAsync(int id, int id_course)
         {
-            return await _database.Table<StudentsSQLite>().Where(u => u.id == id  && u.id_course == id_course).FirstOrDefaultAsync() != null ;
+            //return await _database.Table<StudentsSQLite>().Where(u => u.id == id  && u.id_course == id_course).FirstOrDefaultAsync() != null ;
+            var query = @"SELECT 1 
+                        FROM StudentsSQLite s
+                        INNER JOIN StudentInCourseSQLite sic ON s.id = sic.id_student
+                        WHERE s.id = ? AND sic.id_course = ? 
+                        LIMIT 1";
+
+            var result = await _database.QueryAsync<StudentsSQLite>(query, id, id_course);
+            return result.Any();
         }        
         #endregion
 
@@ -174,9 +193,17 @@ namespace Attendance.API
         {
             return _database.Table<AttendanceEntSQLite>().Where(u => u.id == id).FirstOrDefaultAsync();
         }
-        public Task<List<AttendanceEntSQLite>> getAttendacebyIdUserAsync(string idUser, string id_course)
+        public Task<List<AttendanceEntSQLite>> getAttendacebyIdUserAsync(string idUser, string id_course, int month)
         {
-            return _database.Table<AttendanceEntSQLite>().Where(u => u.id_user == idUser && u.id_course == id_course).ToListAsync();
+            int selectedYear = DateTime.Now.Year;
+            int selectedMonth = month;
+            DateTime startDate = new DateTime(selectedYear, selectedMonth, 1); // 1 de noviembre de 2024
+            DateTime endDate = startDate.AddMonths(1);
+
+            return _database.Table<AttendanceEntSQLite>().Where(u => u.id_user == idUser 
+                                                                && u.id_course == id_course
+                                                               && u.date_time >= startDate
+             && u.date_time < endDate).ToListAsync();
         }
 
         public Task<List<AttendanceEntSQLite>> getAttendacebyStudentAsync(string idUser, string id_course, string idStudent)

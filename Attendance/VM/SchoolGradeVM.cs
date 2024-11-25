@@ -166,7 +166,7 @@ namespace Attendance.VM
             InitVM();
             CleanData();
             _accountService = new AccountService();
-            if (Session.studentsListView || Session.attendanceView || Session.attendance || Session.schoolGrade)
+            if (Session.studentsListView || Session.attendanceView || Session.attendance || Session.schoolGrade || Session.monthlist)
             {
                 Get_InformationLocal();
             }
@@ -495,7 +495,8 @@ namespace Attendance.VM
 
                     if (Session.attendanceView)
                     {
-                        await App.Current.MainPage.Navigation.PushAsync(new page.AttendanceView());
+                        //await App.Current.MainPage.Navigation.PushAsync(new page.AttendanceView());
+                        await App.Current.MainPage.Navigation.PushAsync(new page.MonthListPage());
                     }
                     else if (Session.attendance)
                     {

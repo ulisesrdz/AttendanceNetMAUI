@@ -723,7 +723,12 @@ namespace Attendance.VM
                             IsBusy = false;
                             return;
                         }
-                        var result = await App.DataBase.CreateStudentAsync(student);
+                        var StudentCourse = new StudentInCourseSQLite
+                        {
+                            id_course = Session.Id_Course.ToString(),
+                            id_student = _selectedPerson.id.ToString()
+                        };
+                        var result = await App.DataBase.AddCourseStudentAsync(StudentCourse);
 
                         if (result == 0)
                         {
