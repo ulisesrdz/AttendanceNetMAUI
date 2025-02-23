@@ -619,6 +619,15 @@ namespace Attendance.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User Guide.
+        /// </summary>
+        internal static string MainPage_Manual {
+            get {
+                return ResourceManager.GetString("MainPage_Manual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to April.
         /// </summary>
         internal static string Month_Apr {

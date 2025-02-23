@@ -297,6 +297,9 @@
   <data name="MainMenu" xml:space="preserve">
     <value>Menu Principal</value>
   </data>
+  <data name="MainPage_Manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
   <data name="Month_Apr" xml:space="preserve">
     <value>Abril</value>
   </data>

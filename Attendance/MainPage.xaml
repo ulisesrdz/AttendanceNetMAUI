@@ -16,7 +16,8 @@
                   Command="{Binding Tapped_For_BackupDatabase_Command}" 
              />
 
-        <ToolbarItem Text="{localization:Translate About_Page}" Priority="2" Order="Secondary"
+        <ToolbarItem Text="{localization:Translate MainPage_Manual}" Priority="2" Order="Secondary"
+                     Command="{Binding Tapped_For_UserGuide_Command}"
              />
     </ContentPage.ToolbarItems>
    
@@ -128,7 +129,7 @@
                                     </VisualStateManager.VisualStateGroups>
                                 </ImageButton>
                 <Label x:Name="lblRegistered"
-                    Text="{localization:Translate Register_Page}"
+                    Text="{localization:Translate StudentRegister}"
                     FontSize="18"
                     VerticalOptions="Center"
                     HorizontalOptions="Center" />

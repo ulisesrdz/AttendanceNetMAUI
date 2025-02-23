@@ -59,6 +59,12 @@ namespace Attendance.VM
             get;
             set;
         }
+
+        public Command Tapped_For_UserGuide_Command
+        {
+            get;
+            set;
+        }
         #endregion
 
 
@@ -77,6 +83,17 @@ namespace Attendance.VM
             Tapped_For_PrintQRCode_Command = new Command(Tapped_For_PrintQRCode);
             Tapped_For_AttendanceView_Command = new Command(Tapped_For_AttendanceList);
             Tapped_For_BackupDatabase_Command = new Command(Tapped_For_BackupDatabase);
+            Tapped_For_UserGuide_Command = new Command(Tapped_For_UserGuide);
+        }
+
+        private async void Tapped_For_UserGuide()
+        {
+            string url = "https://www.google.com";
+            await Launcher.OpenAsync(url);
+            //if (await Launcher.CanOpenAsync(url))
+            //{
+            //    await Launcher.OpenAsync(url);
+            //}
         }
 
         private async void Tapped_For_BackupDatabase()

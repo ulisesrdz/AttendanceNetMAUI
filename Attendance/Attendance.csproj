@@ -34,10 +34,11 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<!--MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />-->
-		<MauiIcon Include="Resources\AppIcon\attendance.png" Color="#512BD4" ForegroundScale="0.65" />		
+		<!--<MauiIcon Include="Resources\AppIcon\AsistAppIco.png" />-->
+		<MauiIcon Include="Resources\AppIcon\asistappico.png" Color="#512BD4" ForegroundScale="0.65" />		
 		
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\attendancesplash.png" Color="#512BD4" />
+		<MauiSplashScreen Include="Resources\Splash\asistappaplash.png" Color="#512BD4" />
 		
 		
 		<!-- Images -->
@@ -52,6 +53,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\AppIcon\AsistAppIco.png" />
 	  <None Remove="Resources\Images\adduser.png" />
 	  <None Remove="Resources\Images\attendance1.png" />
 	  <None Remove="Resources\Images\courselist.png" />
